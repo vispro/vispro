@@ -1,0 +1,56 @@
+/* Layout */
+
+.ui-layout-pane {
+	overflow: auto; 
+}
+.ui-layout-pane-north, .ui-layout-pane-south {
+/*	padding: 10px 15px;	*/
+}
+
+.ui-layout-resizer { 
+    background: #FFF; 
+}
+
+.ui-layout-toggler { 
+    background: #FFF; 
+}
+
+.ui-layout-resizer:hover { 
+    background: #AAA; 
+}
+
+.ui-layout-resizer:hover .ui-layout-toggler { 
+    background: #AAA; 
+}
+
+.ui-layout-resizer:hover .ui-layout-toggler:hover { 
+    background: #AAA; 
+}
+
+.ui-covered {
+	overflow: hidden;
+}
+
+.linker {
+	z-index: 3001;
+}
+
+body {
+	font-family: Helvetica, Verdana, Arial, sans-serif; 
+}
+
+.paper {
+
+}
+
+.descriptor {
+	
+}
+
+.widget .selected {
+	
+}
+
+.label {
+	
+}

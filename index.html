@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>VisPro</title>
+    <link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.11.custom.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+    <div id="header" class="ui-layout-north">
+        <span>VisPro</span>
+        <span id="toolbar"></span>
+    </div>
+
+    <div id="descriptorList" class="ui-layout-west"></div>
+
+    <div id="center" class="ui-layout-center">
+        <div id="grid"></div>
+        <div id="paper"></div>
+        <div id="link"></div>
+        <div id="code"></div>
+    </div>
+
+    <div id="panel" class="ui-layout-east">
+        <div id="labelList" class="ui-layout-center"></div>
+        <div id="inspectorList" class="ui-layout-south"></div>
+    </div>
+
+    <script src="lib/jquery.js"></script>
+    <script src="lib/jquery.ui.js"></script>
+    <script src="lib/jquery.ui.layout.js"></script>
+    <script src="lib/raphael.js"></script>
+    <script src="lib/underscore.js"></script>
+    <script src="lib/backbone.js"></script>
+    <script src="lib/backbone.localstorage.js"></script>
+    
+    <script src="src/vispro.js"></script>
+
+    <script src="src/vispro.model.descriptor.js"></script>
+    <script src="src/vispro.model.descriptorList.js"></script>
+    <script src="src/vispro.model.widget.js"></script>
+    <script src="src/vispro.model.widgetList.js"></script>
+    <script src="src/vispro.model.workspace.js"></script>
+
+    <script src="src/vispro.view.descriptor.js"></script>
+    <script src="src/vispro.view.descriptorList.js"></script>
+    <script src="src/vispro.view.workspace.js"></script>
+    <script src="src/vispro.view.widget.js"></script>
+    <script src="src/vispro.view.label.js"></script>
+    <script src="src/vispro.view.labelList.js"></script>
+    <script src="src/vispro.view.inspector.js"></script>
+    <script src="src/vispro.view.inspectorList.js"></script>
+    <script src="src/vispro.view.inspectorProperty.js"></script>
+    <script src="src/vispro.view.grid.js"></script>
+    <script src="src/vispro.view.widgetLinker.js"></script>
+    <script src="src/vispro.view.widgetLinkerLayer.js"></script>
+    <script src="src/vispro.view.toolbar.js"></script>
+    <script src="src/vispro.view.code.js"></script>
+
+    <script src="src/vispro.data.descriptorList.js"></script>
+    <script src="src/vispro.data.workspace.js"></script>
+
+    <script src="src/vispro.app.js"></script>
+
+    <script>
+        var app;
+
+        $(document).ready(function () {
+            $('body')
+                .layout({ 
+                    north__closable: false, 
+                    north__resizable: false,
+                });
+            $('#panel')
+                .layout({
+                    south__size: .5
+                });
+            
+            app = new vispro.App();
+            app.init();
+        });
+    </script>
+
+</body>
+</html>
