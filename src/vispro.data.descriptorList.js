@@ -99,7 +99,7 @@ vispro.data.descriptorList = [
         templates: {
             html: {
                 code: 
-                    '<div id="<%= id %> style="position:absolute, top:<%= top %>, left:<%= left %>" ></div>',
+                    '<div id="<%= id %>" style="position:absolute, top:<%= top %>px, left:<%= left %>px"></div>',
                 parameters: {
                     id: {
                         name: 'id',
@@ -258,7 +258,7 @@ vispro.data.descriptorList = [
         templates: {
             html: {
                 code: 
-                    '<div id="<%= id %> style="position:absolute, top:<%= top %>, left:<%= left %>" ></div>',
+                    '<div id="<%= id %>" style="position:absolute, top:<%= top %>px, left:<%= left %>px"></div>',
                 parameters: {
                     id: {
                         name: 'id',
@@ -285,7 +285,7 @@ vispro.data.descriptorList = [
                     '    vertical: <%= vertical %>, \n' +
                     '    slider: <%=  slider %>, \n' +
                     '    size: <%= size %> \n' + 
-                    '});',
+                    '}); \n',
                 parameters: {
                     id: {
                         name: 'id',
@@ -400,7 +400,7 @@ vispro.data.descriptorList = [
         templates: {
             html: {
                 code: 
-                    '<div id="<%= id %> style="position:absolute, left:<%= left %>px, top:<%= top %>px, width=<%= width %>px, height=<%= height %>></div>',
+                    '<div id="<%= id %>" style="position:absolute, left:<%= left %>px, top:<%= top %>px, width:<%= width %>px, height:<%= height %>px"></div>',
                 parameters: {
                     id: {
                         name: 'id',
@@ -536,7 +536,7 @@ vispro.data.descriptorList = [
         templates: {
             html: {
                 code: 
-                    '<div id="<%= id %> style="position:absolute, top:<%= top %>, left:<%= left %>" ></div>',
+                    '<div id="<%= id %>" style="position:absolute, top:<%= top %>px, left:<%= left %>px"></div>',
                 parameters: {
                     id: {
                         name: 'id',
@@ -561,7 +561,7 @@ vispro.data.descriptorList = [
                     '    fourarrow: false, \n' + 
                     '    map: <%= map %>, \n' + 
                     '    tooltip: <%= tooltip %> \n' + 
-                    '});',
+                    '}); \n',
                 parameters: {
                     id: {
                         name: 'id',

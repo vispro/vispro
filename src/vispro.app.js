@@ -14,10 +14,7 @@ vispro.App = Backbone.View.extend({
         workspace: new vispro.view.Workspace({
             el: $('#paper')
         }),
-        grid: new vispro.view.Grid({
-            el: $('#grid')
-        }),
-        widgetLinkerLayer: new vispro.view.WidgetLinkerLayer({
+        link: new vispro.view.WidgetLinkerLayer({
             el: $('#link')
         }),
         code: new vispro.view.Code({
@@ -62,17 +59,12 @@ vispro.App = Backbone.View.extend({
                 model: models.descriptorList
             });
 
-        views.grid
-            .init({
-                model: models.workspace
-            });
-
         views.workspace
             .init({
                 model: models.workspace
             });
         
-        views.widgetLinkerLayer
+        views.link
             .init({
                 model: models.workspace
             });
@@ -117,8 +109,7 @@ vispro.App = Backbone.View.extend({
         views.labelList.enable();
         views.inspectorList.enable();
 
-        views.grid.show();
-        views.widgetLinkerLayer.hide();
+        views.link.hide();
         views.workspace.show();
         views.code.hide();
     },
@@ -132,8 +123,7 @@ vispro.App = Backbone.View.extend({
         views.labelList.disable();
         views.inspectorList.disable();
 
-        views.grid.show();
-        views.widgetLinkerLayer.show();
+        views.link.show();
         views.workspace.show();
         views.code.hide();
     },
@@ -147,8 +137,7 @@ vispro.App = Backbone.View.extend({
         views.labelList.disable();
         views.inspectorList.disable();
         
-        views.grid.hide();
-        views.widgetLinkerLayer.hide();
+        views.link.hide();
         views.workspace.hide();
         views.code.show();
     },

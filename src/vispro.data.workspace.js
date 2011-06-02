@@ -79,10 +79,13 @@ vispro.data.workspace = {
             '</head> \n' +
             '\n' +
             '<body> \n' +
-            '<%= html %> \n' +
+            '\n' + 
+            '<%= html %>' +
             '\n' +
             '<script> \n' +
-            '<%= js %> \n' +
+            '\n' +
+            '<%= js %>' +
+            '\n' +
             '<script> \n' +
             '</body> \n' +
             '</html>',

@@ -8,11 +8,11 @@ vispro.view.Workspace = Backbone.View.extend({
             viewList = [];
 
         element
+            .addClass('grid-15')
             .css({
                 position: 'absolute',
                 width: model.get('width'),
                 height: model.get('height'),
-                border: '1px solid gray'
             })
             .resizable({
                 autoHide: true
@@ -131,6 +131,15 @@ vispro.view.Workspace = Backbone.View.extend({
     onResize: function (event, ui) {
         
         event.stopPropagation();
+
+        // prevent a bug 
+        // if the contenitor of the workspace has a scrollbar
+        // resizing the workspace change its position
+        $(this.el)
+            .css({
+                top: '0px',
+                left: '0px'
+            });
 
         this.model.set({
             width: ui.size.width,

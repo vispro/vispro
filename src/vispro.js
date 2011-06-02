@@ -66,11 +66,9 @@
     };
 })(jQuery);
 
-var vispro = (function () {
-
-    var ids = {};
-
-    if (!window.console) {
+(function () {
+   
+       if (!window.console) {
         window.console = {};
         $.each([
             "log", 
@@ -108,7 +106,12 @@ var vispro = (function () {
             window.localStorage[name] = function () {};
         });        
     }
+     
+}());
 
+var vispro = (function () {
+
+    var ids = {};
 
     function guid(type) {
         

@@ -31,26 +31,87 @@
 	overflow: hidden;
 }
 
-.linker {
-	z-index: 3001;
-}
-
 body {
 	font-family: Helvetica, Verdana, Arial, sans-serif; 
 }
 
-.paper {
+h1 {
+	padding: 0px;
+	margin: 0px;
+}
 
+#header {
+	
+}
+
+#paper {
+	border: 2px solid grey;
 }
 
 .descriptor {
 	
 }
 
-.widget .selected {
+.widget {
 	
+}
+
+.widget .selected {
+	border: 2px solid grey;
 }
 
 .label {
 	
+}
+
+.label .selected {
+	border: 2px solid grey;	
+}
+
+.linker {
+	z-index: 3001;
+}
+
+.grid-15 {
+	background-image: url('grid/1p15.png')
+}
+
+.grid-16 {
+	background-image: url('grid/1p16.png')
+}
+
+.grid-17 {
+	background-image: url('grid/1p17.png')
+}
+
+.grid-18 {
+	background-image: url('grid/1p18.png')
+}
+
+.grid-19 {
+	background-image: url('grid/1p19.png')
+}
+
+.grid-20 {
+	background-image: url('grid/1p20.png')
+}
+
+.grid-21 {
+	background-image: url('grid/1p21.png')
+}
+
+.grid-22 {
+	background-image: url('grid/1p22.png')
+}
+
+.grid-23 {
+	background-image: url('grid/1p23.png')
+}
+
+.grid-24 {
+	background-image: url('grid/1p24.png')
+}
+
+.grid-25 {
+	background-image: url('grid/1p25.png')
 }

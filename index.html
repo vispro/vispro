@@ -10,14 +10,13 @@
 <body>
 
     <div id="header" class="ui-layout-north">
-        <span>VisPro</span>
-        <span id="toolbar"></span>
+        <h1>VisPro</h1>
+        <div id="toolbar"></div>
     </div>
 
     <div id="descriptorList" class="ui-layout-west"></div>
 
     <div id="center" class="ui-layout-center">
-        <div id="grid"></div>
         <div id="paper"></div>
         <div id="link"></div>
         <div id="code"></div>
@@ -53,7 +52,6 @@
     <script src="src/vispro.view.inspector.js"></script>
     <script src="src/vispro.view.inspectorList.js"></script>
     <script src="src/vispro.view.inspectorProperty.js"></script>
-    <script src="src/vispro.view.grid.js"></script>
     <script src="src/vispro.view.widgetLinker.js"></script>
     <script src="src/vispro.view.widgetLinkerLayer.js"></script>
     <script src="src/vispro.view.toolbar.js"></script>
@@ -68,6 +66,10 @@
         var app;
 
         $(document).ready(function () {
+            
+            app = new vispro.App();
+            app.init();
+
             $('body')
                 .layout({ 
                     north__closable: false, 
@@ -77,9 +79,6 @@
                 .layout({
                     south__size: .5
                 });
-            
-            app = new vispro.App();
-            app.init();
         });
     </script>
 

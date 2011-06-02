@@ -80,9 +80,20 @@ vispro.model.Workspace = Backbone.Model.extend({
         return list;
     },
 
+    isValid: function () {
+        
+        var valid = true;
+
+        widgetList.each(function (widget) {
+            valid = valid && widget.isValid();
+        });
+
+        return valid;
+    },
+
     compile: function () {
         
-        var widgetList = this.widgetList,
+        var widgetList = this.widgetList.sortByDeps(),
             template = this.template,
             code = template.code,
             parameters = template.parameters,
@@ -94,14 +105,16 @@ vispro.model.Workspace = Backbone.Model.extend({
             sources[name] = parameter;
         });
 
-        widgetList.each(function (widget) {
+        $.each(widgetList, $.proxy(function (i, widget) {
+            
             var widget_sources = widget.compile();
             
             $.each(widget_sources, function (zone_name, zone_source) {
+                (sources[zone_name] || (sources[zone_name] = '')); 
                 sources[zone_name] += zone_source + '\n';
             });
 
-        }, this);
+        }, this));
 
         source = template_engine(sources);
 

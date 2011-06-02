@@ -91,21 +91,16 @@ vispro.model.Widget = Backbone.Model.extend({
     isValid: function () {
         
         var descriptor = this.descriptor,
-            properties = descriptor.properties;
+            properties = descriptor.properties,
+            valid = true;
         
         $.each(properties, $.proxy(function (name, property) {
-    
-            var linkedWidgetId;
-                
-            if (property.type === 'widget') {
-                linkedWidgetId = this.get(property.name);
-                if (typeof linkedWidgetId === 'undefined') {
-                    return false;
-                }
+            if (property.type === 'widget' && !this.get(property.name)) {
+                valid = false;
             }
         }, this));
 
-        return true;
+        return valid;
     },
 
     compile: function () {
@@ -116,23 +111,16 @@ vispro.model.Widget = Backbone.Model.extend({
             sources = {};
         
         $.each(templates, $.proxy(function (name, template) {
-            
-            var code = template.code,
-                parameters = template.parameters,
-                template_engine = _.template(code),
+
+            var template_engine = _.template(template.code),
                 values = {};
 
-            $.each(parameters, $.proxy(function (name, parameter) {
+            $.each(template.parameters, $.proxy(function (name, parameter) {
                 
-                var ref = parameter.ref,
-                    value = this.get(ref);
-
-                values[name] = value || '';
-                
+                values[name] = this.get(parameter.ref);
             }, this));
 
             sources[name] = template_engine(values);
-
         }, this));
 
         return sources;
