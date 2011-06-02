@@ -4,6 +4,7 @@ vispro.view.Descriptor = Backbone.View.extend({
 
         var element = $(this.el),
             model = options.model,
+            i = model.collection.indexOf(model),
             image = $('<img>'),
             helper = $('<img>'),
 
@@ -18,10 +19,11 @@ vispro.view.Descriptor = Backbone.View.extend({
                 alt: properties.name.value
             })
             .css({
+                position: 'absolute',
                 width: Math.min(100, width) + 'px',
                 height: Math.min(100, height) + 'px',
-                top: '10px',
-                left: '10px'
+                left: ((120 - Math.min(100, width)) / 2) + 'px',
+                top: ((120 - Math.min(100, height)) / 2) + 'px'
             });
 
         helper
@@ -38,8 +40,10 @@ vispro.view.Descriptor = Backbone.View.extend({
         element
             .addClass('descriptor')
             .css({
-                position: 'relative',
+                position: 'absolute',
                 'border-radius': '10px',
+                top: 121 * i + 'px',
+                left: '0px',
                 width: '120px',
                 height: '120px',
                 margin: '10px'
@@ -48,7 +52,13 @@ vispro.view.Descriptor = Backbone.View.extend({
             .append(image)
             .draggable({
                 cursor: 'move',
-                helper: function () { return helper.appendTo('body'); }
+                helper: function () { 
+                    return helper.appendTo('body'); 
+                },
+                cursorAt: {
+                    top: 0,
+                    left: 0
+                }
             });
 
         this.model = model;

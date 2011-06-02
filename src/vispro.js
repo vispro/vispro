@@ -3,11 +3,6 @@
 
         function coverElement (element) {
             
-            function stopEvent (event) {
-
-                event.stopPropagation();
-            }
-
             var cover = $('<div>');
              
             cover
@@ -22,17 +17,12 @@
                     opacity: .5,
                     'background-color': 'black'
                 })
-                .click(stopEvent)
-                // .dblclick(stopEvent)
-                // .hover(stopEvent)
-                .mousedown(stopEvent)
-                // .mouseenter(stopEvent)
-                // .mouseleave(stopEvent)
-                // .mousemove(stopEvent)
-                // .mouseout(stopEvent)
-                // .mouseover(stopEvent)
-                // .mouseup(stopEvent)
-                // .scroll(stopEvent)
+                .click(function (event) { 
+                    event.stopPropagation()
+                })
+                .mousedown(function (event) { 
+                    event.stopPropagation()
+                })
                 .show();
             
             element

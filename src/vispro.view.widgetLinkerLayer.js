@@ -115,16 +115,29 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
                 left: widgetTo.get('left') + widgetTo.get('width') / 2,
                 top: widgetTo.get('top') + widgetTo.get('height') / 2
             },
-            path = this.createPath(from, to),
-            link = linkLayer.path(path);
-        
+            link = linkLayer.path(this.createPath(from, to)),
+            overlay = linkLayer.path(this.createLine(from, to));
+
         link
-            .mouseover(function () {
-                console.log('mouseover');
+            .attr({
+                'stroke-width': 3,
+                fill: 'green'
+            });
+
+        overlay
+            .attr({
+                'stroke-width': 10,
+                opacity: 0
             })
-            .click(function () {
-                console.log('click');
+            .mouseover(function () {
+                overlay.attr({ opacity: .5 });
+            })
+            .mouseout(function () {
+                overlay.attr({ opacity: 0 });
+            })
+            .dblclick(function () {
                 widgetFrom.removeLink(widgetTo);
+                overlay.attr({path: ''});
                 link.attr({path: ''});
             });
 
@@ -134,9 +147,13 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
     drawLink: function (from, to) {
 
         var linkLayer = this.linkLayer,
-            path = this.createPath(from, to);
+            path = this.createLine(from, to);
 
-        this.tempLink.attr({ path: path });
+        this.tempLink
+            .attr({
+                'stroke-width': 3,
+                path: path 
+            });
 
         return this;
     },
@@ -174,6 +191,17 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
               " L" + Cx + "," + Cy + 
               " L" + Bx + "," + By +
               " Z"; 
+    },
+
+    createLine: function (from, to) {
+        
+        var startX = from.left,
+            startY = from.top,
+            endX = to.left,
+            endY = to.top;
+        
+        return "M" + startX + "," + startY +
+            "L" + endX + "," + endY;
     }
 
 });

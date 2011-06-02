@@ -4,6 +4,7 @@ vispro.view.Widget = Backbone.View.extend({
         
         var element = $(this.el),
             model = options.model,
+            descriptor = model.descriptor,
             container = model.container,
             image = $('<img>');
         
@@ -36,8 +37,6 @@ vispro.view.Widget = Backbone.View.extend({
                     container.get('grid'), 
                     container.get('grid')
                 ],
-                snap: '.widget', 
-                snapMode: 'outer',
                 zIndex: container.get('z_index')
             });
 

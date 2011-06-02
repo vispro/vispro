@@ -220,14 +220,6 @@ vispro.data.descriptorList = [
                 minimum: 0,
                 writable: false
             },
-            resizable: {
-                name: 'resizable',
-                label: 'resizable',
-                type: 'boolean',
-                value: true,
-                width: true,
-                height: false
-            },
             vertical: {
                 name: 'vertical',
                 label: 'vertical',
@@ -389,12 +381,6 @@ vispro.data.descriptorList = [
                 value: 300,
                 minimum: 0,
                 writable: true
-            },
-            resizable: {
-                name: 'resizable',
-                label: 'resizable',
-                type: 'boolean',
-                value: true
             }
         },
         templates: {

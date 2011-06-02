@@ -45,31 +45,42 @@ h1 {
 }
 
 #paper {
-	border: 2px solid grey;
+	border: 1px solid black;
 }
 
 .descriptor {
 	
 }
 
+#paper.ui-covered {
+	outline: 2px solid black;	
+}
+
 .widget {
 	
 }
 
-.widget .selected {
-	border: 2px solid grey;
+.widget.selected {
+	outline: 2px solid grey;
+}
+
+.widget.ui-covered {
+	outline: 2px solid black;	
 }
 
 .label {
-	
+	margin: 2px;
+	padding: 2px;
 }
 
-.label .selected {
-	border: 2px solid grey;	
+.label.selected {
+	outline: 2px solid grey;
 }
 
 .linker {
-	z-index: 3001;
+	border: 2px solid black;
+	border-radius: 10px 10px;
+	background-color: darkgrey;
 }
 
 .grid-15 {

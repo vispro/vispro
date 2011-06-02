@@ -11,7 +11,7 @@ vispro.view.WidgetLinker = Backbone.View.extend({
             height = model.get('height');
             x = left + width / 2,
             y = top + height / 2,
-            radius = 10,
+            radius = 6,
             position = {left: x, top: y};
         
         element
@@ -19,15 +19,19 @@ vispro.view.WidgetLinker = Backbone.View.extend({
             .data('linker', this)
             .css({
                 position: 'absolute',
-                border: '1px solid black',
                 top: y - radius,
                 left: x - radius,
                 width: 2 * radius,
                 height: 2 * radius
             })
             .draggable({
-                helper: 'clone',
-                cursor: 'move'
+                helper: function () {
+                    return $('<div>');
+                },
+                cursorAt: {
+                    top: 0,
+                    left: 0
+                }
             })
             .droppable({
                 accept: '.linker',
