@@ -74,10 +74,13 @@ vispro.view.Workspace = Backbone.View.extend({
     addWidget: function (widget) {
         
         var element = $(this.el),
+            model = this.model,
             view = new vispro.view.Widget();
 
         view.init({ model: widget });
         element.append(view.el);
+
+        model.overlap();
 
         return this;
     },

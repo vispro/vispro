@@ -75,7 +75,8 @@ vispro.data.workspace = {
             '<!DOCTYPE html> \n' + 
             '<html> \n'+ 
             '<head> \n' +
-            '   <title>Vispro</title> \n' +
+            '   <meta charset="UTF-8"> \n' + 
+            '   <title>VisPro</title> \n' +
             '</head> \n' +
             '\n' +
             '<body> \n' +
@@ -86,12 +87,9 @@ vispro.data.workspace = {
             '\n' +
             '<%= js %>' +
             '\n' +
-            '<script> \n' +
+            '</script> \n' +
             '</body> \n' +
             '</html>',
-        parameters: {
-            html: '',
-            js: ''
-        }
+        parameters: ['html', 'js']
     }
 };

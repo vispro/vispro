@@ -14,7 +14,6 @@ vispro.model.Workspace = Backbone.Model.extend({
         this.template = template;
 
         this.attributes.id = this.id;
-        this.attributes.linkMode = false;
         
         $.each(descriptor.properties, $.proxy(function (name, item) {
             if (typeof this.attributes[name] === 'undefined') {
@@ -73,6 +72,22 @@ vispro.model.Workspace = Backbone.Model.extend({
         return this;
     },
 
+    overlap: function () {
+        
+        var widgetList = this.widgetList;
+        
+        widgetList.each(function (widget) {
+            
+            widget.overlapped = widget.isOverlapped();
+
+        }, this);
+
+        widgetList.each(function (widget) {
+            
+            widget.set({ overlapped: widget.overlapped });
+        });
+    },
+
     getWidgetListByType: function (type) {
         
         var list = this.widgetList.getByType(type);
@@ -101,17 +116,16 @@ vispro.model.Workspace = Backbone.Model.extend({
             sources = {},
             source;
 
-        $.each(parameters, function (name, parameter) {
-            sources[name] = parameter;
-        });
-
+        $.each(parameters, function (i, parameter) {
+            sources[parameter] = '';
+        });      
+        
         $.each(widgetList, $.proxy(function (i, widget) {
-            
+
             var widget_sources = widget.compile();
-            
-            $.each(widget_sources, function (zone_name, zone_source) {
-                (sources[zone_name] || (sources[zone_name] = '')); 
-                sources[zone_name] += zone_source + '\n';
+
+            $.each(widget_sources, function (match, insert) {
+                sources[match] += insert + '\n';
             });
 
         }, this));

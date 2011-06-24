@@ -5,31 +5,18 @@ vispro.view.Descriptor = Backbone.View.extend({
         var element = $(this.el),
             model = options.model,
             i = model.collection.indexOf(model),
-            image = $('<img>'),
-            helper = $('<img>'),
+            helper = $('<img>');
 
             properties = model.properties,
+            name = properties.name.value,
+            src = properties.img.value,
             width = Number(properties.width.value),
             height = Number(properties.height.value);
         
-        image
-            .addClass('img-descriptor')
-            .attr({
-                src: properties.img.value,
-                alt: properties.name.value
-            })
-            .css({
-                position: 'absolute',
-                width: Math.min(100, width) + 'px',
-                height: Math.min(100, height) + 'px',
-                left: ((120 - Math.min(100, width)) / 2) + 'px',
-                top: ((120 - Math.min(100, height)) / 2) + 'px'
-            });
-
         helper
             .attr({
-                src: properties.img.value,
-                alt: properties.name.value
+                src: src,
+                alt: name
             })
             .css({
                 width: width,
@@ -41,15 +28,18 @@ vispro.view.Descriptor = Backbone.View.extend({
             .addClass('descriptor')
             .css({
                 position: 'absolute',
-                'border-radius': '10px',
                 top: 121 * i + 'px',
-                left: '0px',
-                width: '120px',
                 height: '120px',
-                margin: '10px'
+                textAlign: 'center',
+                backgroundImage: 'url(' + src + ')',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center center',
+                backgroundSize: 
+                    Math.min(100, width) + 'px' + ' ' + 
+                    Math.min(80, height) + 'px',
             })
             .data('descriptor', model)
-            .append(image)
+            .text(name)
             .draggable({
                 cursor: 'move',
                 helper: function () { 
@@ -68,24 +58,12 @@ vispro.view.Descriptor = Backbone.View.extend({
 
     select: function () {
         
-        $(this.el)
-            .animate({
-               backgroundColor: 'lightgrey' 
-            }, 300);
+        $(this.el).addClass('selected');
     },
 
     unselect: function () {
         
-        $(this.el)
-            .animate({
-               backgroundColor: 'white' 
-            }, 300);
-    },
-
-    onMouseover: function (event) {
-        
-        event.stopPropagation();
-        this.select();
+        $(this.el).removeClass('selected');
     },
 
     events: {

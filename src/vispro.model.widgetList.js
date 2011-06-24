@@ -4,6 +4,15 @@ vispro.model.WidgetList = Backbone.Collection.extend({
     
     model: vispro.model.Widget,
 
+    getById: function (id) {
+        
+        var result = this.detect(function (widget) {
+            return widget.attributes.id === id;
+        });
+
+        return result;
+    },
+
     getByType: function (type) {
 
         var list = this.filter(function (widget) {

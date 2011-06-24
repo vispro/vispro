@@ -6,7 +6,6 @@ vispro.data.descriptorList = [
                 name: 'id',
                 label: 'id',
                 type: 'string',
-                unique: true,
                 writable: true
             },
             name: {
@@ -99,24 +98,8 @@ vispro.data.descriptorList = [
         templates: {
             html: {
                 code: 
-                    '<div id="<%= id %>" style="position:absolute, top:<%= top %>px, left:<%= left %>px"></div>',
-                parameters: {
-                    id: {
-                        name: 'id',
-                        required: true,
-                        ref: 'id'
-                    },
-                    top: {
-                        name: 'top',
-                        required: true,
-                        ref: 'top'
-                    },
-                    left: {
-                        name: 'left',
-                        required: true,
-                        ref: 'left'
-                    }
-                }
+                    '<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px"></div>',
+                parameters: ['id', 'top', 'left']
             },
             js: {
                 code: 
@@ -126,28 +109,7 @@ vispro.data.descriptorList = [
                     '    opt: false, \n' +
                     '    infoDiv: <%= infoDiv %> \n' + 
                     '}); \n',
-                parameters: {
-                    id: {
-                        name: 'id',
-                        required: true,
-                        ref: 'id'
-                    },
-                    map: {
-                        name: 'map',
-                        required: true,
-                        ref: 'map'
-                    },
-                    tooltip: {
-                        name: 'tooltip',
-                        required: true,
-                        ref: 'tooltip'
-                    },
-                    infoDiv: {
-                        name: 'infoDiv',
-                        required: false,
-                        ref: 'infoDiv'
-                    }
-                }
+                parameters: ['id', 'map', 'tooltip', 'infoDiv' ]
             }
         }
     },
@@ -158,7 +120,6 @@ vispro.data.descriptorList = [
                 name: 'id',
                 label: 'id',
                 type: 'string',
-                unique: true,
                 writable: true
             },
             name: {
@@ -250,24 +211,8 @@ vispro.data.descriptorList = [
         templates: {
             html: {
                 code: 
-                    '<div id="<%= id %>" style="position:absolute, top:<%= top %>px, left:<%= left %>px"></div>',
-                parameters: {
-                    id: {
-                        name: 'id',
-                        required: true,
-                        ref: 'id'
-                    },
-                    top: {
-                        name: 'top',
-                        required: true,
-                        ref: 'top'
-                    },
-                    left: {
-                        name: 'left',
-                        required: true,
-                        ref: 'left'
-                    }
-                }
+                    '<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px"></div>',
+                parameters: ['id', 'top', 'left']
             },
             js: {
                 code: 
@@ -276,40 +221,9 @@ vispro.data.descriptorList = [
                     '    tooltip: <%= tooltip %>, \n' +
                     '    vertical: <%= vertical %>, \n' +
                     '    slider: <%=  slider %>, \n' +
-                    '    size: <%= size %> \n' + 
+                    '    size: <%= width %> \n' + 
                     '}); \n',
-                parameters: {
-                    id: {
-                        name: 'id',
-                        required: true,
-                        ref: 'id'
-                    },
-                    map: {
-                        name: 'map',
-                        required: true,
-                        ref: 'map'
-                    },
-                    tooltip: {
-                        name: 'tooltip',
-                        required: true,
-                        ref: 'tooltip'
-                    },
-                    vertical: {
-                        name: 'vertical',
-                        required: true,
-                        ref: 'vertical'
-                    },
-                    slider: {
-                        name: 'slider',
-                        required: true,
-                        ref: 'slider'
-                    },
-                    size: {
-                        name: 'size',
-                        required: true,
-                        ref: 'width'
-                    }
-                }
+                parameters: ['id', 'map', 'tooltip', 'vertical', 'slider', 'width']
             }
         }
     },
@@ -320,7 +234,6 @@ vispro.data.descriptorList = [
                 name: 'id',
                 label: 'id',
                 type: 'string',
-                unique: true,
                 writable: true
             },
             name: {
@@ -386,45 +299,13 @@ vispro.data.descriptorList = [
         templates: {
             html: {
                 code: 
-                    '<div id="<%= id %>" style="position:absolute, left:<%= left %>px, top:<%= top %>px, width:<%= width %>px, height:<%= height %>px"></div>',
-                parameters: {
-                    id: {
-                        name: 'id',
-                        required: true,
-                        ref: 'id'
-                    },
-                    left: {
-                        name: 'left',
-                        required: true,
-                        ref: 'left'
-                    },
-                    top: {
-                        name: 'top',
-                        required: true,
-                        ref: 'top'
-                    },
-                    width: {
-                        name: 'width',
-                        required: true,
-                        ref: 'width'
-                    },
-                    height: {
-                        name: 'height',
-                        required: true,
-                        ref: 'height'
-                    }
-                }
+                    '<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px"></div>',
+                parameters: ['id', 'left', 'top', 'width', 'height']
             },
             js: {
                 code: 
                     'var <%= id %> = geopoi.sdk.map("<%= id %>"); \n',
-                parameters: {
-                    id: {
-                        name: 'id',
-                        required: true,
-                        ref: 'id'
-                    }
-                }
+                parameters: ['id']
             }
         }
     },
@@ -435,7 +316,6 @@ vispro.data.descriptorList = [
                 name: 'id',
                 label: 'id',
                 type: 'string',
-                unique: true,
                 writable: true
             },
             name: {
@@ -523,23 +403,7 @@ vispro.data.descriptorList = [
             html: {
                 code: 
                     '<div id="<%= id %>" style="position:absolute, top:<%= top %>px, left:<%= left %>px"></div>',
-                parameters: {
-                    id: {
-                        name: 'id',
-                        required: true,
-                        ref: 'id'
-                    },
-                    top: {
-                        name: 'top',
-                        required: true,
-                        ref: 'top'
-                    },
-                    left: {
-                        name: 'left',
-                        required: true,
-                        ref: 'left'
-                    }
-                }
+                parameters: ['id', 'top', 'left']
             },
             js: {
                 code: 
@@ -548,24 +412,7 @@ vispro.data.descriptorList = [
                     '    map: <%= map %>, \n' + 
                     '    tooltip: <%= tooltip %> \n' + 
                     '}); \n',
-                parameters: {
-                    id: {
-                        name: 'id',
-                        type: 'string',
-                        required: true,
-                        ref: 'id'
-                    },
-                    map: {
-                        name: 'map',
-                        required: true,
-                        ref: 'map'                      
-                    },
-                    tooltip: {
-                        name: 'tooltip',
-                        required: true,
-                        ref: 'tooltip'                      
-                    }
-                }
+                parameters: ['id', 'map', 'tooltip']
             }
         }
     }

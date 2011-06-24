@@ -91,8 +91,8 @@ vispro.view.InspectorProperty = Backbone.View.extend({
 
                 option
                     .data('widget', widget)
-                    .attr({value: widget.get('id')})
-                    .text(widget.get('id'))
+                    .attr({ value: widget.id })
+                    .text(widget.get('id'));
 
                 input.append(option);
             });

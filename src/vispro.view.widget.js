@@ -57,6 +57,7 @@ vispro.view.Widget = Backbone.View.extend({
             .bind('change:width', $.proxy(this.resize, this))
             .bind('change:height', $.proxy(this.resize, this))
             .bind('change:selected', $.proxy(this.select, this))
+            .bind('change:overlapped', $.proxy(this.overlap, this))
             .bind('remove', $.proxy(this.remove, this));
 
         container
@@ -148,6 +149,16 @@ vispro.view.Widget = Backbone.View.extend({
         return this;
     },
 
+    overlap: function (model, overlapped) {
+        
+        if (overlapped) {
+            $(this.el).addClass('overlapped');
+        }
+        else {
+            $(this.el).removeClass('overlapped');
+        }
+    },
+
     onClick: function (event, ui) {
 
         event.stopPropagation();
@@ -167,10 +178,15 @@ vispro.view.Widget = Backbone.View.extend({
 
     onDrag: function (event, ui) {
         
-        this.model.set({
+        var model = this.model,
+            container = model.container;
+
+        model.set({
             left: ui.position.left,
             top: ui.position.top
         });
+
+        container.overlap();
     },
 
     onMouseover: function (event) {

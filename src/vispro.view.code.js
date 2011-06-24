@@ -5,12 +5,10 @@ vispro.view.Code = Backbone.View.extend({
         var element = $(this.el),
             code = $('<pre>'),
             model = options.model;
-
+        
         code
             .css({
-                padding: '10px',
-                margin: '10px',
-                border: '1px dotted grey'
+                position: 'absolute'
             });
 
         element
@@ -29,8 +27,7 @@ vispro.view.Code = Backbone.View.extend({
     
     render: function () {
         
-        var element = $(this.el),
-            code = $(this.code),
+        var code = this.code;
             model = this.model,
             source = model.compile();
 
