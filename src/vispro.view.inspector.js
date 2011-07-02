@@ -4,36 +4,38 @@ vispro.view.Inspector = Backbone.View.extend({
         
         var element = $(this.el),
             model = options.model,
-            properties = model.descriptor.properties,
             label = $('<div>'),
-            viewList = [];
+            propertyList = new vispro.view.InspectorPropertyList(),
+            dependencyList = new vispro.view.InspectorDependencyList();
             
         label
             .addClass('inspector-label')
             .text(model.get('label'));
-            
+                    
+        propertyList
+            .init({ 
+                model: model 
+            });
+
+        dependencyList
+            .init({
+                model: model
+            });
+
         element
             .addClass('inspector')
-            .append(label);
+            .append(label)
+            .append(propertyList.render().el)
+            .append(dependencyList.render().el);
         
-        $.each(properties, function (name, property) {
-            var view = new vispro.view.InspectorProperty();
-            if (property.writable) {
-                view.init({ model: model, property: property });
-                element.append(view.render().el);
-                viewList.push(view);
-            }
-        });
-
         model
             .bind('change:selected', $.proxy(this.select, this))
             .bind('remove', $.proxy(this.remove, this));
 
         this.model = model;
         this.label = label;
-        this.viewList = viewList;
-
-        //this.render();
+        this.propertyList = propertyList;
+        this.dependencyList = dependencyList;
 
         return this;
     },
@@ -46,19 +48,8 @@ vispro.view.Inspector = Backbone.View.extend({
 
     render: function () {
         
-        $.each(this.viewList, function (i, view) {
-            view.render();
-        });
-
-        var max = 0;
-
-        $("label", this.el).each(function () {  
-            if ($(this).width() > max) {
-                max = $(this).width();
-            }
-        });
-        
-        $("label", this.el).width(max); 
+        this.propertyList.render();
+        this.dependencyList.render();
 
         return this;
     },

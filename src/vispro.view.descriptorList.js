@@ -30,7 +30,7 @@ vispro.view.DescriptorList = Backbone.View.extend({
             view = new vispro.view.Descriptor();
 
         view.init({ model: descriptor });
-        element.append(view.el);
+        element.append(view.render().el);
         viewList.push(view);
 
         return this;            

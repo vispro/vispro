@@ -16,13 +16,12 @@ vispro.model.DescriptorList = Backbone.Collection.extend({
 
     },
 
-    getByName: function (name) {
+    getByType: function (type) {
         
-        var collection = this.models,
-            descriptor;
+        var descriptor;
 
-        descriptor = $.filter(collection, function (item) {
-            return item.name === name;
+        descriptor = this.filter(function (item) {
+            return item.type === type;
         });
 
         return descriptor;

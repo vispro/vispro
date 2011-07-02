@@ -5,9 +5,11 @@ vispro.model.Workspace = Backbone.Model.extend({
         var descriptor = options.descriptor,
             attributes = options.attributes || {},
             name = descriptor.name,
+            dependencies = descriptor.dependencies,
             template = descriptor.template;
 
         this.descriptor = descriptor;
+        this.dependencies = dependencies;
         this.widgetList = new vispro.model.WidgetList();
         this.name = name;
         this.id = vispro.guid(name);
@@ -77,13 +79,10 @@ vispro.model.Workspace = Backbone.Model.extend({
         var widgetList = this.widgetList;
         
         widgetList.each(function (widget) {
-            
             widget.overlapped = widget.isOverlapped();
-
         }, this);
 
         widgetList.each(function (widget) {
-            
             widget.set({ overlapped: widget.overlapped });
         });
     },

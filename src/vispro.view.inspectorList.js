@@ -26,7 +26,7 @@ vispro.view.InspectorList = Backbone.View.extend({
             view = new vispro.view.Inspector();
 
         view.init({ model: widget });
-        element.append(view.el);
+        element.append(view.render().el);
 
         return this;
     },

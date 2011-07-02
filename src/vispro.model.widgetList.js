@@ -16,7 +16,7 @@ vispro.model.WidgetList = Backbone.Collection.extend({
     getByType: function (type) {
 
         var list = this.filter(function (widget) {
-            return widget.name === type;
+            return widget.type === type;
         });
 
         return list;

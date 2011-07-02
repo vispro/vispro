@@ -6,11 +6,12 @@ vispro.view.InspectorProperty = Backbone.View.extend({
             property = options.property,
             element = $(this.el),
             label = $('<label>'),
-            input,
+            input = $('<input>'),
             type = property.type,
             name = property.name;
             
         label
+            .addClass('inspector-label')
             .text(property.label)
             .css({
                 float: 'left'
@@ -19,33 +20,21 @@ vispro.view.InspectorProperty = Backbone.View.extend({
                 'for': property.name
             });
 
-        if (type === 'string') {
-
-            input = $('<input>');
-            input.attr({ type: 'text' });
-        }
-        else if (type === 'number') {       
-
-            input = $('<input>');
-            input.attr({ type: 'number' });
-        } 
-        else if (type === 'boolean') {
-
-            input = $('<input>');
+        if (type === 'boolean') {
             input.attr({ type: 'checkbox' });
         }
-        else if (type === 'widget') {           
-
-            input = $('<select>');
+        else if (type === 'number') {       
+            input.attr({ type: 'number' });
         }
-        else { 
-            
-            input = $('<input>');
+        else {
             input.attr({ type: 'text' });
         }
 
+        input
+            .addClass('inspector-input');
+
         element
-            .addClass('inspectorProperty')
+            .addClass('inspector-property')
             .append(label)
             .append(input);
 
@@ -63,45 +52,17 @@ vispro.view.InspectorProperty = Backbone.View.extend({
 
     render: function () {
     
-        var element = $(this.el),
-            model = this.model,
-            container = model.container,
+        var model = this.model,
             input = this.input,
             property = this.property,
             type = property.type,
             name = property.name,
-            value = model.get(name),
-            list;
+            value = model.get(name);
         
         if (type === 'boolean') {
-            
             input.attr({ checked: value });
         }
-        else if (type === 'widget') {
-            
-            input
-                .empty()
-                .append($('<option>'));
-            
-            list = container.getWidgetListByType(property.widget);
-            
-            $.each(list, function (i, widget) {
-
-                var option = $('<option>');
-
-                option
-                    .data('widget', widget)
-                    .attr({ value: widget.id })
-                    .text(widget.get('id'));
-
-                input.append(option);
-            });
-
-            input.val(value);
-
-        }
         else {
-
             input.val(value);
         }   
 
@@ -112,6 +73,7 @@ vispro.view.InspectorProperty = Backbone.View.extend({
     remove: function () {
         
         $(this.el).remove();
+        
         delete this;
     },
 
@@ -130,14 +92,12 @@ vispro.view.InspectorProperty = Backbone.View.extend({
 
         var model = this.model, 
             input = this.input,
-
             property = this.property,
             type = property.type,
             name = property.name,
             value = input.val(),
-
             obj = {};
-
+        
         obj[name] = value;
         model.set(obj);
     },

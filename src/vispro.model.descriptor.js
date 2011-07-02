@@ -4,11 +4,9 @@ vispro.model.Descriptor = Backbone.Model.extend({
 
     init: function (options) {
         
-        var name = options.name,
-            properties = options.properties,
-            templates = options.templates;
-
+        this.type = options.type;
         this.name = options.name;
+        this.dependencies = options.dependencies;
         this.properties = options.properties;
         this.templates = options.templates;
     }

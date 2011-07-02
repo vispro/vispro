@@ -1,5 +1,8 @@
 vispro.data.workspace = {
     name: 'workspace',
+    dependencies: {
+        
+    },
     properties: {
         name: {
             name: 'name',

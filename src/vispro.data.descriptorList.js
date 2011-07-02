@@ -1,19 +1,47 @@
 vispro.data.descriptorList = [
-    {
-        name: 'search',
+     {
+        type: 'search',
+        name: 'Search',
+/*      
+        images: {
+            icon: {
+                src: 
+            }
+            image: {
+                src: 
+            }
+        },
+        dimensions: {
+            width: {
+                value: ,
+                resizable: 
+            },
+            height: {
+                value:
+                resizable:
+            }
+        },
+*/
+        dependencies: {
+            map : {
+                type: 'map',
+                name: 'map',
+                label: 'map',
+                required: true
+            },
+            info: {
+                type: 'info',
+                name: 'info',
+                label: 'info',
+                required: false
+            }
+        },
         properties: {
             id: {
                 name: 'id',
                 label: 'id',
                 type: 'string',
                 writable: true
-            },
-            name: {
-                name: 'name',
-                label: 'name',
-                type: 'string',
-                value: 'search',
-                writable: false
             },
             label: {
                 name: 'label',
@@ -73,25 +101,11 @@ vispro.data.descriptorList = [
                 value: false,
                 writable: false
             },
-            map: {
-                name: 'map',
-                label: 'map',
-                type: 'widget',
-                widget: 'map',
-                writable: true
-            },
             tooltip: {
                 name: 'tooltip',
                 label: 'tooltip',
                 type: 'boolean',
                 value: true,
-                writable: true
-            },
-            infoDiv: {
-                name: 'infoDiv',
-                label: 'info',
-                type: 'widget',
-                widget: 'info',
                 writable: true
             }
         },
@@ -107,14 +121,23 @@ vispro.data.descriptorList = [
                     '    map: <%= map %>, \n' +
                     '    tooltip: <%= tooltip %>, \n' +
                     '    opt: false, \n' +
-                    '    infoDiv: <%= infoDiv %> \n' + 
+                    '    infoDiv: <%= info %> \n' + 
                     '}); \n',
-                parameters: ['id', 'map', 'tooltip', 'infoDiv' ]
+                parameters: ['id', 'map', 'tooltip', 'info' ]
             }
         }
     },
     {
-        name: 'zoom_h_s',
+        type: 'zoom_h_s',
+        name: 'Zoom horizontal scrool',
+        dependencies: {
+            map : {
+                type: 'map',
+                name: 'map',
+                label: 'map',
+                required: true
+            }
+        },
         properties: {
             id: {
                 name: 'id',
@@ -193,13 +216,6 @@ vispro.data.descriptorList = [
                 type: 'boolean',
                 value: true
             },
-            map: {
-                name: 'map',
-                label: 'map',
-                type: 'widget',
-                widget: 'map',
-                writable: true
-            },
             tooltip: {
                 name: 'tooltip',
                 label: 'tooltip',
@@ -228,7 +244,11 @@ vispro.data.descriptorList = [
         }
     },
     {
-        name: 'map',
+        type: 'map',
+        name: 'Map',
+        dependencies: {
+            
+        },
         properties: {
             id: {
                 name: 'id',
@@ -310,7 +330,16 @@ vispro.data.descriptorList = [
         }
     },
     {
-        name: 'pan_4',
+        type: 'pan_4',
+        name: 'Pan 4',
+        dependencies: {
+            map : {
+                type: 'map',
+                name: 'map',
+                label: 'map',
+                required: true
+            }
+        },
         properties: {
             id: {
                 name: 'id',
@@ -389,13 +418,6 @@ vispro.data.descriptorList = [
                 label: 'tooltip',
                 type: 'boolean',
                 value: true,
-                writable: true
-            },
-            map: {
-                name: 'map',
-                label: 'map',
-                type: 'widget',
-                widget: 'map',
                 writable: true
             }
         },

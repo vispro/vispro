@@ -8,7 +8,7 @@ vispro.view.Descriptor = Backbone.View.extend({
             helper = $('<img>');
 
             properties = model.properties,
-            name = properties.name.value,
+            name = model.name,
             src = properties.img.value,
             width = Number(properties.width.value),
             height = Number(properties.height.value);

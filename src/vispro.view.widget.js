@@ -2,25 +2,13 @@ vispro.view.Widget = Backbone.View.extend({
 
     init: function (options) {
         
-        var element = $(this.el),
+ var element = $(this.el),
             model = options.model,
             descriptor = model.descriptor,
-            container = model.container,
-            image = $('<img>');
+            container = model.container;
         
-        image
-            .attr({
-                src: model.get('img')
-            })
-            .css({
-                position:'absolute',
-                width: model.get('width'),
-                height: model.get('height')
-            });
-
         element
             .addClass('widget')
-            .append(image)
             .css({
                 position:'absolute',
                 border: 'none',
@@ -28,7 +16,11 @@ vispro.view.Widget = Backbone.View.extend({
                 left: model.get('left'),
                 width: model.get('width'),
                 height: model.get('height'),
-                zIndex: model.get('z_index')
+                zIndex: model.get('z_index'),
+                'background-image': 'url('+model.get('img')+')',
+                'background-repeat': 'no-repeat',
+                'background-position': 'center center',
+                'background-color': 'green'
             })
             .draggable({
                 containment: 'parent',
@@ -39,7 +31,7 @@ vispro.view.Widget = Backbone.View.extend({
                 ],
                 zIndex: container.get('z_index')
             });
-
+        
         if (model.get('resizable')) {
             
             element

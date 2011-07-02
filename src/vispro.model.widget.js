@@ -5,12 +5,15 @@ vispro.model.Widget = Backbone.Model.extend({
         var descriptor = options.descriptor,
             container = options.container,
             attributes = options.attributes || {},
-            name = descriptor.name;
+            type = descriptor.type;
+
+        console.log(options);
 
         this.descriptor = descriptor;
         this.container = container;
-        this.name = name;
-        this.id = vispro.guid(name);
+        this.type = type;
+        this.id = vispro.guid(type);
+        this.dependencies = {};
 
         this.attributes.id = this.id;       
 
@@ -18,6 +21,15 @@ vispro.model.Widget = Backbone.Model.extend({
             if (typeof this.attributes[name] === 'undefined') {
                 this.attributes[name] = attributes[name] || item.value;
             }
+        }, this));
+
+        $.each(descriptor.dependencies, $.proxy(function (name, dependency) {
+            this.dependencies[name] = {
+                type: dependency.type,
+                label: dependency.label,
+                name: dependency.name
+            };
+            this.dependencies[name].value = undefined;
         }, this));
     },
 
@@ -39,57 +51,44 @@ vispro.model.Widget = Backbone.Model.extend({
 
     addLink: function (widget) {
         
-        var descriptor = this.descriptor,
-            properties = descriptor.properties,
+        var dependencies = this.dependencies,
             setter = {};
-
-        $.each(properties, $.proxy(function (name, property) {
-            if (property.type === 'widget' && property.widget === widget.name) {
-                setter[property.name] = widget.get('id');
-                this.set(setter);
+        
+        $.each(dependencies, $.proxy(function (name, dependency) {
+            if (dependency.type === widget.type) {
+                dependency.value = widget;
             }  
         }, this));
+
+        this.trigger('addlink');
 
         return this;
     },
 
     removeLink: function (widget) {
         
-        var descriptor = this.descriptor,
-            properties = descriptor.properties,
+        var dependencies = this.dependencies,
             setter = {};
         
-        $.each(properties, $.proxy(function (name, property) {
-            if (property.type === 'widget' && property.widget === widget.name) {
-                setter[property.name] = undefined;
-                this.set(setter);
+        $.each(dependencies, $.proxy(function (name, dependency) {
+            if (dependency.type === widget.type) {
+                dependency.value = undefined;
             }
         }, this));
+
+        this.trigger('removelink');
 
         return this;
     },
 
     getLinkedWidgetList: function () {
         
-        var descriptor = this.descriptor,
-            properties = descriptor.properties,
-            container = this.container,
-            widgetList = container.widgetList,
+        var dependencies = this.dependencies,
             linkedWidgetlist = [];
         
-        $.each(properties, $.proxy(function (name, property) {
-    
-            var linkedWidgetId,
-                linkedWidget;
-    
-            if (property.type === 'widget') {
-                linkedWidgetId = this.get(property.name);
-                if (typeof linkedWidgetId !== 'undefined') {
-                    linkedWidget = widgetList.getById(linkedWidgetId);
-                    if (typeof linkedWidget !== 'undefined') {
-                        linkedWidgetlist.push(linkedWidget);
-                    }
-                }
+        $.each(dependencies, $.proxy(function (name, dependency) {
+            if (typeof dependency.value !== 'undefined') {
+                linkedWidgetlist.push(dependency.value);
             }
         }, this));
 
@@ -156,13 +155,13 @@ vispro.model.Widget = Backbone.Model.extend({
     isValid: function () {
         
         var descriptor = this.descriptor,
+            dependencies = this.dependencies,
             properties = descriptor.properties,
             valid = true;
         
-        $.each(properties, $.proxy(function (name, property) {
-            if (property.type === 'widget' && !this.get(property.name)) {
-                valid = false;
-            }
+        $.each(dependencies, $.proxy(function (name, dependency) {
+            valid = dependency.required === false 
+                || dependency.value !== undefined;
         }, this));
 
         return valid;
@@ -171,6 +170,8 @@ vispro.model.Widget = Backbone.Model.extend({
     compile: function () {
         
         var descriptor = this.descriptor,
+            attributes = this.attributes,
+            dependencies = this.dependencies,
             properties = descriptor.properties,
             templates = descriptor.templates,
             sources = {};
@@ -181,7 +182,22 @@ vispro.model.Widget = Backbone.Model.extend({
                 values = {};
 
             $.each(template.parameters, $.proxy(function (i, parameter) {
-                values[parameter] = this.get(parameter);
+
+                var value = 'undefined',
+                    dependency;
+
+                if (parameter in attributes) {
+                    value = this.get(parameter);
+                }
+                else if (parameter in dependencies) {
+                    dependency = dependencies[parameter].value;
+                    if (dependency !== undefined) {
+                        value = dependency.get('id');
+                    }
+                }
+
+                values[parameter] = value;
+
             }, this));
 
             sources[name] = template_engine(values);
