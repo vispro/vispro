@@ -5,7 +5,7 @@ vispro.view.InspectorDependency = Backbone.View.extend({
         var element = $(this.el),
             model = options.model,
             dependency = options.dependency,
-            label = $('<div>'),
+            label = $('<label>'),
             input = $('<select>');
             
         label

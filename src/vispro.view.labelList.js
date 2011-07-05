@@ -4,9 +4,15 @@ vispro.view.LabelList = Backbone.View.extend({
 
         var element = $(this.el),
             model = options.model,
+            label = $('<div>'),
             widgetList = model.widgetList;
+
+        label
+            .addClass('labelList-label')
+            .text('Browser');
         
         element
+            .append(label)
             .cover();
 
         widgetList

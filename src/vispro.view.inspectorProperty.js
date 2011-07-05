@@ -13,9 +13,6 @@ vispro.view.InspectorProperty = Backbone.View.extend({
         label
             .addClass('inspector-label')
             .text(property.label)
-            .css({
-                float: 'left'
-            })
             .attr({
                 'for': property.name
             });

@@ -11,8 +11,15 @@
 <body>
 
     <div id="header" class="ui-layout-north">
-        <h1>VisPro</h1>
-        <div id="toolbar"></div>
+        <div id="userbar">
+            <span id="home">Vispro</span>
+            <span id="help">Help</span>
+            <span id="login">Logout</span>
+        </div>
+        <div id="toolbar">
+            <span id="logo">VisPro</span>
+            <span id="viewbar"></span>
+        </div>
     </div>
 
     <div id="descriptorList" class="ui-layout-west"></div>
@@ -78,10 +85,14 @@
                 .layout({ 
                     north__closable: false, 
                     north__resizable: false,
+                    north__spacing_open: 0,
+                    west__spacing_open: 0,
+                    east__spacing_open: 0
                 });
             $('#panel')
                 .layout({
-                    south__size: .5
+                    south__size: .5,
+                    south__spacing_open: 1
                 });
         });
     </script>

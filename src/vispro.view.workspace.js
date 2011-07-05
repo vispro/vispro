@@ -12,7 +12,7 @@ vispro.view.Workspace = Backbone.View.extend({
             .css({
                 position: 'absolute',
                 width: model.get('width'),
-                height: model.get('height'),
+                height: model.get('height')
             })
             .resizable({
                 autoHide: true
@@ -140,8 +140,8 @@ vispro.view.Workspace = Backbone.View.extend({
         // resizing the workspace change its position
         $(this.el)
             .css({
-                top: '0px',
-                left: '0px'
+                top: '15px',
+                left: '15px'
             });
 
         this.model.set({

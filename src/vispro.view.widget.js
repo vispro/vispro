@@ -2,7 +2,7 @@ vispro.view.Widget = Backbone.View.extend({
 
     init: function (options) {
         
- var element = $(this.el),
+        var element = $(this.el),
             model = options.model,
             descriptor = model.descriptor,
             container = model.container;
@@ -23,7 +23,7 @@ vispro.view.Widget = Backbone.View.extend({
                 'background-color': 'green'
             })
             .draggable({
-                containment: 'parent',
+                //containment: 'parent',
                 cursor: 'move',
                 grid: [
                     container.get('grid'), 
@@ -38,7 +38,6 @@ vispro.view.Widget = Backbone.View.extend({
                 .resizable({
                     containment: 'parent',
                     aspectRatio: false,
-                    alsoResize: image,
                     autoHide: true
                 });
         }

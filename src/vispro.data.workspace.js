@@ -35,7 +35,7 @@ vispro.data.workspace = {
             name: 'width',
             label: 'width',
             type: 'integer',
-            value: 640,
+            value: 800,
             minimum: 1,
             writable: true
         },
@@ -43,7 +43,7 @@ vispro.data.workspace = {
             name: 'height',
             label: 'height',
             type: 'integer',
-            value: 480,
+            value: 450,
             minimum: 1,
             writable: true
         },
