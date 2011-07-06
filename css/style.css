@@ -1,34 +1,13 @@
-/* Layout */
-
-.ui-layout-pane {
-	overflow: auto; 
-}
-.ui-layout-pane-north, .ui-layout-pane-south {
-/*	padding: 10px 15px;	*/
-}
-
-.ui-layout-resizer { 
-    background: #FFF; 
-}
-
-.ui-layout-toggler { 
-    background: #FFF; 
-}
-
-.ui-layout-resizer:hover { 
-    background: #AAA; 
-}
-
-.ui-layout-resizer:hover .ui-layout-toggler { 
-    background: #AAA; 
-}
-
-.ui-layout-resizer:hover .ui-layout-toggler:hover { 
-    background: #AAA; 
-}
-
 .ui-covered {
 	overflow: hidden;
+}
+
+.ui-layout-resizer {
+	background: #f1f1f1;
+}
+
+.ui-layout-toggler {
+	background: #2d2d2d;
 }
 
 body {
@@ -36,13 +15,19 @@ body {
 	font-size: 15px;
 }
 
-h1 {
-	font-size: 20pt;
-	padding: 1px;
-}
+/*
+ * HEADER
+ */
 
 #header {
 	
+}
+
+.userbar-item {
+	float: left;
+	color: #f1f1f1;
+	padding-top: 7px;
+	padding-left: 10px;
 }
 
 #userbar {
@@ -50,28 +35,16 @@ h1 {
 	height: 29px;
 	background-color: #2d2d2d;
 	border-bottom: 1px solid #000000;
+	padding-left: 5px;
 }
 
-#home, #help {
-	position: relative;
-	font-size: 15px;
-	padding-left: 15px;
-	top: 5px;
-	color: #f1f1f1;
-}
-
-#login {
-	position: relative;
-	font-size: 15px;
+#loginbar {
 	float: right;
 	padding-right: 15px;
-	top: 5px;
-	color: #f1f1f1;
 }
 
 #toolbar {
 	position: relative;
-	width: 100%;
 	height: 59px;
 	border-top: 1px solid #d2d2d2;
 	border-bottom: 1px solid #d2d2d2;
@@ -82,11 +55,36 @@ h1 {
 	position: absolute;
 	top: 10px;
 	left: 215px;
-	font-family: ;
 }
 
-#descriptorList {
-	border-right: 1px solid #ebebeb;
+#logo {
+	position: relative;
+	top: 15px;
+	left: 15px;
+	font-size: 30px;
+}
+
+/*
+ * PANEL
+ */
+
+.panel {
+	overflow: auto;
+}
+
+.panel-label {
+	height: 25px;
+	padding-left: 15px;
+	padding-top: 10px;
+	font-size: 20px;
+}
+
+/*
+ * PANEL CENTER
+ */
+
+#center {
+	overflow: auto;
 }
 
 #paper {
@@ -106,18 +104,12 @@ h1 {
 	border-left: 1px solid #ebebeb;
 }
 
-#logo {
-	position: relative;
-	top: 15px;
-	left: 15px;
-	font-size: 30px;
-}
+/* 
+ * PANEL DESCRIPTOR
+ */
 
-.descriptorList-label, .labelList-label, .inspectorList-label {
-	height: 25px;
-	padding-left: 15px;
-	padding-top: 5px;
-	font-size: 20px;
+#descriptorList {
+	border-right: 1px solid #ebebeb;
 }
 
 .descriptor {
@@ -140,9 +132,9 @@ h1 {
 	outline: 1px solid #d2d2d2;	
 }
 
-.widget {
-	
-}
+/*
+ * PANEL WORKSPACE
+ */
 
 .widget.selected {
 	outline: 1px solid #4d90f0;
@@ -156,36 +148,24 @@ h1 {
 	outline: 1px solid #d2d2d2;	
 }
 
-.inspector-label {
-	position: relative;
-	top: 4px;
-	float: left;
-	height: 20px;
-	width: 50px;
+/*
+ * PANEL LINKER
+ */
+
+#link {
+	top: 15px;
+	left: 15px;
 }
 
-.inspector-name {
-	padding-left: 15px;
-	height: 25px;
+.linker {
+	border: 1px solid #2d2d2d;
+	border-radius: 10px 10px;
+	background-color: #d2d2d2;
 }
 
-.inspector-property {
-	height: 25px;
-	padding-left: 15px;
-}
-
-.inspector-dependency {
-	height: 25px;
-	padding-left: 15px;
-}
-
-.inspector-input {
-	border: 1px solid #d2d2d2;
-	height: 20px;
-	font-family: Helvetica, Verdana, sans-serif;
-	font-size: 15px;
-	width: 100px;
-}
+/*
+ * PANEL BROWSER
+ */
 
 .label {
 	height: 20px;
@@ -198,11 +178,44 @@ h1 {
 	background-color: #f1f1f1;
 }
 
-.linker {
-	border: 2px solid #d2d2d2;
-	border-radius: 10px 10px;
-	background-color: darkgrey;
+/*
+ * PANEL INSPECTOR
+ */
+
+.inspector-label {
+	position: relative;
+	padding-left: 15px;
+	height: 25px;
 }
+
+.inspector-property {
+	height: 25px;
+}
+
+.inspector-property-label {
+	position: relative;
+	padding-left: 15px;
+	top: 4px;
+	height: 20px;
+	width: 50px;
+	float: left;
+}
+
+.inspector-property-input {
+	border: 1px solid #d2d2d2;
+	height: 20px;
+	font-family: Helvetica, Verdana, sans-serif;
+	font-size: 15px;
+	width: 100px;
+}
+
+.inspector-property-select {
+	
+}
+
+/* 
+ * GRID
+ */
 
 .grid-15 {
 	background-image: url('grid/1p15.png')

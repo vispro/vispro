@@ -19,8 +19,7 @@ vispro.view.Widget = Backbone.View.extend({
                 zIndex: model.get('z_index'),
                 'background-image': 'url('+model.get('img')+')',
                 'background-repeat': 'no-repeat',
-                'background-position': 'center center',
-                'background-color': 'green'
+                'background-position': 'center center'
             })
             .draggable({
                 //containment: 'parent',

@@ -8,7 +8,7 @@ vispro.view.LabelList = Backbone.View.extend({
             widgetList = model.widgetList;
 
         label
-            .addClass('labelList-label')
+            .addClass('panel-label')
             .text('Browser');
         
         element

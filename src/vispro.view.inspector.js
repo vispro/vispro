@@ -9,7 +9,7 @@ vispro.view.Inspector = Backbone.View.extend({
             dependencyList = new vispro.view.InspectorDependencyList();
             
         label
-            .addClass('inspector-name')
+            .addClass('inspector-label')
             .text(model.get('label'));
                     
         propertyList

@@ -8,7 +8,7 @@ vispro.view.InspectorList = Backbone.View.extend({
             widgetList = model.widgetList;
 
         label
-            .addClass('inspectorList-label')
+            .addClass('panel-label')
             .text('Inspector');
 
         element

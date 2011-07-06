@@ -9,14 +9,17 @@ vispro.view.InspectorDependency = Backbone.View.extend({
             input = $('<select>');
             
         label
-            .addClass('inspector-label')
+            .addClass('inspector-property-label')
             .text(dependency.label)
             .attr({
                 'for': dependency.name
             });
 
+        input
+            .addClass('inspector-property-select');
+
         element
-            .addClass('inspector-dependency')
+            .addClass('inspector-property')
             .append(label)
             .append(input);
 

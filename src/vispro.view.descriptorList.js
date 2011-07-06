@@ -11,7 +11,7 @@ vispro.view.DescriptorList = Backbone.View.extend({
         this.viewList = viewList;
 
         label
-            .addClass('descriptorList-label')
+            .addClass('panel-label')
             .text('Widgets');
         
         element
