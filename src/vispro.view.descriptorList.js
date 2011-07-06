@@ -4,12 +4,18 @@ vispro.view.DescriptorList = Backbone.View.extend({
         
         var element = $(this.el),
             model = options.model,
+            label = $('<div>'),
             viewList = [];
 
         this.model = model;
         this.viewList = viewList;
+
+        label
+            .addClass('panel-label')
+            .text('Widgets');
         
         element
+            .append(label)
             .cover();
                 
         model

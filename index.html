@@ -11,13 +11,22 @@
 <body>
 
     <div id="header" class="ui-layout-north">
-        <h1>VisPro</h1>
-        <form>
-            <div id="toolbar"></div>
-        </form>
+        <div id="userbar">
+            <ul>
+                <li class="userbar-item"><a><span>Vispro</span></a></li>
+                <li class="userbar-item"><a><span>Help</span></a></li>
+            </ul>
+            <ul id="loginbar">
+                <li class="userbar-item"><a><span>Login</span></a></li>
+            </ul>
+        </div>
+        <div id="toolbar">
+            <span id="logo">VisPro</span>
+            <span id="viewbar"></span>
+        </div>
     </div>
 
-    <div id="descriptorList" class="ui-layout-west"></div>
+    <div id="descriptorList" class="panel ui-layout-west"></div>
 
     <div id="center" class="ui-layout-center">
         <div id="paper"></div>
@@ -26,8 +35,8 @@
     </div>
 
     <div id="panel" class="ui-layout-east">
-        <div id="labelList" class="ui-layout-center"></div>
-        <div id="inspectorList" class="ui-layout-south"></div>
+        <div id="labelList" class="panel ui-layout-center"></div>
+        <div id="inspectorList" class="panel ui-layout-south"></div>
     </div>
 
     <script src="lib/jquery.js"></script>
@@ -82,10 +91,14 @@
                 .layout({ 
                     north__closable: false, 
                     north__resizable: false,
+                    north__spacing_open: 0,
+                    west__spacing_open: 0,
+                    east__spacing_open: 0
                 });
             $('#panel')
                 .layout({
-                    south__size: .5
+                    south__size: .6,
+                    south__spacing_open: 2
                 });
         });
     </script>

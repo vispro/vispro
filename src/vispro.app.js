@@ -27,7 +27,7 @@ vispro.App = Backbone.View.extend({
             el: $('#inspectorList')
         }),
         toolbar: new vispro.view.Toolbar({
-            el: $('#toolbar')
+            el: $('#viewbar')
         })
     },
 

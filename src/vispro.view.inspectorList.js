@@ -4,9 +4,15 @@ vispro.view.InspectorList = Backbone.View.extend({
 
         var element = $(this.el),
             model = options.model,
+            label = $('<div>'),
             widgetList = model.widgetList;
 
+        label
+            .addClass('panel-label')
+            .text('Inspector');
+
         element
+            .append(label)
             .cover();
                 
         widgetList
@@ -33,7 +39,16 @@ vispro.view.InspectorList = Backbone.View.extend({
 
     refresh: function (widgetList) {
         
-        $(this.el).empty();
+        var label = $('<div>');
+
+        label
+            .addClass('inspectorList-label')
+            .text('Inspector');
+
+        $(this.el)
+            .empty()
+            .append(label);
+        
         this.model.widgetList.each(this.add, this);
 
         return this;
