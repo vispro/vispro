@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>VisPro - PROVA</title>
+    <link rel="stylesheet" href="../css/ui-theme/jquery-ui-theme.css" />
+</head>
+
+<body>
+
+<div id="header">
+        <h1>VisPro</h1>
+        <form>
+            <div id="toolbar">
+            	<input type="radio" id="radio1" name="radio" />
+            	<label for="radio1">Choice 1</label>
+				<input type="radio" id="radio2" name="radio" checked="checked" />
+				<label for="radio2">Choice 2</label>
+				<input type="radio" id="radio3" name="radio" />
+				<label for="radio3">Choice 3</label>
+
+            </div>
+        </form>
+</div>
+
+</body>
+
+ <script src="../lib/jquery.js"></script>
+ <script src="../lib/jquery.ui.js"></script>
+
+ <script>
+ $("#toolbar").buttonset();
+ </script>
+
+</html>

@@ -3,10 +3,11 @@ vispro.view.Code = Backbone.View.extend({
     init: function (options) {
                 
         var element = $(this.el),
-            code = $('<pre>'),
+            code = $('<code>'),
             model = options.model;
         
         code
+            .addClass('JScript')
             .css({
                 position: 'absolute'
             });
@@ -27,12 +28,22 @@ vispro.view.Code = Backbone.View.extend({
     
     render: function () {
         
-        var code = this.code;
+        var el = $(this.el),
+            code = this.code,
             model = this.model,
             source = model.compile();
+        
+        el.empty();
 
+        code = $('<code>');
         code
-            .text(source);
+            .addClass('JScript')
+            .css({
+                position: 'absolute'
+            })
+            .appendTo(el)
+            .text(source)
+            .beautifyCode('javascript');
 
         return this;
     },
@@ -46,6 +57,5 @@ vispro.view.Code = Backbone.View.extend({
     hide: function () {
         
         $(this.el).hide();
-    }
-
+    },
 });

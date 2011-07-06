@@ -97,6 +97,10 @@ vispro.App = Backbone.View.extend({
 
         models.workspace.select();
 
+        $.beautyOfCode.init({
+            brushes: ['Xml', 'JScript', 'CSharp', 'Plain', 'Php', 'Css']
+        });
+
         return this;
     },
 
