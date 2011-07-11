@@ -22,42 +22,33 @@ vispro.model.WidgetList = Backbone.Collection.extend({
         return list;
     },
 
-    sortByDeps: function () {
+    sortByLinks: function () {
     
-        var depsMap = {},
-            sortedMap = {},
-            widgetList = [],
-            sortedWidgetList = [],
-            sorted = false;
+        var models = this.models,
+            widget2links = {},
+            widget2sort = {},
+            result = [];
         
-        this.each(function (widget) {
-            depsMap[widget.id] = widget.getLinkedWidgetList();
-            sortedMap[widget.id] = false;
+        _.each(models, function (widget) {
+            widget2links[widget.id] = widget.getLinkList();
+            widget2sort[widget.id] = false;
         });
 
-        while (this.any(function (widget) {
-            return sortedMap[widget.id] === false;
-        })) {
-            
-            widgetList = this.filter(function (widget) {
-                return sortedMap[widget.id] === false;
-            });
+        while (!_.isEmpty(widget2sort)) {
 
-            _.each(widgetList, function (widget) {
-
-                if (_.any(depsMap[widget.id], function (linkedWidget) {
-                    return sortedMap[linkedWidget.id] === false;
-                })) {
-                    return;
-                }
-
-                sortedMap[widget.id] = true;
-                sortedWidgetList.push(widget);
-            });
-
+            _.chain(widget2sort)
+                .filter(function (id, widget) { 
+                    return _.any(widget2link[id], function (link) {
+                        return link.id in widget2sort;
+                    })
+                })
+                .each(function (id, widget) {
+                    result.push(widget);
+                    delete widget2sort[id];
+                });
         }
 
-        return sortedWidgetList;
+        return result;
     }
     
 });

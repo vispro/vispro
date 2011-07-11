@@ -2,111 +2,43 @@ vispro.data.descriptorList = [
      {
         type: 'search',
         name: 'Search',
-/*      
         images: {
             icon: {
-                src: 
+                src: 'images/search.jpg'
             }
             image: {
-                src: 
+                src: 'images/search.jpg'
             }
         },
         dimensions: {
             width: {
                 value: ,
-                resizable: 
+                resizable: false
             },
             height: {
-                value:
-                resizable:
+                value: ,
+                resizable: false
             }
         },
-*/
+        position: {
+            top: 0,
+            left: 0
+        },
         dependencies: {
             map : {
-                type: 'map',
                 name: 'map',
-                label: 'map',
                 required: true
             },
             info: {
-                type: 'info',
                 name: 'info',
-                label: 'info',
                 required: false
             }
         },
         properties: {
-            id: {
-                name: 'id',
-                label: 'id',
-                type: 'string',
-                writable: true
-            },
-            label: {
-                name: 'label',
-                label: 'label',
-                value: 'Search',
-                type: 'string',
-                writable: false
-            },
-            ico: {
-                name: 'ico',
-                label: 'ico',
-                type: 'url',
-                value: 'http://search.ico',
-                writable: false
-            },
-            img: {
-                name: 'img',
-                label: 'img',
-                type: 'url',
-                value: 'images/search.jpg',
-                writable: false
-            },
-            left: {
-                name: 'left',
-                label: 'left',
-                type: 'integer',
-                value: 0,
-                minimum: 0,
-                writable: true
-            },
-            top: {
-                name: 'top',
-                label: 'top',
-                type: 'integer',
-                value: 0,
-                minimum: 0,
-                writable: true
-            },
-            width: {
-                name: 'width',
-                label: 'width',
-                type: 'integer',
-                value: 323,
-                writable: false
-            },
-            height: {
-                name: 'heigth',
-                label: 'height',
-                type: 'integer',
-                value: 121,
-                writable: false
-            },
-            resizable: {
-                name: 'resizable',
-                label: 'resizable',
-                type: 'boolean',
-                value: false,
-                writable: false
-            },
             tooltip: {
-                name: 'tooltip',
-                label: 'tooltip',
                 type: 'boolean',
+                name: 'tooltip',
                 value: true,
-                writable: true
             }
         },
         templates: {

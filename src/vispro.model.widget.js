@@ -3,64 +3,77 @@ vispro.model.Widget = Backbone.Model.extend({
     init: function (options) {
 
         var descriptor = options.descriptor,
-            container = options.container,
-            attributes = options.attributes || {},
-            type = descriptor.type;
+            type = descriptor.type,
+            name = descriptor.name || type,
+            group = descriptor.group || type,
+            position = options.position || { top: 0, left: 0 },
+            dimensions = {},
+            dependencies = {},
+            attributes = {},
+            id = vispro.guid(type);
+        
+        _.each(descriptor.dimensions, function (name, dimension) {
+            dimensions[name] = dimension.value;
+        });
 
-        console.log(options);
+        _.each(descriptor.dependencies, function (type, dependency) {
+            dependencies[type] = _.extend({}, dependency);
+        });
 
-        this.descriptor = descriptor;
-        this.container = container;
+        _.each(descriptor.properties, function (name, property) {
+            attributes[name] = property.value;
+        });
+
         this.type = type;
-        this.id = vispro.guid(type);
-        this.dependencies = {};
+        this.name = name;
+        this.group = group;
+        this.id = id;
+        this.cid = id;
+        this.descriptor = descriptor;
+        this.position = position;
+        this.dimensions = dimensions;
+        this.dependencies = dependencies;
+        this.attributes = attributes;
 
-        this.attributes.id = this.id;       
-
-        $.each(descriptor.properties, $.proxy(function (name, item) {
-            if (typeof this.attributes[name] === 'undefined') {
-                this.attributes[name] = attributes[name] || item.value;
-            }
-        }, this));
-
-        $.each(descriptor.dependencies, $.proxy(function (name, dependency) {
-            this.dependencies[name] = {
-                type: dependency.type,
-                label: dependency.label,
-                name: dependency.name
-            };
-            this.dependencies[name].value = undefined;
-        }, this));
-    },
-
-    serialize: function () {
-        
-        var result = {};
-
-        
-        
-        return result;
+        return this;
     },
 
     select: function () {
-        
-        this.container.selectWidget(this);
+
+        this.collection
+            .chain()
+            .filter(function (widget) {
+                return widget !== this;
+            }, this)
+            .each(function (widget) {
+                widget.unselect();
+            });
+
+        this.selected = true;
+        this.trigger('selected', true);
         
         return this;
     },
 
-    addLink: function (widget) {
+    unselect: function () {
         
-        var dependencies = this.dependencies,
-            setter = {};
-        
-        $.each(dependencies, $.proxy(function (name, dependency) {
-            if (dependency.type === widget.type) {
-                dependency.value = widget;
-            }  
-        }, this));
+        this.selected = false;
+        this.trigger('selected', false);
 
-        this.trigger('addlink');
+        return this;
+    },
+
+    addLink: function (widget) {
+
+        var dependencies = this.dependencies,
+            type = widget.type;
+
+        if (!(type in dependencies)) {
+            return this;
+        }
+
+        dependencies[type].value = widget;
+        this.trigger('addlink', widget);
 
         return this;
     },
@@ -68,62 +81,63 @@ vispro.model.Widget = Backbone.Model.extend({
     removeLink: function (widget) {
         
         var dependencies = this.dependencies,
-            setter = {};
-        
-        $.each(dependencies, $.proxy(function (name, dependency) {
-            if (dependency.type === widget.type) {
-                dependency.value = undefined;
-            }
-        }, this));
+            type = widget.type;
 
-        this.trigger('removelink');
+        if (!(type in dependencies)) {
+            return this;
+        }
+
+        dependencies[type].value = undefined;
+        this.trigger('removelink', widget);
 
         return this;
     },
 
-    getLinkedWidgetList: function () {
+    getLinkList: function () {
         
         var dependencies = this.dependencies,
-            linkedWidgetlist = [];
+            linkList = [];
         
-        $.each(dependencies, $.proxy(function (name, dependency) {
-            if (typeof dependency.value !== 'undefined') {
-                linkedWidgetlist.push(dependency.value);
-            }
-        }, this));
+        linkList = _.select(dependencies, function (type, dependency) {
+            return dependency.value !== undefined;
+        }, this);
 
-        return linkedWidgetlist;
+        return linkList;
     },
 
-    isOverlappedOn: function (widget) {
+    isOverlap: function (widget) {
         
         if (this === widget) {
-            return;
+            return false;
         }
 
-        var a_x = this.get('left'),
-            a_y = this.get('top'),
-            a_w = this.get('width'),
-            a_h = this.get('height'),
+        var a_position = this.position, 
+            a_dimension = this.dimension,
+            a_x = a_position.left,
+            a_y = a_position.top,
+            a_w = a_dimension.width,
+            a_h = a_dimension.height,
             
             a_min_x = a_x,
             a_min_y = a_y,
             a_max_x = a_x + a_w,
             a_max_y = a_y + a_h,              
 
-            b_x = widget.get('left'),
-            b_y = widget.get('top'),
-            b_w = widget.get('width'),
-            b_h = widget.get('height'),
+            b_position = widget.position,
+            b_dimension = widget.dimension,
+            b_x = position.left,
+            b_y = position.top,
+            b_w = dimension.width,
+            b_h = dimension.height,
 
             b_min_x = b_x,
             b_min_y = b_y,
             b_max_x = b_x + b_w,
             b_max_y = b_y + b_h, 
 
-            isOverlapped;
+            test;
         
-        isOverlapped = 
+        test = 
             !(
                 (a_max_x <= b_min_x) || // a is to the left of b 
                 (a_min_x >= b_max_x) || // a is to the right of b 
@@ -131,77 +145,102 @@ vispro.model.Widget = Backbone.Model.extend({
                 (a_min_y >= b_max_y)    // a is below b
             ); 
         
-        return isOverlapped;
+        return test;
     },
 
-    isOverlapped: function () {
+    overlap: function () {
         
-        var container = this.container,
-            widgetList = container.widgetList,
-            isOverlapped = false;
+        var overlapped;
 
-        widgetList.each(function (widget) {
-
-            if (this === widget) {
-                return;
-            }
-
-            isOverlapped = isOverlapped || this.isOverlappedOn(widget);
+        overlapped = this.collection.some(function (widget) {
+            return this.isOverlap(widget);
         }, this);
 
-        return isOverlapped;
+        this.overlapped = overlapped;
+        this.trigger('overlapped', overlapped);
+        
+        return this;
+    },
+
+    move: function (position) {
+
+        this.position = {
+            left: position.left,
+            top: position.top
+        };
+
+        this.trigger('move', position);
+
+        return this;
+    },
+
+    resize: function (dimensions) {
+        
+        this.dimensions = {
+            width: dimensions.width,
+            height: dimensions.height
+        };
+
+        this.trigger('resize', dimensions);
+
+        return this;
     },
 
     isValid: function () {
         
-        var descriptor = this.descriptor,
-            dependencies = this.dependencies,
-            properties = descriptor.properties,
-            valid = true;
-        
-        $.each(dependencies, $.proxy(function (name, dependency) {
-            valid = dependency.required === false 
-                || dependency.value !== undefined;
-        }, this));
-
-        return valid;
+        return true;
     },
 
     compile: function () {
         
         var descriptor = this.descriptor,
-            attributes = this.attributes,
-            dependencies = this.dependencies,
-            properties = descriptor.properties,
             templates = descriptor.templates,
+            position = this.position, 
+            dimensions = this.dimensions,
+            properties = this.attributes,
+            dipendencies = this.dipendencies,
+            links = {},
+            values = {},
             sources = {};
-        
-        $.each(templates, $.proxy(function (name, template) {
 
-            var template_engine = _.template(template.code),
+        _.each(dependencies, function (type, dependency) {
+            links[dependency.name] = (dependency.value !== undefined)
+                ? dependency.value.id : 'undefined';
+        });
+                
+        _.each(templates, function (name, template) {
+
+            var code = template.code,
+                parameters = template.parameters,
+                engine = _.template(code),
                 values = {};
 
-            $.each(template.parameters, $.proxy(function (i, parameter) {
+            _.each(parameters, function (i, parameter) {
 
-                var value = 'undefined',
+                var value,
                     dependency;
 
-                if (parameter in attributes) {
-                    value = this.get(parameter);
+                if (parameter in properties) {
+                    value = properties[parameter];
                 }
-                else if (parameter in dependencies) {
-                    dependency = dependencies[parameter].value;
-                    if (dependency !== undefined) {
-                        value = dependency.get('id');
-                    }
+                else if (parameter in links) {
+                    value = links[parameter];
+                }
+                else if (parameter in position) {
+                    value = position[parameter];
+                }
+                else if (parameter in dimensions) {
+                    value = dimensions[parameter];
+                }
+                else {
+                    value = 'undefined';
                 }
 
                 values[parameter] = value;
+            }, this);
 
-            }, this));
-
-            sources[name] = template_engine(values);
-        }, this));
+            sources[name] = engine(values);
+        }, this);
 
         return sources;
     }

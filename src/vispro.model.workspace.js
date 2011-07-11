@@ -3,38 +3,42 @@ vispro.model.Workspace = Backbone.Model.extend({
     init: function (options) {
         
         var descriptor = options.descriptor,
-            attributes = options.attributes || {},
-            name = descriptor.name,
-            dependencies = descriptor.dependencies,
-            template = descriptor.template;
+            type = descriptor.type,
+            name = descriptor.name || type,
+            template = descriptror.template,
+            dimensions = {},
+            attributes = {},
+            widgetList = new vispro.model.WidgetList(),
+            id = vispro.guid(type);
 
-        this.descriptor = descriptor;
-        this.dependencies = dependencies;
-        this.widgetList = new vispro.model.WidgetList();
+        _.each(descriptor.dimensions, function (name, dimension) {
+            dimensions[name] = dimension.value;
+        });
+
+        _.each(descriptor.properties, function (name, property) {
+            attributes[name] = property.value;
+        });
+
+        this.type = type;
         this.name = name;
-        this.id = vispro.guid(name);
+        this.id = id;
+        this.cid = id;
+        this.descriptor = descriptor;
+        this.dimensions = dimensions;
+        this.widgetList = widgetList;
         this.template = template;
-
-        this.attributes.id = this.id;
+        this.attributes = attributes;
         
-        $.each(descriptor.properties, $.proxy(function (name, item) {
-            if (typeof this.attributes[name] === 'undefined') {
-                this.attributes[name] = attributes[name] || item.value;
-            }
-        }, this));
-
+        return this;
     },
 
     createWidget: function (options) {
         
-        var descriptor = options.descriptor,
-            attributes = options.attributes,
-            widget = new vispro.model.Widget();
+        var widget = new vispro.model.Widget();
 
         widget.init({
-            descriptor: descriptor,
-            attributes: attributes,
-            container: this
+            descriptor: options.descriptor,
+            position: options.position
         });
         
         this.widgetList.add(widget);
@@ -44,90 +48,80 @@ vispro.model.Workspace = Backbone.Model.extend({
         return widget;
     },
 
-    selectWidget: function (widget) {
-        
-        var widgetList = this.widgetList;
-        
-        widget.set({ selected: true });
-
-        this.set({ selected: false });
-
-        this.widgetList
-            .each(function (item) {
-                if (item.id !== widget.id) {
-                    item.set({ selected: false });
-                }
-            });
-        
-        return this;
-    },
-
     select: function () {
         
-        this.set({ selected: true });
-        
-        this.widgetList
-            .each(function (item) {
-                item.set({ selected: false });
-            });
+        this.widgetList.each(function (widget) {
+            widget.unselect();
+        });
+
+        this.selected = true;
+        this.trigger('selected', true);
         
         return this;
     },
+
+    unselect: function () {
+        
+        this.selected = false;
+        this.trigger('selected', false);
+
+        return this;
+    },
+
+    selectWidget: function (widget) {
+        
+        widget.select();
+        this.unselect();
+
+        return this;
+    }
 
     overlap: function () {
         
-        var widgetList = this.widgetList;
-        
-        widgetList.each(function (widget) {
-            widget.overlapped = widget.isOverlapped();
-        }, this);
-
-        widgetList.each(function (widget) {
-            widget.set({ overlapped: widget.overlapped });
+        this.widgetList.each(function (widget) {
+            widget.overlap();
         });
     },
 
     getWidgetListByType: function (type) {
         
-        var list = this.widgetList.getByType(type);
-
-        return list;
+        return this.widgetList.getByType(type);
     },
 
     isValid: function () {
         
-        var valid = true;
+        var test;
 
-        widgetList.each(function (widget) {
-            valid = valid && widget.isValid();
+        test = _.all(widgetList, function (widget) {
+            return widget.isValid();
         });
 
-        return valid;
+        return test;
     },
 
     compile: function () {
         
-        var widgetList = this.widgetList.sortByDeps(),
+        var widgetList = this.widgetList.sortByLink(),
             template = this.template,
             code = template.code,
-            parameters = template.parameters,
+            matches = template.parameters,
             template_engine = _.template(code),
             sources = {},
             source;
 
-        $.each(parameters, function (i, parameter) {
-            sources[parameter] = '';
+        _.each(matches, function (match) {
+            sources[match] = '';
         });      
         
-        $.each(widgetList, $.proxy(function (i, widget) {
+        _.each(widgetList, function (widget) {
 
             var widget_sources = widget.compile();
 
-            $.each(widget_sources, function (match, insert) {
+            _.each(widget_sources, function (match, insert) {
                 sources[match] += insert + '\n';
             });
 
-        }, this));
+        }, this);
 
         source = template_engine(sources);
 

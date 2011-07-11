@@ -4,16 +4,22 @@ vispro.model.DescriptorList = Backbone.Collection.extend({
     
     model: vispro.model.Descriptor,
 
-    init: function (options) {
+    init: function () {
+
+        return this;
+    },
+
+    addAll: function (collection) {
         
-        var collection = options.collection;
+        _.each(collection, function (item) {
 
-        $.each(collection, $.proxy(function (i, item) {
-            var descriptor = new vispro.model.Descriptor();
-            descriptor.init(item);
-            this.add(descriptor);
-        }, this));
+            var model = new this.model();
+            
+            model.init(item);
+            this.add(model);
+        }, this);
 
+        return this;
     },
 
     getByType: function (type) {
@@ -21,6 +27,7 @@ vispro.model.DescriptorList = Backbone.Collection.extend({
         var descriptor;
 
         descriptor = this.filter(function (item) {
+
             return item.type === type;
         });
 

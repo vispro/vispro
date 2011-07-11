@@ -167,8 +167,7 @@ vispro.view.Workspace = Backbone.View.extend({
             descriptor: descriptor,
             attributes: {
                 top: top,
-                left: left,
-                z_index: model.get('z_index')
+                left: left
             }
         });
     },
