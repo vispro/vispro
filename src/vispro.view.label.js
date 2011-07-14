@@ -2,34 +2,34 @@ vispro.view.Label = Backbone.View.extend({
     
     init: function (options) {
                 
-        var element = $(this.el),
-            model = options.model;
+        var model = options.model,
+            element = $(this.el);
         
         element
             .addClass('label')
-            .text(model.id);
+            .text(model.cid);
 
         model
-            .bind('change:selected', $.proxy(this.select, this))
-            .bind('change:id', $.proxy(this.render, this))
-            .bind('remove', $.proxy(this.remove, this));
+            .bind('selected', _.bind(this.select, this))
+            .bind('change:cid', _.bind(this.render, this))
+            .bind('remove', _.bind(this.remove, this));
 
         this.model = model;
+        this.element = element;
 
         return this;
     },
 
     render: function () {
         
-        $(this.el)
-            .text(this.model.get('id'));
+        this.element.text(this.model.cid);
 
         return this;
     },
 
     remove: function () {
         
-        $(this.el).remove();
+        this.element.remove();
 
         delete this;
     },
@@ -37,10 +37,10 @@ vispro.view.Label = Backbone.View.extend({
     select: function (model, selected) {
 
         if (selected) {
-            $(this.el).addClass('selected');
+            this.element.addClass('selected');
         }
         else {
-            $(this.el).removeClass('selected');
+            this.element.removeClass('selected');
         }
         
         return this;
@@ -62,12 +62,12 @@ vispro.view.Label = Backbone.View.extend({
 
     onMouseover: function (event) {
         
-        $(this.el).addClass('over');
+        this.element.addClass('over');
     },
 
     onMouseout: function (event) {
     
-        $(this.el).removeClass('over'); 
+        this.element.removeClass('over'); 
     },
 
     events: {

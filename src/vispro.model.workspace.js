@@ -4,18 +4,18 @@ vispro.model.Workspace = Backbone.Model.extend({
         
         var descriptor = options.descriptor,
             type = descriptor.type,
-            name = descriptor.name || type,
-            template = descriptror.template,
+            name = descriptor.type || type,
+            template = descriptor.template,
             dimensions = {},
             attributes = {},
             widgetList = new vispro.model.WidgetList(),
             id = vispro.guid(type);
 
-        _.each(descriptor.dimensions, function (name, dimension) {
+        _.each(descriptor.dimensions, function (dimension, name) {
             dimensions[name] = dimension.value;
         });
 
-        _.each(descriptor.properties, function (name, property) {
+        _.each(descriptor.properties, function (property, name) {
             attributes[name] = property.value;
         });
 
@@ -32,20 +32,20 @@ vispro.model.Workspace = Backbone.Model.extend({
         return this;
     },
 
-    createWidget: function (options) {
+    createWidget: function (descriptor) {
         
         var widget = new vispro.model.Widget();
 
-        widget.init({
-            descriptor: options.descriptor,
-            position: options.position
-        });
+        widget.init({ descriptor: descriptor });
+
+        return widget;
+    },
+
+    addWidget: function (widget) {
         
         this.widgetList.add(widget);
 
-        widget.select();
-
-        return widget;
+        return this;
     },
 
     select: function () {
@@ -70,17 +70,31 @@ vispro.model.Workspace = Backbone.Model.extend({
 
     selectWidget: function (widget) {
         
-        widget.select();
         this.unselect();
+        widget.select();
 
         return this;
-    }
+    },
+
+    resize: function (dimensions) {
+        
+        this.dimensions = {
+            width: dimensions.width,
+            height: dimensions.height
+        };
+
+        this.trigger('resize', dimensions);
+
+        return this;
+    },
 
     overlap: function () {
         
         this.widgetList.each(function (widget) {
             widget.overlap();
         });
+
+        return this;
     },
 
     getWidgetListByType: function (type) {
@@ -117,7 +131,7 @@ vispro.model.Workspace = Backbone.Model.extend({
 
             var widget_sources = widget.compile();
 
-            _.each(widget_sources, function (match, insert) {
+            _.each(widget_sources, function (insert, match) {
                 sources[match] += insert + '\n';
             });
 

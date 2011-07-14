@@ -1,86 +1,85 @@
 vispro.view.Workspace = Backbone.View.extend({
 
+    el: $(
+        '<div id="workspace" class="panel grid-15"></div>'
+    ),
+
     init: function (options) {
         
-        var element = $(this.el),
-            model = options.model,
+        var model = options.model,
+            dimensions = model.dimensions,
             widgetList = model.widgetList,
-            viewList = [];
+            element = this.el;
 
         element
-            .addClass('grid-15')
             .css({
-                position: 'absolute',
-                width: model.get('width'),
-                height: model.get('height')
+                width: dimensions.width + 'px',
+                height: dimensions.height + 'px'
             })
-            .resizable({
-                autoHide: true
-            })
-            .droppable({
-                accept: '.descriptor'
-            });
-                
+            .resizable({ autoHide: true })
+            .droppable({ accept: '.descriptor' });
+
         model
-            .bind('change:selected', $.proxy(this.select, this))
-            .bind('change:width', $.proxy(this.resize, this))
-            .bind('change:height', $.proxy(this.resize, this));
+            .bind('selected', _.bind(this.select, this))
+            .bind('resize', _.bind(this.resize, this))
 
         widgetList
-            .bind('add', $.proxy(this.addWidget, this))
-            .bind('remove', $.proxy(this.removeWidget, this));
+            .bind('add', _.bind(this.addWidget, this))
+            .bind('remove', _.bind(this.removeWidget, this));
 
         this.model = model;
+        this.element = element;
 
         return this;
     },
 
     enable: function () {
 
-        $(this.el)
+        this.element
             .cover('disable')
             .resizable('enable');
         
-        $('.widget', this.el)
-            .cover('disable');
-        
+        _.each(this.widgetList, function (widget) {
+            widget.element.cover('disable');
+        });
+                
         return this;
     },
 
     disable: function () {
 
-        $(this.el)
+        this.element
             .cover('enable')
             .resizable('disable');
-
-        $('.widget', this.el)
-            .cover('enable');
+        
+        _.each(this.widgetList, function (widget) {
+            widget.element.cover('disable');
+        });
         
         return this;
     },
 
     show: function () {
         
-        $(this.el).show();
+        this.element.show();
+
         return this;
     },
 
     hide: function () {
 
-        $(this.el).hide();
+        this.element.hide();
+
         return this;        
     },
 
     addWidget: function (widget) {
         
-        var element = $(this.el),
-            model = this.model,
-            view = new vispro.view.Widget();
+        var view = new vispro.view.Widget();
 
         view.init({ model: widget });
-        element.append(view.el);
-
-        model.overlap();
+        this.element.append(view.element);
+        this.model.overlap();
 
         return this;
     },
@@ -92,13 +91,13 @@ vispro.view.Workspace = Backbone.View.extend({
         return this;
     },
 
-    select: function (model, selected) {
+    select: function (selected) {
         
         if (selected) {
-            $(this.el).addClass('selected');
+            this.element.addClass('selected');
         }
         else {
-            $(this.el).removeClass('selected');
+            this.element.removeClass('selected');
         }
 
         return this;
@@ -106,22 +105,15 @@ vispro.view.Workspace = Backbone.View.extend({
 
     resize: function () {
         
-        var element = $(this.el);
+        var element = this.element;
                 
         if (element.hasClass('ui-resizable-resizing')) {
             return;
         }
 
-        var model = this.model,
-            width = model.get('width'),
-            height = model.get('height');
-        
-        element
-            .animate({
-                width: width,
-                height: height
-            }, 'fast');
+        element.animate(this.model.dimensions, 'fast');
 
+        return this;
     },
 
     onClick: function (event, ui) {
@@ -131,49 +123,42 @@ vispro.view.Workspace = Backbone.View.extend({
         this.model.select();
     },
 
+    onResizeStart: function (event, ui) {
+        
+        event.stopPropagation();
+    },
+
     onResize: function (event, ui) {
         
         event.stopPropagation();
 
-        // prevent a bug 
-        // if the contenitor of the workspace has a scrollbar
-        // resizing the workspace change its position
-        $(this.el)
-            .css({
-                top: '15px',
-                left: '15px'
-            });
-
-        this.model.set({
-            width: ui.size.width,
-            height: ui.size.height
-        });
+        this.model.resize(ui.size);
     },
 
     onDrop: function (event, ui) {
 
-        var element = $(this.el),
+        var element = this.element,
             dropped = ui.draggable,
             descriptor = dropped.data('descriptor'),
             model = this.model,
             left = ui.offset.left - element.offset().left,
             top = ui.offset.top - element.offset().top,
-            grid = model.get('grid');
+            grid = model.attributes.grid,
+            widget = model.createWidget(descriptor);
         
         left -= left % grid;
         top -= top % grid;
 
-        model.createWidget({
-            descriptor: descriptor,
-            attributes: {
-                top: top,
-                left: left
-            }
-        });
+        widget.move({ left: left, top: top});
+
+        model
+            .addWidget(widget)
+            .selectWidget(widget);
     },
 
     events: {
         mousedown: 'onClick',
+        resizestart: 'onResizeStart',
         resize: 'onResize',
         drop: 'onDrop'
     }

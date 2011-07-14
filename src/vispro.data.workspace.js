@@ -1,5 +1,5 @@
 vispro.data.workspace = {
-    type: 'workspace'
+    type: 'workspace',
     name: 'Workspace',
     dimensions: {
         width: {
@@ -11,11 +11,10 @@ vispro.data.workspace = {
     },
     properties: {
         grid: {
-            type: 'integer',
-            name: 'grid',
+            type: 'number',
             value: 15,
-            minimum: 5,
-            maximum: 30
+            min: 5,
+            max: 30
         }
     }, 
     template: {

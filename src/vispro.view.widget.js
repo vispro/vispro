@@ -2,59 +2,39 @@ vispro.view.Widget = Backbone.View.extend({
 
     init: function (options) {
         
-        var element = $(this.el),
-            model = options.model,
+        var model = options.model,
             descriptor = model.descriptor,
-            container = model.container;
+            dimensions = model.dimensions,
+            position = model.position,
+            image = model.image,
+            element = $(this.el);
         
-        element
+        element 
             .addClass('widget')
             .css({
-                position:'absolute',
-                border: 'none',
-                top: model.get('top'),
-                left: model.get('left'),
-                width: model.get('width'),
-                height: model.get('height'),
-                zIndex: model.get('z_index'),
-                'background-image': 'url('+model.get('img')+')',
+                position: 'absolute',
+                left: position.left + 'px',
+                top: position.top + 'px',
+                width: dimensions.width + 'px',
+                height: dimensions.height + 'px',
+                'background-image': 'url(' + image + ')',
                 'background-repeat': 'no-repeat',
                 'background-position': 'center center'
             })
             .draggable({
-                //containment: 'parent',
                 cursor: 'move',
-                grid: [
-                    container.get('grid'), 
-                    container.get('grid')
-                ],
-                zIndex: container.get('z_index')
+                grid: [ model.snap, model.snap ]
             });
-        
-        if (model.get('resizable')) {
-            
-            element
-                .resizable({
-                    containment: 'parent',
-                    aspectRatio: false,
-                    autoHide: true
-                });
-        }
 
         model
-            .bind('change:top', $.proxy(this.drag, this))
-            .bind('change:left', $.proxy(this.drag, this))
-            .bind('change:width', $.proxy(this.resize, this))
-            .bind('change:height', $.proxy(this.resize, this))
-            .bind('change:selected', $.proxy(this.select, this))
-            .bind('change:overlapped', $.proxy(this.overlap, this))
-            .bind('remove', $.proxy(this.remove, this));
-
-        container
-            .bind('change:grid', $.proxy(this.snap, this))
-            .bind('change:covered', $.proxy(this.overlay, this));
-
+            .bind('resize', _.bind(this.resize, this))
+            .bind('move', _.bind(this.move, this))
+            .bind('selected', _.bind(this.select, this))
+            .bind('overlapped', _.bind(this.overlap, this))
+            .bind('remove', _.bind(this.remove, this));
+        
         this.model = model;
+        this.element = element;
 
         return this;
     },
@@ -66,74 +46,63 @@ vispro.view.Widget = Backbone.View.extend({
 
     enable: function () {
         
-        $(this.el).cover('disable');
+        this.element.cover('disable');
 
         return this;
     },
 
     disable: function () {
         
-        $(this.el).cover('enable');
+        this.element.cover('enable');
 
         return this;
     },
 
     remove: function () {
     
-        $(this.el).remove();
+        this.element.remove();
+        
         delete this;
     },
 
     resize: function () {
         
-        console.log('view.widget resize');
-
-        var element = $(this.el);
+        var element = this.element;
                 
         if (element.hasClass('ui-resizable-resizing')) {
             return;
         }
 
-        var model = this.model,
-            width = model.get('width'),
-            height = model.get('height');
+        element.animate(this.model.dimensions, 'fast');
 
-        element.animate({
-            width: width,
-            height: height
-        }, 'fast');
+        return this;
     },
 
-    drag: function () {
+    move: function () {
         
-        var element = $(this.el);
+        var element = this.element;
 
         if (element.hasClass('ui-draggable-dragging')) {
             return;
         }
 
-        var model = this.model,
-            top = model.get('top'),
-            left = model.get('left');
+        element.css({
+            left: this.model.position.left + 'px',
+            top: this.model.position.top + 'px'
+        });
 
-        element.animate({
-            top: top,
-            left: left
-        }, 'fast');
-    },
+//        element.animate(this.model.position, 'fast');
 
-    snap: function () {
-      
         return this;
     },
 
     select: function (model, selected) {
         
         if (selected) {
-            $(this.el).addClass('selected');
+            this.element.addClass('selected');
         }
         else {
-            $(this.el).removeClass('selected');
+            this.element.removeClass('selected');
         }
 
         return this;
@@ -142,10 +111,10 @@ vispro.view.Widget = Backbone.View.extend({
     overlap: function (model, overlapped) {
         
         if (overlapped) {
-            $(this.el).addClass('overlapped');
+            this.element.addClass('overlapped');
         }
         else {
-            $(this.el).removeClass('overlapped');
+            this.element.removeClass('overlapped');
         }
     },
 
@@ -160,33 +129,28 @@ vispro.view.Widget = Backbone.View.extend({
         
         event.stopPropagation();
 
-        this.model.set({
-            width: ui.size.width,
-            height: ui.size.height
-        });
+        this.model.resize(ui.size);
     },
 
     onDrag: function (event, ui) {
-        
-        var model = this.model,
-            container = model.container;
 
-        model.set({
-            left: ui.position.left,
-            top: ui.position.top
-        });
+        event.stopPropagation();
 
-        container.overlap();
+        this.model.move(ui.position);
     },
 
     onMouseover: function (event) {
-        
-        $(this.el).addClass('over');
+
+        event.stopPropagation();
+
+        this.element.addClass('over');
     },
 
     onMouseout: function (event) {
     
-        $(this.el).removeClass('over'); 
+        event.stopPropagation();
+
+        this.element.removeClass('over');
     },
 
     events: {

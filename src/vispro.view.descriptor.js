@@ -1,50 +1,70 @@
 vispro.view.Descriptor = Backbone.View.extend({
 
+    // el: $(
+    //     '<div class="descriptor"></div>'
+    // ),
+
+    templates: {
+        element: _.template(
+            '<span class="descriptor-label"><%= name %></span>' +
+            '<img class="descriptor-image" src="<%= src %>" alt="<%= alt %>" ' +
+            '    style="width:<%= width %>px; height:<%= height %>px" />'
+        ),
+    
+        helper: _.template(
+            '<img class="descriptor-helper" src="<%= src %>" alt="<%= alt %>" ' +
+            '    style="width:<%= width %>px; height:<%= height %>px" ' + 
+            '/>'
+        )
+    },
+
     init: function (options) {
 
-        var element = $(this.el),
-            model = options.model,
-            i = model.collection.indexOf(model),
-            helper = $('<img>'),
-            image = $('<img>'),
-            label = $('<div>'),
+        var descriptor = options.descriptor,
+            name = descriptor.name,
+            image = descriptor.image.src,
+            dimensions = descriptor.dimensions,
+            width = dimensions.width.value,
+            height = dimensions.height.value,
+            templates = this.templates,
+            element = $(this.el),
+            helper,
+            img,
+            min = Math.min;
 
-            properties = model.properties,
-            name = model.name,
-            src = properties.img.value,
-            width = Number(properties.width.value),
-            height = Number(properties.height.value);
-        
-        helper
+        helper = $(templates.helper({
+            src: image,
+            alt: name,
+            width: width,
+            height: height
+        }));
+
+        // console.log(helper);
+
+        img = $('<img>');
+
+        img
+            .addClass('descriptor-image')
             .attr({
-                src: src,
+                src: image,
                 alt: name
             })
             .css({
-                width: width,
-                height: height,
-                zIndex: 5
-            });
-
-        label
-            .addClass('descriptor-label')
-            .text(name);
-
-        image
-            .attr({
-                src: src,
-                alt: name
-            })
-            .css({
-                width: Math.min(100, width) + 'px',
-                height: Math.min(80, height) + 'px'
+                width: min(+width, 100) + 'px',
+                height: min(+height, 100) + 'px'
             });
 
         element
+        //     .html(templates.element({
+        //         name: name,
+        //         src: image,
+        //         alt: name,
+        //         width: min(+width, 100),
+        //         height: min(+height, 80)
+        //     }))
             .addClass('descriptor')
-            .data('descriptor', model)
-            .append(label)
-            .append(image)
+            .append(img)
+            .data('descriptor', descriptor)
             .draggable({
                 cursor: 'move',
                 helper: function () { 
@@ -56,24 +76,36 @@ vispro.view.Descriptor = Backbone.View.extend({
                 }
             });
 
-        this.model = model;
+        this.element = element;
 
         return this;
     },
 
-    select: function () {
+    appendTo: function (root) {
         
-        $(this.el).addClass('selected');
+        root.append(this.element);
+
+        return this;
     },
 
-    unselect: function () {
+    render: function () {
         
-        $(this.el).removeClass('selected');
+        return this;
+    },
+
+    focus: function () {
+        
+        this.element.addClass('focus');
+    },
+
+    blur: function () {
+        
+        this.element.removeClass('focus');
     },
 
     events: {
-        mouseenter: 'select',
-        mouseleave: 'unselect'
+        mouseenter: 'focus',
+        mouseleave: 'blur'
     }
 
 });

@@ -70,47 +70,34 @@ body {
 
 .panel {
 	overflow: auto;
+	position: absolute;
+	width: 100%;
+	height: 100%;
 }
 
 .panel-label {
+	display: block;
 	height: 25px;
 	padding-left: 15px;
 	padding-top: 10px;
 	font-size: 20px;
 }
 
-/*
- * PANEL CENTER
- */
+#panel-west {
+	border-right: 1px solid #ebebeb;
+}
 
-#center {
+#panel-center {
 	overflow: auto;
 }
 
-#paper {
-	position: absolute;
-	border: 1px solid #2d2d2d;
-	top: 15px;
-	left: 15px;
-}
-
-#code>pre {
-	position: relative;
-	padding: 15px;
-	font-family: courier;
-}
-
-#panel {
+#panel-east {
 	border-left: 1px solid #ebebeb;
 }
 
 /* 
  * PANEL DESCRIPTOR
  */
-
-#descriptorList {
-	border-right: 1px solid #ebebeb;
-}
 
 .descriptor {
 	width: 183px;
@@ -120,6 +107,7 @@ body {
 }
 
 .descriptor-label {
+	display: block;
 	padding-bottom: 5px;
 }
 
@@ -136,6 +124,18 @@ body {
  * PANEL WORKSPACE
  */
 
+#workspace {
+	position: absolute;
+	overflow: hidden;
+	border: 1px solid #2d2d2d;
+	top: 15px;
+	left: 15px;
+}
+
+.widget {
+	position: absolute;
+}
+
 .widget.selected {
 	outline: 1px solid #4d90f0;
 }
@@ -148,10 +148,6 @@ body {
 	outline: 1px solid #d2d2d2;	
 }
 
-/*
- * PANEL LINKER
- */
-
 #link {
 	top: 15px;
 	left: 15px;
@@ -162,6 +158,13 @@ body {
 	border-radius: 10px 10px;
 	background-color: #d2d2d2;
 }
+
+#code>pre {
+	position: relative;
+	padding: 15px;
+	font-family: courier;
+}
+
 
 /*
  * PANEL BROWSER

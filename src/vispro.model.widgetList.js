@@ -37,12 +37,12 @@ vispro.model.WidgetList = Backbone.Collection.extend({
         while (!_.isEmpty(widget2sort)) {
 
             _.chain(widget2sort)
-                .filter(function (id, widget) { 
+                .filter(function (widget, id) { 
                     return _.any(widget2link[id], function (link) {
                         return link.id in widget2sort;
                     })
                 })
-                .each(function (id, widget) {
+                .each(function (widget, id) {
                     result.push(widget);
                     delete widget2sort[id];
                 });

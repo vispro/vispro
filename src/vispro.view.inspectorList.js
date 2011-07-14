@@ -1,55 +1,37 @@
 vispro.view.InspectorList = Backbone.View.extend({
 
+    el: $(
+        '<div id="inspectorList" class="panel">' +
+        '   <span class="panel-label">Inspector</span>' +
+        '</div>'
+    ),
+
     init: function (options) {
 
-        var element = $(this.el),
+        var element = this.el,
             model = options.model,
-            label = $('<div>'),
             widgetList = model.widgetList;
 
-        label
-            .addClass('panel-label')
-            .text('Inspector');
-
         element
-            .append(label)
             .cover();
                 
         widgetList
-            .bind('add', $.proxy(this.add, this))
-            .bind('refresh', $.proxy(this.refresh, this));
-
-        this.add(model);
-
+            .bind('add', _.bind(this.add, this));
+                
         this.model = model;
+        this.element = element;
 
         return this;
     },
     
     add: function (widget) {
         
-        var element = $(this.el),
-            view = new vispro.view.Inspector();
+        var view = new vispro.view.Inspector();
 
-        view.init({ model: widget });
-        element.append(view.render().el);
-
-        return this;
-    },
-
-    refresh: function (widgetList) {
-        
-        var label = $('<div>');
-
-        label
-            .addClass('inspectorList-label')
-            .text('Inspector');
-
-        $(this.el)
-            .empty()
-            .append(label);
-        
-        this.model.widgetList.each(this.add, this);
+        view
+            .init({ model: widget })
+            .render()
+            .appendTo(this.element);
 
         return this;
     },

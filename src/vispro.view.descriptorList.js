@@ -1,74 +1,73 @@
 vispro.view.DescriptorList = Backbone.View.extend({
 
+    el: $(
+        '<div id="descriptorList" class="panel">' +
+        '   <div class="panel-label">Widgets</div>' +
+        '</div>'
+    ),
+
     init: function (options) {
         
-        var element = $(this.el),
-            model = options.model,
-            label = $('<div>'),
-            viewList = [];
-
-        this.model = model;
-        this.viewList = viewList;
-
-        label
-            .addClass('panel-label')
-            .text('Widgets');
+        var model = options.model,
+            element = $(this.el);
         
         element
-            .append(label)
             .cover();
-                
-        model
-            .each(function (item) {
-                this.add(item);
-            }, this);
         
         model
-            .bind('add', $.proxy(this.add, this));
+            .bind('add', _.bind(this.add, this));
+        
+        this.model = model;
+        this.element = element;
 
         return this;
     },
 
     add: function (descriptor) {
 
-        var element = $(this.el),
-            viewList = this.viewList,
-            view = new vispro.view.Descriptor();
+        var view = new vispro.view.Descriptor();
 
-        view.init({ model: descriptor });
-        element.append(view.render().el);
-        viewList.push(view);
+        view
+            .init({ descriptor: descriptor })
+            .render()
+            .appendTo($(this.element));
 
         return this;            
     },
 
+    addAll: function (descriptorList) {
+        
+        _.each(descriptorList, function (descriptor) {
+            this.add(descriptor);
+        }, this);
+
+        return this;
+    },
+
     show: function () {
         
-        this.render();
-        $(this.el).show();
+        this.render().element.show();
 
         return this;
     },
 
     hide: function () {
         
-        $(this.el).hide();
+        this.element.hide();
         
         return this;
     },
 
     enable: function () {
                 
-        $(this.el)
-            .cover('disable');
+        this.element.cover('disable');
         
         return this;
     },
 
     disable: function () {
         
-        $(this.el)
-            .cover('enable');
+        this.element.cover('enable');
         
         return this;
     }

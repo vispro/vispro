@@ -1,6 +1,16 @@
 vispro.App = Backbone.View.extend({
 
-    el: $('body'),
+    el: $(
+        'body'
+    ),
+
+    panels: {
+        west: $('#panel-west'),
+        center: $('#panel-center'),
+        east: $('#panel-east'),
+        east_center: $('#panel-east-center'),
+        east_south: $('#panel-east-south')
+    },
 
     models: {
         descriptorList: new vispro.model.DescriptorList(),
@@ -8,27 +18,13 @@ vispro.App = Backbone.View.extend({
     },
 
     views: {
-        descriptorList: new vispro.view.DescriptorList({
-            el: $('#descriptorList')
-        }),
-        workspace: new vispro.view.Workspace({
-            el: $('#paper')
-        }),
-        link: new vispro.view.WidgetLinkerLayer({
-            el: $('#link')
-        }),
-        code: new vispro.view.Code({
-            el: $('#code') 
-        }),
-        labelList: new vispro.view.LabelList({
-            el: $('#labelList')
-        }),
-        inspectorList: new vispro.view.InspectorList({
-            el: $('#inspectorList')
-        }),
-        toolbar: new vispro.view.Toolbar({
-            el: $('#viewbar')
-        })
+        descriptorList: new vispro.view.DescriptorList(),
+        workspace: new vispro.view.Workspace(),
+        link: new vispro.view.WidgetLinkerLayer(),
+        code: new vispro.view.Code(),
+        labelList: new vispro.view.LabelList(),
+        inspectorList: new vispro.view.InspectorList(),
+        toolbar: new vispro.view.Toolbar()
     },
 
     data: {
@@ -38,58 +34,52 @@ vispro.App = Backbone.View.extend({
 
     init: function (options) {
         
-        var element = $(this.el),
+        var element = this.el,
+            panels = this.panels,
             models = this.models,
             views = this.views,
             states = this.states,
             data = this.data;
 
-        models.descriptorList
-            .init({
-                collection: data.descriptorList
-            });
-
         models.workspace
-            .init({
-                descriptor: data.workspace
-            });
+            .init({ descriptor: data.workspace });
         
         views.descriptorList
-            .init({
-                model: models.descriptorList
-            });
+            .init({ model: models.descriptorList })
+            .element
+                .appendTo(panels.west);
 
         views.workspace
-            .init({
-                model: models.workspace
-            });
+            .init({ model: models.workspace })
+            .element
+                .appendTo(panels.center);
         
         views.link
-            .init({
-                model: models.workspace
-            });
-
-        views.labelList
-            .init({
-                model: models.workspace
-            });
-
-        views.inspectorList
-            .init({
-                model: models.workspace
-            });
+            .init({ model: models.workspace })
+            .element
+                .appendTo(panels.center);
 
         views.code
-            .init({
-                model: models.workspace
-            });
-            
+            .init({ model: models.workspace })
+            .element
+                .appendTo(panels.center);
+        
+        views.labelList
+            .init({ model: models.workspace })
+            .element
+                .appendTo(panels.east_center);
+
+        views.inspectorList
+            .init({ model: models.workspace })
+            .element
+                .appendTo(panels.east_south);
+
         views.toolbar
             .init({
                 states: {
-                    normal: $.proxy(this.normal, this),
-                    link: $.proxy(this.link, this),
-                    code: $.proxy(this.code, this)
+                    normal: _.bind(this.normal, this),
+                    link: _.bind(this.link, this),
+                    code: _.bind(this.code, this)
                 }
             });
         
@@ -101,6 +91,23 @@ vispro.App = Backbone.View.extend({
             brushes: ['Xml', 'JScript', 'CSharp', 'Plain', 'Php', 'Css']
         });
 
+        element
+            .layout({ 
+                north__closable: false, 
+                north__resizable: false,
+                north__spacing_open: 0,
+                west__spacing_open: 0,
+                east__spacing_open: 0
+            });
+        
+        panels.east
+            .layout({
+                south__size: .6,
+                south__spacing_open: 2
+            });
+        
+        app.models.descriptorList.addAll(app.data.descriptorList);
+        
         return this;
     },
 

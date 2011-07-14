@@ -26,28 +26,25 @@
         </div>
     </div>
 
-    <div id="descriptorList" class="panel ui-layout-west"></div>
+    <div id="panel-west" class="panel ui-layout-west"></div>
 
-    <div id="center" class="ui-layout-center">
-        <div id="paper"></div>
-        <div id="link"></div>
-        <div id="code"></div>
-    </div>
+    <div id="panel-center" class="ui-layout-center"></div>
 
-    <div id="panel" class="ui-layout-east">
-        <div id="labelList" class="panel ui-layout-center"></div>
-        <div id="inspectorList" class="panel ui-layout-south"></div>
+    <div id="panel-east" class="ui-layout-east">
+        <div id="panel-east-center" class="panel ui-layout-center"></div>
+        <div id="panel-east-south" class="panel ui-layout-south"></div>
     </div>
 
     <script src="lib/jquery.js"></script>
     <script src="lib/jquery.ui.js"></script>
     <script src="lib/jquery.ui.layout.js"></script>
+    <script src="lib/jquery.beauty.js"></script>
+    <script src="lib/jquery.cover.js"></script>
+    
     <script src="lib/raphael.js"></script>
     <script src="lib/underscore.js"></script>
     <script src="lib/backbone.js"></script>
     <script src="lib/backbone.localstorage.js"></script>
-
-    <script src="lib/jquery.beautyOfCode.js"></script>
     
     <script src="src/vispro.js"></script>
 
@@ -65,10 +62,6 @@
     <script src="src/vispro.view.labelList.js"></script>
     <script src="src/vispro.view.inspector.js"></script>
     <script src="src/vispro.view.inspectorList.js"></script>
-    <script src="src/vispro.view.inspectorDependency.js"></script>
-    <script src="src/vispro.view.inspectorDependencyList.js"></script>
-    <script src="src/vispro.view.inspectorProperty.js"></script>
-    <script src="src/vispro.view.inspectorPropertyList.js"></script>
     <script src="src/vispro.view.widgetLinker.js"></script>
     <script src="src/vispro.view.widgetLinkerLayer.js"></script>
     <script src="src/vispro.view.toolbar.js"></script>
@@ -80,26 +73,12 @@
     <script src="src/vispro.app.js"></script>
 
     <script>
-        var app;
-
-        $(document).ready(function () {
-            
+        var doc = $(document),
+            app;
+        
+        doc.ready(function () {
             app = new vispro.App();
             app.init();
-
-            $('body')
-                .layout({ 
-                    north__closable: false, 
-                    north__resizable: false,
-                    north__spacing_open: 0,
-                    west__spacing_open: 0,
-                    east__spacing_open: 0
-                });
-            $('#panel')
-                .layout({
-                    south__size: .6,
-                    south__spacing_open: 2
-                });
         });
     </script>
 

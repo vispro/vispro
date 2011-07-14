@@ -5,28 +5,29 @@ vispro.model.Widget = Backbone.Model.extend({
         var descriptor = options.descriptor,
             type = descriptor.type,
             name = descriptor.name || type,
-            group = descriptor.group || type,
+            image = descriptor.image.src,
             position = options.position || { top: 0, left: 0 },
             dimensions = {},
             dependencies = {},
             attributes = {},
             id = vispro.guid(type);
         
-        _.each(descriptor.dimensions, function (name, dimension) {
+        _.each(descriptor.dimensions, function (dimension, name) {
             dimensions[name] = dimension.value;
         });
 
-        _.each(descriptor.dependencies, function (type, dependency) {
+        _.each(descriptor.dependencies, function (dependency, type) {
             dependencies[type] = _.extend({}, dependency);
         });
 
-        _.each(descriptor.properties, function (name, property) {
+        _.each(descriptor.properties, function (property, name) {
             attributes[name] = property.value;
         });
 
         this.type = type;
         this.name = name;
-        this.group = group;
+        this.image = image;
+        this.snap = 15;
         this.id = id;
         this.cid = id;
         this.descriptor = descriptor;
@@ -65,6 +66,10 @@ vispro.model.Widget = Backbone.Model.extend({
 
     addLink: function (widget) {
 
+        if (typeof widget === 'undefined') {
+            return;
+        }
+
         var dependencies = this.dependencies,
             type = widget.type;
 
@@ -98,7 +103,7 @@ vispro.model.Widget = Backbone.Model.extend({
         var dependencies = this.dependencies,
             linkList = [];
         
-        linkList = _.select(dependencies, function (type, dependency) {
+        linkList = _.select(dependencies, function (dependency) {
             return dependency.value !== undefined;
         }, this);
 
@@ -112,11 +117,11 @@ vispro.model.Widget = Backbone.Model.extend({
         }
 
         var a_position = this.position, 
-            a_dimension = this.dimension,
+            a_dimensions = this.dimensions,
             a_x = a_position.left,
             a_y = a_position.top,
-            a_w = a_dimension.width,
-            a_h = a_dimension.height,
+            a_w = a_dimensions.width,
+            a_h = a_dimensions.height,
             
             a_min_x = a_x,
             a_min_y = a_y,
@@ -124,11 +129,11 @@ vispro.model.Widget = Backbone.Model.extend({
             a_max_y = a_y + a_h,              
 
             b_position = widget.position,
-            b_dimension = widget.dimension,
-            b_x = position.left,
-            b_y = position.top,
-            b_w = dimension.width,
-            b_h = dimension.height,
+            b_dimensions = widget.dimensions,
+            b_x = b_position.left,
+            b_y = b_position.top,
+            b_w = b_dimensions.width,
+            b_h = b_dimensions.height,
 
             b_min_x = b_x,
             b_min_y = b_y,
@@ -150,14 +155,11 @@ vispro.model.Widget = Backbone.Model.extend({
 
     overlap: function () {
         
-        var overlapped;
-
-        overlapped = this.collection.some(function (widget) {
+        this.overlapped = this.collection.some(function (widget) {
             return this.isOverlap(widget);
         }, this);
 
-        this.overlapped = overlapped;
-        this.trigger('overlapped', overlapped);
+        this.trigger('overlapped', this.overlapped);
         
         return this;
     },
@@ -169,7 +171,7 @@ vispro.model.Widget = Backbone.Model.extend({
             top: position.top
         };
 
-        this.trigger('move', position);
+        this.trigger('move', this.position);
 
         return this;
     },
@@ -181,7 +183,7 @@ vispro.model.Widget = Backbone.Model.extend({
             height: dimensions.height
         };
 
-        this.trigger('resize', dimensions);
+        this.trigger('resize', this.dimensions);
 
         return this;
     },
@@ -199,28 +201,32 @@ vispro.model.Widget = Backbone.Model.extend({
             dimensions = this.dimensions,
             properties = this.attributes,
             dipendencies = this.dipendencies,
+            ids = { id: this.id, cid: this.cid},
             links = {},
             values = {},
             sources = {};
 
-        _.each(dependencies, function (type, dependency) {
+        _.each(dependencies, function (dependency) {
             links[dependency.name] = (dependency.value !== undefined)
                 ? dependency.value.id : 'undefined';
         });
                 
-        _.each(templates, function (name, template) {
+        _.each(templates, function (template, name) {
 
             var code = template.code,
                 parameters = template.parameters,
                 engine = _.template(code),
                 values = {};
 
-            _.each(parameters, function (i, parameter) {
+            _.each(parameters, function (parameter) {
 
                 var value,
                     dependency;
 
-                if (parameter in properties) {
+                if (parameter in ids) {
+                    value = ids[parameter];
+                }
+                else if (parameter in properties) {
                     value = properties[parameter];
                 }
                 else if (parameter in links) {

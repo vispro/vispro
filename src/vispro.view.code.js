@@ -1,8 +1,10 @@
 vispro.view.Code = Backbone.View.extend({
+
+    el: $('<div class="panel"></div>'),
     
     init: function (options) {
                 
-        var element = $(this.el),
+        var element = this.el,
             code = $('<code>'),
             model = options.model;
         
@@ -22,6 +24,7 @@ vispro.view.Code = Backbone.View.extend({
 
         this.model = model;
         this.code = code;
+        this.element = element;
 
         return this;
     },
@@ -50,12 +53,15 @@ vispro.view.Code = Backbone.View.extend({
 
     show: function () {
         
-        this.render();
-        $(this.el).show();
+        this.render().element.show();
+
+        return this;
     },
 
     hide: function () {
         
-        $(this.el).hide();
-    },
+        this.element.hide();
+
+        return this;
+    }
 });
