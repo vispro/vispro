@@ -86,12 +86,7 @@ vispro.view.Widget = Backbone.View.extend({
             return;
         }
 
-        element.css({
-            left: this.model.position.left + 'px',
-            top: this.model.position.top + 'px'
-        });
-
-//        element.animate(this.model.position, 'fast');
+        element.animate(this.model.position, 'fast');
 
         return this;
     },

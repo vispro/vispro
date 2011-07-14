@@ -71,7 +71,7 @@ vispro.view.Inspector = Backbone.View.extend({
             '   <div class="inspector-property">' + 
             '       <span class="inspector-property-label"><%= type %></span>' +
             '       <select class="inspector-input" ' +
-            '           data-property="<%= name %>" value="<%= dependency %>" >' +
+            '           data-property="<%= name %>" value="<%= dependency.value ? dependency.value.id : "" %>" >' +
 
             '           <option value=""></option>' + 
 
@@ -210,9 +210,31 @@ vispro.view.Inspector = Backbone.View.extend({
         return this;
     },
 
-    onChange: function (event, ui) {
+    onChange: function (event) {
         
-        
+        var input = $(event.target),
+            property = input.attr('data-property'),
+            value = input.val(),
+            model = this.model;
+
+        console.log(input);
+
+        if (property === "id") {
+            model.setId(value);
+        }
+        else if (property === "top") {
+            model.move({ top: value, left: model.position.left });
+        }
+        else if (property === "left") {
+            model.move({ top: model.position.top, left: value });            
+        }
+        else if (property === "width") {
+            model.move({ width: value, height: model.dimensions.height });            
+        }
+        else if (property === "height") {
+            model.move({ width: model.dimensions.width, height: value });            
+        }
+
     },
 
     events: {
