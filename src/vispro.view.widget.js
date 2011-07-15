@@ -65,7 +65,7 @@ vispro.view.Widget = Backbone.View.extend({
         delete this;
     },
 
-    resize: function () {
+    resize: function (dimensions) {
         
         var element = this.element;
                 
@@ -73,12 +73,12 @@ vispro.view.Widget = Backbone.View.extend({
             return;
         }
 
-        element.animate(this.model.dimensions, 'fast');
+        element.animate(dimensions, 'fast');
 
         return this;
     },
 
-    move: function () {
+    move: function (position) {
         
         var element = this.element;
 
@@ -86,12 +86,12 @@ vispro.view.Widget = Backbone.View.extend({
             return;
         }
 
-        element.animate(this.model.position, 'fast');
+        element.animate(position, 'fast');
 
         return this;
     },
 
-    select: function (model, selected) {
+    select: function (selected) {
         
         if (selected) {
             this.element.addClass('selected');
@@ -103,7 +103,7 @@ vispro.view.Widget = Backbone.View.extend({
         return this;
     },
 
-    overlap: function (model, overlapped) {
+    overlap: function (overlapped) {
         
         if (overlapped) {
             this.element.addClass('overlapped');

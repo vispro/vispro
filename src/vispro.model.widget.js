@@ -39,6 +39,14 @@ vispro.model.Widget = Backbone.Model.extend({
         return this;
     },
 
+    setId: function (id) {
+        
+        this.id = id;
+        this.trigger('change:id', id);
+
+        return this;
+    },
+
     select: function () {
 
         this.collection
@@ -100,17 +108,21 @@ vispro.model.Widget = Backbone.Model.extend({
 
     getLinkList: function () {
         
-        var dependencies = this.dependencies,
-            linkList = [];
+        var list = [];
         
-        linkList = _.select(dependencies, function (dependency) {
-            return dependency.value !== undefined;
-        }, this);
+        _(this.dependencies)
+            .chain()
+            .filter(function (dependency) {
+                return dependency.value !== undefined;
+            })
+            .each(function (dependency) {
+                list.push(dependency.value);
+            });
 
-        return linkList;
+        return list;
     },
 
-    isOverlap: function (widget) {
+    isOverlappedOn: function (widget) {
         
         if (this === widget) {
             return false;
@@ -153,13 +165,20 @@ vispro.model.Widget = Backbone.Model.extend({
         return test;
     },
 
+    isOverlapped: function () {
+        
+        var overlapped;
+        
+        overlapped = this.collection.any(function (widget) {
+            return this.isOverlappedOn(widget);
+        }, this);
+        
+        return overlapped;
+    },
+
     overlap: function () {
         
-        this.overlapped = this.collection.some(function (widget) {
-            return this.isOverlap(widget);
-        }, this);
-
-        this.trigger('overlapped', this.overlapped);
+        this.collection.overlap();
         
         return this;
     },
@@ -171,7 +190,8 @@ vispro.model.Widget = Backbone.Model.extend({
             top: position.top
         };
 
-        this.trigger('move', this.position);
+        this.trigger('move', position);
+        this.collection.overlap();
 
         return this;
     },
@@ -183,7 +203,8 @@ vispro.model.Widget = Backbone.Model.extend({
             height: dimensions.height
         };
 
-        this.trigger('resize', this.dimensions);
+        this.trigger('resize', dimensions);
+        this.collection.overlap();
 
         return this;
     },
@@ -200,7 +221,7 @@ vispro.model.Widget = Backbone.Model.extend({
             position = this.position, 
             dimensions = this.dimensions,
             properties = this.attributes,
-            dipendencies = this.dipendencies,
+            dependencies = this.dependencies,
             ids = { id: this.id, cid: this.cid},
             links = {},
             values = {},

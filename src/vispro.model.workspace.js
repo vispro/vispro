@@ -28,7 +28,7 @@ vispro.model.Workspace = Backbone.Model.extend({
                 '</script> \n' +
                 '</body> \n' +
                 '</html>',
-            parameter: ['html', 'js']
+            parameters: ['html', 'js']
         }
     },
 
@@ -97,15 +97,6 @@ vispro.model.Workspace = Backbone.Model.extend({
         return this;
     },
 
-    overlap: function () {
-        
-        this.widgetList.each(function (widget) {
-            widget.overlap();
-        });
-
-        return this;
-    },
-
     getWidgetListByType: function (type) {
         
         return this.widgetList.getByType(type);
@@ -124,29 +115,25 @@ vispro.model.Workspace = Backbone.Model.extend({
 
     compile: function () {
         
-        var widgetList = this.widgetList.sortByLink(),
+        var widgetList = this.widgetList.sortByLinks(),
             template = this.template,
             code = template.code,
             matches = template.parameters,
-            template_engine = _.template(code),
+            engine = _.template(code),
             sources = {},
             source;
 
         _.each(matches, function (match) {
             sources[match] = '';
-        });      
-        
+        }); 
+                
         _.each(widgetList, function (widget) {
-
-            var widget_sources = widget.compile();
-
-            _.each(widget_sources, function (insert, match) {
+            _.each(widget.compile(), function (insert, match) {
                 sources[match] += insert + '\n';
-            });
-
+            }, this);
         }, this);
 
-        source = template_engine(sources);
+        source = engine(sources);
 
         return source;
     }

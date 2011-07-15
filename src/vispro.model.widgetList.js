@@ -6,7 +6,9 @@ vispro.model.WidgetList = Backbone.Collection.extend({
 
     getById: function (id) {
         
-        var result = this.detect(function (widget) {
+        var result;
+
+        result = this.detect(function (widget) {
             return widget.attributes.id === id;
         });
 
@@ -15,7 +17,9 @@ vispro.model.WidgetList = Backbone.Collection.extend({
 
     getByType: function (type) {
 
-        var list = this.filter(function (widget) {
+        var list = [];
+        
+        list = this.filter(function (widget) {
             return widget.type === type;
         });
 
@@ -24,31 +28,55 @@ vispro.model.WidgetList = Backbone.Collection.extend({
 
     sortByLinks: function () {
     
-        var models = this.models,
-            widget2links = {},
-            widget2sort = {},
-            result = [];
+        var sorted = [];
         
-        _.each(models, function (widget) {
-            widget2links[widget.id] = widget.getLinkList();
-            widget2sort[widget.id] = false;
-        });
+        while (this.any(function (widget) {
+            return sorted.indexOf(widget) == -1;
+        })) {
 
-        while (!_.isEmpty(widget2sort)) {
-
-            _.chain(widget2sort)
-                .filter(function (widget, id) { 
-                    return _.any(widget2link[id], function (link) {
-                        return link.id in widget2sort;
-                    })
+            this
+                .chain()
+                .filter(function (widget) {
+                    return sorted.indexOf(widget) == -1;
                 })
-                .each(function (widget, id) {
-                    result.push(widget);
-                    delete widget2sort[id];
+                .filter(function (widget) {
+                    return _.all(widget.getLinkList(), function (link) {
+                        return sorted.indexOf(link) >= 0;
+                    });
+                })
+                .each(function (widget) {
+                    sorted.push(widget);
                 });
         }
 
-        return result;
-    }
+        return sorted;
+    },
+
+    overlap: function () {
+        
+        this.each(function (widget) {
+            widget.overlapped = widget.isOverlapped();
+        });
+        
+        this.each(function (widget) {
+            widget.trigger('overlapped', widget.overlapped);
+        });
+
+        return this;
+    },
     
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+

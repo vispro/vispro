@@ -1,21 +1,33 @@
 vispro.view.Toolbar = Backbone.View.extend({
 
+    el: $(
+        '<div id="toolbar">' + 
+        '   <span id="logo">VisPro</span>' +
+        '   <div id="buttonset"></div>' + 
+        '</div>'
+    ),
+
+    templates: {
+        button: _.template(
+            '<input type="radio" id="state-<%= name %>" name="radio_state"/>' + 
+            '<label for="state-<%= name %>"><%= name %></label>'
+        )
+    },
+
     init: function (options) {
 
-        var element = $(this.el),
-            states = options.states;
+        var element = this.el,
+            buttonset = element.find('#buttonset'),
+            template = this.templates.button;
 
-        $.each(states, $.proxy(function (name, state) {
+        _.each(options.states, function (state, name) {
+            var button = $(template({ name: name }));
+            button.click(state).appendTo(buttonset);
+        }, this);
 
-            var button = $('<input type="radio" id="state-'+name+'" name="radio_state"/><label for="state-'+name+'">'+name+'</label>');
-            
-            button.click(state);
-            
-            element.append(button);
-                        
-        }, this));
+        buttonset.buttonset();
 
-        element.buttonset();
+        this.element = element;
 
         return this;
     },

@@ -19,10 +19,6 @@ body {
  * HEADER
  */
 
-#header {
-	
-}
-
 .userbar-item {
 	float: left;
 	color: #f1f1f1;
@@ -51,14 +47,14 @@ body {
 	background-color: #f1f1f1;
 }
 
-#viewbar {
-	position: absolute;
+#buttonset {
+	position: relative;
 	top: 10px;
 	left: 215px;
 }
 
 #logo {
-	position: relative;
+	position: absolute;
 	top: 15px;
 	left: 15px;
 	font-size: 30px;
@@ -132,6 +128,12 @@ body {
 	left: 15px;
 }
 
+#workspace-link {
+	position: absolute;
+	top: 15px;
+	left: 15px;
+}
+
 .widget {
 	position: absolute;
 }
@@ -146,11 +148,6 @@ body {
 
 .widget.ui-covered {
 	outline: 1px solid #d2d2d2;	
-}
-
-#link {
-	top: 15px;
-	left: 15px;
 }
 
 .linker {

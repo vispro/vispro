@@ -1,30 +1,27 @@
 vispro.view.WidgetLinkerLayer = Backbone.View.extend({
 
     el: $(
-        '<div id="linkLayer" class="panel">'
+        '<div id="workspace-link">' + 
+        '    <div id="workspace-layer-linker" style="position:absolute"></div>' + 
+        '</div>'
     ),
 
     init: function (options) {
         
         var element = this.el,
             model = options.model,
-            linkLayer = Raphael(element.get(0), 0, 0),
-            canvas = $(linkLayer.canvas),
-            linkerLayer = $('<div>');
+            layerLinks = Raphael(element[0], 0, 0),
+            layerLinkers = element.find('#workspace-layer-linker'),
+            canvas = $(layerLinks.canvas);
         
         canvas
-            .attr({ id: 'linkLayer' })
+            .attr({ id: 'workspace-layer-link' })
             .css({ position: 'absolute' });
         
-        linkerLayer
-            .attr({ id: 'linkerLayer' })
-            .css({ position: 'absolute' })
-            .appendTo(element);
-        
         this.model = model;
-        this.linkLayer = linkLayer;
-        this.linkerLayer = linkerLayer;
-        this.tempLink = linkLayer.path('');
+        this.layerLinks = layerLinks;
+        this.layerLinkers = layerLinkers;
+        this.tempLink = layerLinks.path('');
         this.element = element;
 
         this.render();
@@ -35,21 +32,21 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
     render: function () {
         
         var element = $(this.el),
-            linkLayer = this.linkLayer,
-            linkerLayer = this.linkerLayer,
+            layerLinks = this.layerLinks,
+            layerLinkers = this.layerLinkers,
             model = this.model,
             dimensions = model.dimensions,
             width = dimensions.width,
             height = dimensions.height,
             widgetList = model.widgetList;
 
-        linkLayer
+        layerLinks
             .setSize(width, height)
             .clear();
         
-        this.tempLink = linkLayer.path('');
+        this.tempLink = layerLinks.path('');
         
-        linkerLayer
+        layerLinkers
             .empty();
             
         widgetList.each(function (widget) {
@@ -81,8 +78,8 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
 
     createLinker: function (widget) {
         
-        var linkLayer = this.linkLayer,
-            linkerLayer = this.linkerLayer,
+        var layerLinks = this.layerLinks,
+            layerLinkers = this.layerLinkers,
             linker = new vispro.view.WidgetLinker();
             
         linker
@@ -92,7 +89,7 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
             })
             .render();
 
-        linkerLayer
+        layerLinkers
             .append(linker.el);
         
         return this;
@@ -100,24 +97,24 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
 
     createLink: function (widgetFrom, widgetTo) {
         
-        var linkLayer = this.linkLayer,
+        var layerLinks = this.layerLinks,
             positionFrom = widgetFrom.position,
             positionTo = widgetTo.position,
             dimensionsFrom = widgetFrom.dimensions,
             dimensionsTo = widgetTo.dimensions,
             from = {
-                left: positionFrom.left + positionFrom.width / 2,
-                top: positionFrom.top + positionFrom.height / 2
+                left: positionFrom.left + dimensionsFrom.width / 2,
+                top: positionFrom.top + dimensionsFrom.height / 2
             },
             to = {
-                left: positionTo.left + positionTo.width / 2,
-                top: positionTo.top + positionTo.height / 2
+                left: positionTo.left + dimensionsTo.width / 2,
+                top: positionTo.top + dimensionsTo.height / 2
             },
-            link = linkLayer.path(this.createLine(from, to)),
+            link = layerLinks.path(this.createLine(from, to)),
             arrow_path = this.createArrow(from, to),
-            arrow = linkLayer.path(arrow_path),
+            arrow = layerLinks.path(arrow_path),
             overlay_info = this.getOverlayInfo(from, to),
-            overlay = linkLayer.circle(overlay_info.x, overlay_info.y, overlay_info.r),
+            overlay = layerLinks.circle(overlay_info.x, overlay_info.y, overlay_info.r),
             ics_path = this.getXPath(overlay_info);
 
         link
@@ -161,7 +158,7 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
 
     drawLink: function (from, to) {
 
-        var linkLayer = this.linkLayer,
+        var layerLinks = this.layerLinks,
             path = this.createLine(from, to);
 
         this.tempLink

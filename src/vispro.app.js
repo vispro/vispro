@@ -5,6 +5,7 @@ vispro.App = Backbone.View.extend({
     ),
 
     panels: {
+        north: $('#panel-north'),
         west: $('#panel-west'),
         center: $('#panel-center'),
         east: $('#panel-east'),
@@ -24,7 +25,8 @@ vispro.App = Backbone.View.extend({
         code: new vispro.view.Code(),
         labelList: new vispro.view.LabelList(),
         inspectorList: new vispro.view.InspectorList(),
-        toolbar: new vispro.view.Toolbar()
+        toolbar: new vispro.view.Toolbar(),
+        userbar: new vispro.view.Userbar()
     },
 
     init: function (options) {
@@ -65,6 +67,11 @@ vispro.App = Backbone.View.extend({
             .init({ model: models.workspace })
             .element
                 .appendTo(panels.east_south);
+        
+        views.userbar
+            .init({})
+            .element
+                .appendTo(panels.north);
 
         views.toolbar
             .init({
@@ -73,8 +80,10 @@ vispro.App = Backbone.View.extend({
                     link: _.bind(this.link, this),
                     code: _.bind(this.code, this)
                 }
-            });
-        
+            })
+            .element
+                .appendTo(panels.north);
+                    
         this.normal();
 
         models.workspace.select();

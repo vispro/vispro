@@ -5,10 +5,10 @@ vispro.view.WidgetLinker = Backbone.View.extend({
         var element = $(this.el),
             container = options.container,
             model = options.model,
-            positions = model.positions,
+            position = model.position,
             dimensions = model.dimensions,
-            top = positions.top,
-            left = positions.left,
+            top = position.top,
+            left = position.left,
             width = dimensions.width,
             height = dimensions.height;
             x = left + width / 2,
@@ -43,6 +43,7 @@ vispro.view.WidgetLinker = Backbone.View.extend({
         this.container = container;
         this.model = model;
         this.position = position;
+        this.dimensions = 
         this.radius = radius;
 
         return this;

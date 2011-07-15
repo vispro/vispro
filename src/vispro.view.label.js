@@ -7,11 +7,11 @@ vispro.view.Label = Backbone.View.extend({
         
         element
             .addClass('label')
-            .text(model.cid);
+            .text(model.id);
 
         model
             .bind('selected', _.bind(this.select, this))
-            .bind('change:cid', _.bind(this.render, this))
+            .bind('change:id', _.bind(this.render, this))
             .bind('remove', _.bind(this.remove, this));
 
         this.model = model;
@@ -22,7 +22,7 @@ vispro.view.Label = Backbone.View.extend({
 
     render: function () {
         
-        this.element.text(this.model.cid);
+        this.element.text(this.model.id);
 
         return this;
     },

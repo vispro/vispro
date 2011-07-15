@@ -1,9 +1,5 @@
 vispro.view.Descriptor = Backbone.View.extend({
 
-    // el: $(
-    //     '<div class="descriptor"></div>'
-    // ),
-
     templates: {
         element: _.template(
             '<span class="descriptor-label"><%= name %></span>' +
@@ -13,8 +9,7 @@ vispro.view.Descriptor = Backbone.View.extend({
     
         helper: _.template(
             '<img class="descriptor-helper" src="<%= src %>" alt="<%= alt %>" ' +
-            '    style="width:<%= width %>px; height:<%= height %>px" ' + 
-            '/>'
+            '    style="width:<%= width %>px; height:<%= height %>px" />'
         )
     },
 

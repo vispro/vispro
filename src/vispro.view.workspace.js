@@ -79,8 +79,8 @@ vispro.view.Workspace = Backbone.View.extend({
 
         view.init({ model: widget });
         this.element.append(view.element);
-        this.model.overlap();
-
+        widget.overlap();
+        
         return this;
     },
 
@@ -149,7 +149,8 @@ vispro.view.Workspace = Backbone.View.extend({
         left -= left % grid;
         top -= top % grid;
 
-        widget.move({ left: left, top: top});
+        widget.position.left = left;
+        widget.position.top = top;
 
         model
             .addWidget(widget)
