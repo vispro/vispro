@@ -68,7 +68,6 @@
     <script src="src/vispro.view.code.js"></script>
 
     <script src="src/vispro.data.descriptorList.js"></script>
-    <script src="src/vispro.data.workspace.js"></script>
 
     <script src="src/vispro.app.js"></script>
 
@@ -78,7 +77,10 @@
         
         doc.ready(function () {
             app = new vispro.App();
-            app.init();
+            
+            app
+                .init()
+                .load(vispro.data.descriptorList);
         });
     </script>
 

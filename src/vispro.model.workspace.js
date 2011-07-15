@@ -1,33 +1,42 @@
 vispro.model.Workspace = Backbone.Model.extend({
     
-    init: function (options) {
+    defaults: {
+        type: 'workspace',
+        name: 'Workspace',
+        dimensions: {
+            width: 800,
+            height: 450
+        },
+        grid: 15,
+        template: {
+            code: 
+                '<!DOCTYPE html> \n' + 
+                '<html> \n'+ 
+                '<head> \n' +
+                '   <meta charset="UTF-8"> \n' + 
+                '   <title>VisPro</title> \n' +
+                '</head> \n' +
+                '\n' +
+                '<body> \n' +
+                '\n' + 
+                '<%= html %>' +
+                '\n' +
+                '<script> \n' +
+                '\n' +
+                '<%= js %>' +
+                '\n' +
+                '</script> \n' +
+                '</body> \n' +
+                '</html>',
+            parameter: ['html', 'js']
+        }
+    },
+
+    initialize: function (options) {
         
-        var descriptor = options.descriptor,
-            type = descriptor.type,
-            name = descriptor.type || type,
-            template = descriptor.template,
-            dimensions = {},
-            attributes = {},
-            widgetList = new vispro.model.WidgetList(),
-            id = vispro.guid(type);
-
-        _.each(descriptor.dimensions, function (dimension, name) {
-            dimensions[name] = dimension.value;
+        _.extend(this, this.defaults, options,{
+            widgetList: new vispro.model.WidgetList()       
         });
-
-        _.each(descriptor.properties, function (property, name) {
-            attributes[name] = property.value;
-        });
-
-        this.type = type;
-        this.name = name;
-        this.id = id;
-        this.cid = id;
-        this.descriptor = descriptor;
-        this.dimensions = dimensions;
-        this.widgetList = widgetList;
-        this.template = template;
-        this.attributes = attributes;
         
         return this;
     },

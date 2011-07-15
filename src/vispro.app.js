@@ -27,11 +27,6 @@ vispro.App = Backbone.View.extend({
         toolbar: new vispro.view.Toolbar()
     },
 
-    data: {
-        descriptorList: vispro.data.descriptorList,
-        workspace: vispro.data.workspace
-    },
-
     init: function (options) {
         
         var element = this.el,
@@ -40,9 +35,6 @@ vispro.App = Backbone.View.extend({
             views = this.views,
             states = this.states,
             data = this.data;
-
-        models.workspace
-            .init({ descriptor: data.workspace });
         
         views.descriptorList
             .init({ model: models.descriptorList })
@@ -105,9 +97,14 @@ vispro.App = Backbone.View.extend({
                 south__size: .6,
                 south__spacing_open: 2
             });
+                
+        return this;
+    },
+
+    load: function (descriptorList) {
         
-        app.models.descriptorList.addAll(app.data.descriptorList);
-        
+        this.models.descriptorList.addAll(descriptorList);
+
         return this;
     },
 
