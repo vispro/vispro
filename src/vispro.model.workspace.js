@@ -34,7 +34,7 @@ vispro.model.Workspace = Backbone.Model.extend({
 
     initialize: function (options) {
         
-        _.extend(this, this.defaults, options,{
+        _.extend(this, this.defaults, options, {
             widgetList: new vispro.model.WidgetList()       
         });
         

@@ -56,12 +56,9 @@ vispro.model.WidgetList = Backbone.Collection.extend({
         
         this.each(function (widget) {
             widget.overlapped = widget.isOverlapped();
-        });
-        
-        this.each(function (widget) {
             widget.trigger('overlapped', widget.overlapped);
         });
-
+        
         return this;
     },
     
