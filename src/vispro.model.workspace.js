@@ -7,29 +7,7 @@ vispro.model.Workspace = Backbone.Model.extend({
             width: 800,
             height: 450
         },
-        grid: 15,
-        template: {
-            code: 
-                '<!DOCTYPE html> \n' + 
-                '<html> \n'+ 
-                '<head> \n' +
-                '   <meta charset="UTF-8"> \n' + 
-                '   <title>VisPro</title> \n' +
-                '</head> \n' +
-                '\n' +
-                '<body> \n' +
-                '\n' + 
-                '<%= html %>' +
-                '\n' +
-                '<script> \n' +
-                '\n' +
-                '<%= js %>' +
-                '\n' +
-                '</script> \n' +
-                '</body> \n' +
-                '</html>',
-            parameters: ['html', 'js']
-        }
+        grid: 15
     },
 
     initialize: function (options) {
@@ -129,13 +107,22 @@ vispro.model.Workspace = Backbone.Model.extend({
             sources = {},
             source;
 
+        console.log(matches);
+
         _.each(matches, function (match) {
             sources[match] = '';
+
+            console.log(match);
+
         }); 
                 
         _.each(widgetList, function (widget) {
             _.each(widget.compile(), function (insert, match) {
                 sources[match] += insert + '\n';
+
+                // console.log(widget.name, match, insert);
+                console.log(match);
+
             }, this);
         }, this);
 

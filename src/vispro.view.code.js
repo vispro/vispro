@@ -35,7 +35,7 @@ vispro.view.Code = Backbone.View.extend({
             code = this.code,
             model = this.model,
             source = model.compile();
-        
+
         el.empty();
 
         code = $('<code>');

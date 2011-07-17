@@ -141,7 +141,7 @@ vispro.parseXML = function (vispro_descriptor_xml, callback) {
     callback({
         template: {
             code: output_template,
-            parameters: output_template
+            parameters: output_parameters
         },
        descriptors: widgets_json
     });
