@@ -39,6 +39,14 @@ body {
 	padding-right: 15px;
 }
 
+.logel {
+	cursor: pointer;
+}
+
+.logel:hover {
+	text-decoration: underline;
+}
+
 #toolbar {
 	position: relative;
 	height: 59px;
@@ -74,9 +82,12 @@ body {
 .panel-label {
 	display: block;
 	height: 25px;
-	padding-left: 15px;
+	/*padding-left: 15px;*/
 	padding-top: 10px;
 	font-size: 20px;
+	border-bottom: 1px solid #EBEBEB;
+	margin-left: 15px;
+	margin-right: 15px;
 }
 
 #panel-west {
@@ -259,4 +270,20 @@ body {
 
 .grid-25 {
 	background-image: url('grid/1p25.png')
+}
+
+/*-------------------TEST-------------------*/
+
+
+#center {
+	-webkit-box-shadow: 2px 2px 5px 1px rgba(0,0,0,.25) inset; 
+	-moz-box-shadow: 2px 2px 5px 1px rgba(0,0,0,.25) inset; 
+	box-shadow: 2px 2px 5px 1px rgba(0,0,0,.25) inset;
+}
+
+
+
+#img_logo_sogei {
+	margin-top: 4px;
+	height: 25px;
 }

@@ -113,6 +113,12 @@ vispro.model.Workspace = Backbone.Model.extend({
         return test;
     },
 
+    setTemplate: function (template) {
+        this.template = template;
+
+        return this;
+    },
+
     compile: function () {
         
         var widgetList = this.widgetList.sortByLinks(),

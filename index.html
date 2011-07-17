@@ -26,6 +26,8 @@
     <script src="lib/jquery.ui.layout.js"></script>
     <script src="lib/jquery.beauty.js"></script>
     <script src="lib/jquery.cover.js"></script>
+    <script src="lib/jquery.getattributes.js"></script>
+    <script src="lib/jquery.json.js"></script>
     
     <script src="lib/raphael.js"></script>
     <script src="lib/underscore.js"></script>
@@ -54,21 +56,12 @@
     <script src="src/vispro.view.userbar.js"></script>
     <script src="src/vispro.view.code.js"></script>
 
-    <script src="src/vispro.data.descriptorList.js"></script>
+    <script src="src/vispro.parser.js"></script>
 
     <script src="src/vispro.app.js"></script>
 
     <script>
-        var doc = $(document),
-            app;
-        
-        doc.ready(function () {
-            app = new vispro.App();
-            
-            app
-                .init()
-                .load(vispro.data.descriptorList);
-        });
+        vispro.init();
     </script>
 
 </body>

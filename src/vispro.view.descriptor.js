@@ -32,9 +32,8 @@ vispro.view.Descriptor = Backbone.View.extend({
             alt: name,
             width: width,
             height: height
-        }));
-
-        // console.log(helper);
+        }))
+            .css('z-index', '5');
 
         img = $('<img>');
 

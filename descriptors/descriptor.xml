@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Start XML configuration -->
+<vispro xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:noNamespaceSchemaLocation="descriptor.xsd">
+    <types>
+        <type name="zoom" />
+        <type name="map" />
+        <type name="search" />
+        <type name="info" />
+    </types>
+    <!-- Components list -->
+    <widgets>
+
+        <!-- Widget 1 -->
+        <widget type="zoom" name="zoom_h_s">
+            <label>Horizontal Scroll Zoom</label>
+            <description>Zoom orizzontale con scrollbar</description>
+            <images>
+                <icon url="images/zoom_h_s.jpg" />
+                <image url="images/zoom_h_s.jpg" />
+            </images>
+            <dimensions>
+                <width value="168" min="10" max="300" resizable="true"/>
+                <height value="26" resizable="false"/>
+            </dimensions>
+            <dependencies>
+                <dependency name="request_map" required="true" type="map">
+                    <description>La mappa su cui agisce lo zoom</description>
+                </dependency>
+            </dependencies>
+            <properties>
+                <bool name="tooltip" label="Tooltip property" />
+            </properties>
+            <code>
+                <insert match="html">
+                    <![CDATA[
+                    <div id="<%= id %>" style="position:absolute; top:<%= top %>; left:<%= left %>" ></div>
+                    ]]>
+                </insert>
+                <insert match="js">
+                    <![CDATA[
+                    var <%= id %> = geopoi.sdk.zoom("<%= id %>", 
+                        { 
+                            map: <%= request_map %>, 
+                            tooltip: <%= tooltip %>,
+                            vertical: false,
+                            slider: true,
+                            size: <%= width %>
+                        } );
+                    ]]>
+                </insert>
+            </code>
+        </widget>
+
+        <!-- Widget 2 -->
+        <widget type="zoom" name="zoom_v_s">
+            <label>Vertical Scroll Zoom</label>
+            <description>Zoom verticale con scrollbar</description>
+            <images>
+                <icon url="images/zoom_v_s.jpg" />
+                <image url="images/zoom_v_s.jpg" />
+            </images>
+            <dimensions>
+                <width value="26" resizable="false"/>
+                <height value="168" min="10" max="300" resizable="true"/>
+            </dimensions>
+            <dependencies>
+                <dependency name="request_map" required="true" type="map" label="Mappa">
+                    <description>La mappa su cui agisce lo zoom</description>
+                </dependency>
+            </dependencies>
+            <properties>
+                <bool name="tooltip" label="Tooltip property" />
+            </properties>
+            <code>
+                <insert match="html">
+                    <![CDATA[
+                    <div id="<%= id %>" style="position:absolute; top:<%= top %>; left:<%= left %>" ></div>
+                    ]]>
+                </insert>
+                <insert match="js">
+                    <![CDATA[
+                    var <%= id %> = geopoi.sdk.zoom("<%= id %>", 
+                        { 
+                            map: <%= request_map %>, 
+                            tooltip: <%= tooltip %>,
+                            vertical: true,
+                            slider: true,
+                            size: <%= width %>
+                        } );
+                    ]]>
+                </insert>
+            </code>
+        </widget>
+
+        <!-- Widget 3 -->
+        <widget type="map" name="map_plain">
+            <label>Map</label>
+            <description>Mappa</description>
+            <images>
+                <icon url="images/map.jpg" />
+                <image url="images/map.jpg" />
+            </images>
+            <dimensions>
+                <width value="400" min="10" max="800" resizable="true"/>
+                <height value="300" min="10" max="600" resizable="true"/>
+            </dimensions>
+            <dependencies></dependencies>
+            <properties></properties>
+            <code>
+                <insert match="html">
+                    <![CDATA[
+                        <div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px"></div>
+                    ]]>
+                </insert>
+                <insert match="js">
+                    <![CDATA[
+                        var <%= id %> = geopoi.sdk.map("<%= id %>");
+                    ]]>
+                </insert>
+            </code>
+        </widget>
+
+        <!-- Widget 4 -->
+        <widget type="info" name="info_plain">
+            <label>Info Window</label>
+            <description>Area di log</description>
+            <images>
+                <icon url="images/info.jpg" />
+                <image url="images/info.jpg" />
+            </images>
+            <dimensions>
+                <width value="214" min="10" max="800" resizable="true"/>
+                <height value="212" min="10" max="600" resizable="true"/>
+            </dimensions>
+            <dependencies>
+                <dependency name="request_map" required="true" type="map">
+                    <description>La mappa su cui agisce lo zoom</description>
+                </dependency>
+            </dependencies>
+            <properties>
+                <bool name="tooltip" label="Tooltip property" />
+            </properties>
+            <code>
+                <insert match="html">
+                    <![CDATA[
+                        <div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px"></div>
+                    ]]>
+                </insert>
+                <insert match="js">
+                    <![CDATA[
+                        var <%= id %> = geopoi.sdk.infoDiv("<%= id %>",
+                            {
+                                map: map: <%= request_map %>,
+                                width: <%= width %>,
+                                height: <%= height %>,
+                                tooltip: <%= tooltip %>
+                            });
+                    ]]>
+                </insert>
+            </code>
+        </widget>
+
+        <!-- Widget 5 -->
+        <widget type="search" name="search_plain">
+            <label>Ricerca Strade</label>
+            <description>Ricerca strada</description>
+            <images>
+                <icon url="images/search.jpg" />
+                <image url="images/search.jpg" />
+            </images>
+            <dimensions>
+                <width value="323" resizable="false"/>
+                <height value="121" max="600" resizable="false"/>
+            </dimensions>
+            <dependencies>
+                <dependency name="request_map" required="true" type="map">
+                    <description>La mappa su cui agisce la ricerca</description>
+                </dependency>
+                <dependency name="req_info" required="false" type="info">
+                    <description>Spazio di log della ricerca</description>
+                </dependency>
+            </dependencies>
+            <properties>
+                <bool name="tooltip" label="Tooltip property" />
+            </properties>
+            <code>
+                <insert match="html">
+                    <![CDATA[
+                        <div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px"></div>
+                    ]]>
+                </insert>
+                <insert match="js">
+                    <![CDATA[
+                        var <%= id %> = geopoi.sdk.infoDiv("<%= id %>",
+                            {
+                                map: map: <%= request_map %>,
+                                tooltip: <%= tooltip %>
+                                opt: false,
+                                infoDiv: <%= req_info %>
+                            });
+                    ]]>
+                </insert>
+            </code>
+        </widget>
+
+        <!-- Widget 6 -->
+        <widget type="search" name="search_opt">
+            <label>Ricerca Strade con opzioni</label>
+            <description>Ricerca strada con opzioni di ricerca</description>
+            <images>
+                <icon url="images/search_opt.jpg" />
+                <image url="images/search_opt.jpg" />
+            </images>
+            <dimensions>
+                <width value="324" resizable="false"/>
+                <height value="153" max="600" resizable="false"/>
+            </dimensions>
+            <dependencies>
+                <dependency name="request_map" required="true" type="map">
+                    <description>La mappa su cui agisce la ricerca</description>
+                </dependency>
+                <dependency name="req_info" required="false" type="info">
+                    <description>Spazio di log della ricerca</description>
+                </dependency>
+            </dependencies>
+            <properties>
+                <bool name="tooltip" label="Tooltip property" />
+            </properties>
+            <code>
+                <insert match="html">
+                    <![CDATA[
+                        <div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px"></div>
+                    ]]>
+                </insert>
+                <insert match="js">
+                    <![CDATA[
+                        var <%= id %> = geopoi.sdk.infoDiv("<%= id %>",
+                            {
+                                map: map: <%= request_map %>,
+                                tooltip: <%= tooltip %>
+                                opt: true,
+                                infoDiv: <%= req_info %>
+                            });
+                    ]]>
+                </insert>
+            </code>
+        </widget>
+
+
+    <!-- End of components -->
+    </widgets>
+    
+    <!-- HTML Source Code -->
+    <source>
+        <![CDATA[
+            <html>
+            <head>
+                <title>...</titile>
+            </head>
+            <body>
+            <%= html %>
+            <script>
+            <%= js %>
+            </script>
+            </body>
+            </html>
+        ]]>
+    </source>
+</vispro>

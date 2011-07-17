@@ -30,14 +30,59 @@ vispro.App = Backbone.View.extend({
     },
 
     init: function (options) {
+        var element = this.el
+            views = this.views,
+            panels = this.panels;
         
+        views.userbar
+            .init({})
+            .element
+                .appendTo(panels.north);
+        
+        views.toolbar
+            .init({
+                states: {
+                    normal: _.bind(this.normal, this),
+                    link: _.bind(this.link, this),
+                    code: _.bind(this.code, this)
+                }
+            })
+            .element
+                .appendTo(panels.north);
+
+        element
+            .layout({ 
+                north__closable: false, 
+                north__resizable: false,
+                north__spacing_open: 0,
+                west__spacing_open: 0,
+                east__spacing_open: 0
+            });
+        
+        panels.east
+            .layout({
+                south__size: .6,
+                south__spacing_open: 2
+            });
+
+        panels.west.hide();
+        panels.center.hide();
+        panels.east.hide();
+
+
+        $.beautyOfCode.init({
+            brushes: ['Xml', 'JScript', 'Plain', 'Css']
+        });
+    },
+
+    load: function (parsed_obj) {
         var element = this.el,
             panels = this.panels,
             models = this.models,
             views = this.views,
-            states = this.states,
-            data = this.data;
-        
+            states = this.states;
+
+
         views.descriptorList
             .init({ model: models.descriptorList })
             .element
@@ -67,54 +112,29 @@ vispro.App = Backbone.View.extend({
             .init({ model: models.workspace })
             .element
                 .appendTo(panels.east_south);
-        
-        views.userbar
-            .init({})
-            .element
-                .appendTo(panels.north);
 
-        views.toolbar
-            .init({
-                states: {
-                    normal: _.bind(this.normal, this),
-                    link: _.bind(this.link, this),
-                    code: _.bind(this.code, this)
-                }
-            })
-            .element
-                .appendTo(panels.north);
+
+        models.descriptorList
+            .addAll(parsed_obj.descriptors);
+
+        models.workspace
+            .setTemplate(parsed_obj.template);
                     
         this.normal();
 
         models.workspace.select();
 
-        $.beautyOfCode.init({
-            brushes: ['Xml', 'JScript', 'CSharp', 'Plain', 'Php', 'Css']
-        });
-
-        element
-            .layout({ 
-                north__closable: false, 
-                north__resizable: false,
-                north__spacing_open: 0,
-                west__spacing_open: 0,
-                east__spacing_open: 0
-            });
-        
-        panels.east
-            .layout({
-                south__size: .6,
-                south__spacing_open: 2
-            });
+        panels.west.show();
+        panels.center.show();
+        panels.east.show();
                 
         return this;
     },
 
-    load: function (descriptorList) {
-        
-        this.models.descriptorList.addAll(descriptorList);
-
-        return this;
+    unload: function () {
+        panels.west.hide();
+        panels.center.hide();
+        panels.east.hide();
     },
 
     normal: function () {
