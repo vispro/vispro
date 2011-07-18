@@ -56,7 +56,7 @@ vispro.view.Inspector = Backbone.View.extend({
             '        <span class="inspector-property-label"><%= name %></span>' +
 
             '        <% var type = descriptor.properties[name].type; %> ' +
-            '        <% if (type === "boolean") { %> ' +
+            '        <% if (type === "bool") { %> ' +
 
             '            <input type="checkbox" class="inspector-input" <%= property ? "checked" : "" %> ' +
             '                data-property-type="property" data-property-name="<%= name %>" />' +

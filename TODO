@@ -1,4 +1,20 @@
-resize from dimension
 style
-validator
-loader
+
+
+widget validate
+widget resize
+widget background-color 
+widget z-order
+widget setProperty
+
+label delete
+
+toolbar delete
+
+descriptor name
+
+inspector linker
+
+
+
+documentazione

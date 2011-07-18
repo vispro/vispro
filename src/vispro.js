@@ -57,7 +57,8 @@ var vispro = (function () {
     }
 
     function unload() {
-        app.unload(); 
+        app
+            .unload(); 
     }
 
     function init () {        
