@@ -120,6 +120,7 @@ vispro.view.Inspector = Backbone.View.extend({
             .bind('addlink', _.bind(this.updateDependencies, this))
             .bind('removelink', _.bind(this.updateDependencies, this))
             .bind('remove', _.bind(this.remove, this));
+            // .bind('change:tooltip', _bind(this.changeProperty, this));
 
         this.model = model;
         this.element = element;
@@ -234,10 +235,6 @@ vispro.view.Inspector = Backbone.View.extend({
             selected,
             link;
 
-        out = input;    
-
-        console.log(input);
-
         if (type === "position") {
 
             model.move({ 
@@ -272,7 +269,7 @@ vispro.view.Inspector = Backbone.View.extend({
         
         } else if (type === "text" || type === "number"){
 
-                model.setProperty(name, value);
+            model.setProperty(name, value);
                 
         }
     },

@@ -53,7 +53,7 @@ vispro.model.Widget = Backbone.Model.extend({
     setId: function (id) {
         
         this.id = id;
-        this.trigger('change', id);
+        // this.trigger('change', id);
 
         return this;
     },
@@ -295,8 +295,6 @@ vispro.model.Widget = Backbone.Model.extend({
             }
         });
 
-
-
         return state;
     },
 
@@ -307,13 +305,12 @@ vispro.model.Widget = Backbone.Model.extend({
 
         this.move(state.position);
         this.resize(state.dimensions);
-        // this.setId(state.id);
+        this.setId(state.id);
         this.setZIndex(state.zIndex);
 
         _.each(state.properties, function(value, name) {
             obj[name] = value;
         });
-        console.log(obj);
         this.set(obj);
 
         _.each(dependencies, function (widget) {

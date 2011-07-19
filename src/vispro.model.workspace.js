@@ -216,7 +216,7 @@ vispro.model.Workspace = Backbone.Model.extend({
         this.addWidget(widget);
         
         _.each(resDependencies, function (cid, type) {
-            dependencies.push(widgetList.getById(cid));
+            dependencies.push(widgetList._byCid[cid]);
         });
             
         widget.restore(resWidget, dependencies);
