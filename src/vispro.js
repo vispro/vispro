@@ -30,9 +30,7 @@ var vispro = (function () {
 
     var ids = {},
         doc = $(document),
-        app,
-        models,
-        views;
+        app;
 
     function guid(type) {
         
@@ -70,8 +68,8 @@ var vispro = (function () {
             app
                 .init();
             
-            models = app.models;
-            views = app.views;
+            vispro.models = app.models;
+            vispro.views = app.views;
         });
     }
     
@@ -82,10 +80,7 @@ var vispro = (function () {
         unload: unload,
         data: {},
         model: {},
-        view: {},
-
-        models: models,
-        views: views
+        view: {}
     };
 
 }());
