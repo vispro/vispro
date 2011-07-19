@@ -135,7 +135,7 @@ vispro.model.Workspace = Backbone.Model.extend({
             sortedWidgets = this.widgetList.sortByZIndex(),
             zIndex;
 
-
+        
         _.each(sortedWidgets, function(current_widget, i) {
             if (i < currentZIndex) {
                 zIndex = current_widget.getZIndex();
@@ -184,6 +184,44 @@ vispro.model.Workspace = Backbone.Model.extend({
         }
 
         return this;
+    },
+
+    save: function () {
+        var state = {};
+
+        state.dimensions = this.dimensions;
+        state.grid = this.grid;
+
+        state.widgetList = this.widgetList.save();
+
+        return state;
+    },
+
+    restore: function (state) {
+        
+        this.dimensions = state.dimensions
+        this.trigger('resize');
+        // this.grid = state.grid;
+        // this.trigger('...');
+
+        return this;
+    },
+    
+    restoreWidget: function (resWidget, descriptor) {
+        var widget = this.createWidget(descriptor), 
+            widgetList = this.widgetList,
+            resDependencies = resWidget.dependencies,
+            dependencies = [];
+        
+        this.addWidget(widget);
+        
+        _.each(resDependencies, function (cid, type) {
+            dependencies.push(widgetList.getById(cid));
+        });
+            
+        widget.restore(resWidget, dependencies);
+        
+        return widget;  
     },
 
     compile: function () {

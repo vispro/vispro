@@ -53,7 +53,7 @@ vispro.model.Widget = Backbone.Model.extend({
     setId: function (id) {
         
         this.id = id;
-        this.trigger('change:id', id);
+        this.trigger('change', id);
 
         return this;
     },
@@ -274,6 +274,53 @@ vispro.model.Widget = Backbone.Model.extend({
         this.trigger('zReordering', zIndex);
 
         return this;
+    },
+
+    save: function () {
+        var dependencies = {},
+            state = {dependencies: dependencies},
+            dep_value;
+
+        state.name = this.name;
+        state.cid = this.cid;
+        state.id = this.id;
+        state.dimensions = this.dimensions;
+        state.position = this.position;
+        state.zIndex = this.zIndex;
+        state.properties = this.attributes;
+        _.each(this.dependencies, function (dependency, type) {
+            dep_value = dependency.value;
+            if (dep_value) {
+                dependencies[type] = dependency.value.id;
+            }
+        });
+
+
+
+        return state;
+    },
+
+    restore: function (state, dependencies) {
+        var obj = {};
+
+        this.cid = state.cid;
+
+        this.move(state.position);
+        this.resize(state.dimensions);
+        // this.setId(state.id);
+        this.setZIndex(state.zIndex);
+
+        _.each(state.properties, function(value, name) {
+            obj[name] = value;
+        });
+        console.log(obj);
+        this.set(obj);
+
+        _.each(dependencies, function (widget) {
+            this.addLink(widget);
+        }, this);
+
+
     },
 
     compile: function () {

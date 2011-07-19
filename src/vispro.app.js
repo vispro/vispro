@@ -61,7 +61,7 @@ vispro.App = Backbone.View.extend({
         });
     },
 
-    load: function (parsed_obj) {
+    load: function (parsed_obj, state) {
         var element = this.el,
             panels = this.panels,
             models = this.models,
@@ -125,6 +125,10 @@ vispro.App = Backbone.View.extend({
         panels.west.show();
         panels.center.show();
         panels.east.show();
+
+        if (state) {
+            this.restore(state);
+        }
                 
         return this;
     },
@@ -135,6 +139,32 @@ vispro.App = Backbone.View.extend({
         panels.east.hide();
     },
 
+    save: function () {
+        var state = {};
+
+        state.workspace = this.models.workspace.save();
+
+        return state;
+    },
+
+    restore: function (state) {
+        var models = this.models,
+            workspace = models.workspace,
+            descriptorList = models.descriptorList,
+            descriptor,
+            resWorkspace = state.workspace,
+            resWidgetList = resWorkspace.widgetList;
+        
+        workspace.restore(state.workspace);
+
+        _.each(resWidgetList, function (resWidget) {
+            descriptor = descriptorList.getByName(resWidget.name);
+            workspace.restoreWidget(resWidget, descriptor[0]);
+        });
+
+        workspace.select();
+    },
+
     normal: function () {
         
         var views = this.views;
@@ -143,6 +173,7 @@ vispro.App = Backbone.View.extend({
         views.workspace.enable();
         views.labelList.enable();
         views.inspectorList.enable();
+        views.userbar.enable();
 
         views.link.hide();
         views.workspace.show();
@@ -157,6 +188,7 @@ vispro.App = Backbone.View.extend({
         views.workspace.disable();
         views.labelList.disable();
         views.inspectorList.disable();
+        views.userbar.disable();
 
         views.link.show();
         views.workspace.show();
@@ -171,6 +203,7 @@ vispro.App = Backbone.View.extend({
         views.workspace.disable();
         views.labelList.disable();
         views.inspectorList.disable();
+        views.userbar.disable();
         
         views.link.hide();
         views.workspace.hide();

@@ -30,7 +30,9 @@ var vispro = (function () {
 
     var ids = {},
         doc = $(document),
-        app;
+        app,
+        models,
+        views;
 
     function guid(type) {
         
@@ -43,14 +45,17 @@ var vispro = (function () {
         return type + '_' + id;
     }
 
-    function load() {
+    function load(url, state) {
+
+        var descriptor_url = url || "descriptors/descriptor.xml";
+
         $.ajax({
-            url: "descriptors/descriptor.xml",
+            url: descriptor_url,
             context: document.body,
             dataType: "xml",
             success: function(vispro_descriptor_xml){
                 vispro.parseXML(vispro_descriptor_xml, function (parsed_obj) {
-                    app.load(parsed_obj);
+                    app.load(parsed_obj, state ? state.app : undefined);
                 });
             }
         }); 
@@ -61,16 +66,32 @@ var vispro = (function () {
             .unload(); 
     }
 
-    function init () {        
+    function init (/* descriptor_url */) {        
         doc.ready(function () {
             app = new vispro.App();
             
             app
-                .init();
+                .init(/* {descriptor_url: descriptor_url} */);
             
-            vispro.models = app.models;
-            vispro.views = app.views;
+            models = vispro.models = app.models;
+            views = vispro.views = app.views;
         });
+    }
+
+    function save () {
+        var state = {};
+
+        state.descriptor_url = "descriptors/descriptor.xml";
+        state.app = app.save();
+
+        // return $.quoteString(js_beautify($.toJSON(state)));
+        return $.toJSON(state);
+    }
+
+    function restore (state_str) {
+        var state = $.secureEvalJSON(state_str);
+
+        load(state.descriptor_url, state);
     }
     
     return {
@@ -78,6 +99,8 @@ var vispro = (function () {
         init: init,
         load: load,
         unload: unload,
+        save: save,
+        restore: restore,
         data: {},
         model: {},
         view: {}

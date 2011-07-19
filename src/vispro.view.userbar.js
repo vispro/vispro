@@ -99,6 +99,20 @@ vispro.view.Userbar = Backbone.View.extend({
 
     },
 
+    enable: function () {
+                
+        this.buttonbarList.show();
+        
+        return this;
+    },
+
+    disable: function () {
+        
+        this.buttonbarList.hide();
+        
+        return this;
+    },
+
     events: {
         click: 'onClick'
     }
