@@ -25,30 +25,16 @@ vispro.App = Backbone.View.extend({
         code: new vispro.view.Code(),
         labelList: new vispro.view.LabelList(),
         inspectorList: new vispro.view.InspectorList(),
-        toolbar: new vispro.view.Toolbar(),
         userbar: new vispro.view.Userbar()
     },
 
     init: function (options) {
-        var element = this.el
+        var element = this.el,
             views = this.views,
             panels = this.panels;
         
         views.userbar
-            .init({})
-            .element
-                .appendTo(panels.north);
-        
-        views.toolbar
-            .init({
-                states: {
-                    normal: _.bind(this.normal, this),
-                    link: _.bind(this.link, this),
-                    code: _.bind(this.code, this)
-                }
-            })
-            .element
-                .appendTo(panels.north);
+            .init({root: panels.north});
 
         element
             .layout({ 
@@ -80,8 +66,20 @@ vispro.App = Backbone.View.extend({
             panels = this.panels,
             models = this.models,
             views = this.views,
-            states = this.states;
+            states = this.states,
+            workspace = models.workspace,
+            widgetList = workspace.widgetList;
 
+        views.userbar
+            .initBars({
+                workspace: workspace,
+                widgetList: widgetList,
+                states: {
+                    normal: _.bind(this.normal, this),
+                    link: _.bind(this.link, this),
+                    code: _.bind(this.code, this)
+                }    
+            });
 
         views.descriptorList
             .init({ model: models.descriptorList })

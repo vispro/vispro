@@ -47,7 +47,7 @@ body {
 	text-decoration: underline;
 }
 
-#toolbar {
+#controlbar {
 	position: relative;
 	height: 59px;
 	border-top: 1px solid #d2d2d2;
@@ -55,10 +55,29 @@ body {
 	background-color: #f1f1f1;
 }
 
+#toolbar {
+	display: inline;
+}
+
 #buttonset {
+	display: inline;
 	position: relative;
 	top: 10px;
 	left: 215px;
+}
+
+#buttonbarList {
+	display: inline;
+	position: relative;
+	top: 10px;
+	left: 215px;
+}
+
+.buttonbar {
+	display: inline;
+	position: relative;
+	top: 0px;
+	left: 20px;
 }
 
 #logo {
@@ -147,14 +166,19 @@ body {
 
 .widget {
 	position: absolute;
+	background-color: #AFAFAF;
+}
+
+.widget.over {
+	outline: 3px solid green;
 }
 
 .widget.selected {
-	outline: 1px solid #4d90f0;
+	outline: 3px solid #4d90f0;
 }
 
 .widget.overlapped {
-	outline: 1px solid #dd4b39;
+	outline: 3px solid #dd4b39;
 }
 
 .widget.ui-covered {
@@ -275,7 +299,7 @@ body {
 /*-------------------TEST-------------------*/
 
 
-#center {
+#panel-center {
 	-webkit-box-shadow: 2px 2px 5px 1px rgba(0,0,0,.25) inset; 
 	-moz-box-shadow: 2px 2px 5px 1px rgba(0,0,0,.25) inset; 
 	box-shadow: 2px 2px 5px 1px rgba(0,0,0,.25) inset;

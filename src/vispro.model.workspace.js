@@ -10,6 +10,8 @@ vispro.model.Workspace = Backbone.Model.extend({
         grid: 15
     },
 
+    zIndex: 1,
+
     initialize: function (options) {
         
         _.extend(this, this.defaults, options, {
@@ -19,11 +21,19 @@ vispro.model.Workspace = Backbone.Model.extend({
         return this;
     },
 
+    getMaxZIndex: function () {
+        return this.widgetList.models.length - 1;
+    },
+
     createWidget: function (descriptor) {
         
         var widget = new vispro.model.Widget();
 
-        widget.init({ descriptor: descriptor });
+        widget.init({ 
+            descriptor: descriptor,
+            workspace: this,
+            zIndex: this.getMaxZIndex() + 1
+        });
 
         return widget;
     },
@@ -97,6 +107,85 @@ vispro.model.Workspace = Backbone.Model.extend({
         return this;
     },
 
+    bringWidgetToFront: function (widget) {
+        
+        var maxZIndex = this.getMaxZIndex(),
+            currentZIndex = widget.getZIndex(),
+            sortedWidgets = this.widgetList.sortByZIndex(),
+            zIndex;
+
+
+        _.each(sortedWidgets, function(current_widget, i) {
+            if (i > currentZIndex) {
+                zIndex = current_widget.getZIndex();
+                zIndex--;
+                current_widget.setZIndex(zIndex);
+            }
+        });
+
+        widget.setZIndex(maxZIndex);
+
+        return this;
+    },
+
+    sendWidgetToBack: function (widget) {
+
+        var minZIndex = 0,
+            currentZIndex = widget.getZIndex(),
+            sortedWidgets = this.widgetList.sortByZIndex(),
+            zIndex;
+
+
+        _.each(sortedWidgets, function(current_widget, i) {
+            if (i < currentZIndex) {
+                zIndex = current_widget.getZIndex();
+                zIndex++;
+                current_widget.setZIndex(zIndex);
+            }
+        });
+
+        widget.setZIndex(minZIndex);
+
+        return this;
+    },
+
+    sendWidgetBackward: function (widget) {
+
+        var currentZIndex = widget.zIndex,
+            minZIndex = 0,
+            newZIndex = currentZIndex - 1,
+            switchWidget;
+
+        if ( currentZIndex != minZIndex) {
+            
+             switchWidget = this.widgetList.getByZIndex(newZIndex);
+             switchWidget.setZIndex(currentZIndex);
+
+             widget.setZIndex(newZIndex);
+        }
+
+        return this;
+
+    },
+
+    bringWidgetForward: function (widget) {
+
+        var currentZIndex = widget.zIndex,
+            maxZIndex = this.getMaxZIndex(),
+            newZIndex = currentZIndex + 1,
+            switchWidget;
+
+        if ( currentZIndex != maxZIndex) {
+            
+             switchWidget = this.widgetList.getByZIndex(newZIndex);
+             switchWidget.setZIndex(currentZIndex);
+
+             widget.setZIndex(newZIndex);
+        }
+
+        return this;
+    },
+
     compile: function () {
         
         var widgetList = this.widgetList.sortByLinks(),
@@ -107,21 +196,14 @@ vispro.model.Workspace = Backbone.Model.extend({
             sources = {},
             source;
 
-        console.log(matches);
-
         _.each(matches, function (match) {
             sources[match] = '';
-
-            console.log(match);
 
         }); 
                 
         _.each(widgetList, function (widget) {
             _.each(widget.compile(), function (insert, match) {
                 sources[match] += insert + '\n';
-
-                // console.log(widget.name, match, insert);
-                console.log(match);
 
             }, this);
         }, this);

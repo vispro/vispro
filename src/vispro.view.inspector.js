@@ -96,7 +96,7 @@ vispro.view.Inspector = Backbone.View.extend({
             '   </div>' +
 
             '<% }); %>'
-        ),
+        )
     },
 
     init: function (options) {
@@ -226,10 +226,13 @@ vispro.view.Inspector = Backbone.View.extend({
     onChange: function (event) {
         
         var input = $(event.target),
+            input_type = input.attr('type'),
             type = input.attr('data-property-type'),
             name = input.attr('data-property-name'),
             value = input.val(),
             model = this.model;
+
+        out = input;    
 
         console.log(input);
 
@@ -246,7 +249,12 @@ vispro.view.Inspector = Backbone.View.extend({
             });
         }
         else if (type === "property") {
-            model.setProperty(name, value);
+            if (input_type === "checkbox") {
+                console.log(input.attr('checked'));
+                model.setProperty(name, input.is(':checked'));
+            } else {
+                model.setProperty(name, value);
+            }
         }
         else if (type === "dependency") {
             

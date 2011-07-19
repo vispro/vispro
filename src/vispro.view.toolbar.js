@@ -2,8 +2,7 @@ vispro.view.Toolbar = Backbone.View.extend({
 
     el: $(
         '<div id="toolbar">' + 
-        '   <span id="logo">VisPro</span>' +
-        '   <div id="buttonset"></div>' + 
+        '   <div id="buttonset"></div>' +
         '</div>'
     ),
 
@@ -17,9 +16,13 @@ vispro.view.Toolbar = Backbone.View.extend({
     init: function (options) {
 
         var element = this.el,
+            root = options.root,
             buttonset = element.find('#buttonset'),
             template = this.templates.button;
+            
+        root.append(element);
 
+        //states button
         _.each(options.states, function (state, name) {
             var button = $(template({ name: name }));
             button.click(state).appendTo(buttonset);

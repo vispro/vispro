@@ -30,7 +30,7 @@
                 </dependency>
             </dependencies>
             <properties>
-                <bool name="tooltip" label="Tooltip property" />
+                <bool name="tooltip" label="Tooltip property" default="false"/>
             </properties>
             <code>
                 <insert match="html">
@@ -67,7 +67,7 @@
                 </dependency>
             </dependencies>
             <properties>
-                <bool name="tooltip" label="Tooltip property" />
+                <bool name="tooltip" label="Tooltip property" default="false"/>
             </properties>
             <code>
                 <insert match="html">
@@ -128,7 +128,7 @@
                 </dependency>
             </dependencies>
             <properties>
-                <bool name="tooltip" label="Tooltip property" />
+                <bool name="tooltip" label="Tooltip property" default="false"/>
             </properties>
             <code>
                 <insert match="html">
@@ -167,7 +167,7 @@
                 </dependency>
             </dependencies>
             <properties>
-                <bool name="tooltip" label="Tooltip property" />
+                <bool name="tooltip" label="Tooltip property" default="false"/>
             </properties>
             <code>
                 <insert match="html">
@@ -206,7 +206,7 @@
                 </dependency>
             </dependencies>
             <properties>
-                <bool name="tooltip" label="Tooltip property" />
+                <bool name="tooltip" label="Tooltip property" default="false"/>
             </properties>
             <code>
                 <insert match="html">

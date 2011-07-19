@@ -10,7 +10,9 @@ vispro.model.Widget = Backbone.Model.extend({
             dimensions = {},
             dependencies = {},
             attributes = {},
-            id = vispro.guid(type);
+            id = vispro.guid(type),
+            workspace = options.workspace,
+            zIndex = options.zIndex;
         
         _.each(descriptor.dimensions, function (dimension, name) {
             dimensions[name] = dimension.value;
@@ -21,7 +23,13 @@ vispro.model.Widget = Backbone.Model.extend({
         });
 
         _.each(descriptor.properties, function (property, name) {
-            attributes[name] = property.value;
+            if (property.type === 'bool') {
+                attributes[name] = property.value === 'true';
+            } else if (property.type === 'number') {
+                attributes[name] = Number(property.value);
+            } else {
+                attributes[name] = property.value;
+            }
         });
 
         this.type = type;
@@ -35,6 +43,8 @@ vispro.model.Widget = Backbone.Model.extend({
         this.dimensions = dimensions;
         this.dependencies = dependencies;
         this.attributes = attributes;
+        this.workspace = workspace;
+        this.zIndex = zIndex;
 
         return this;
     },
@@ -43,6 +53,13 @@ vispro.model.Widget = Backbone.Model.extend({
         
         this.id = id;
         this.trigger('change:id', id);
+
+        return this;
+    },
+
+    setProperty: function (name, value) {
+        console.log(name, value);
+        this.attributes[name] = value;
 
         return this;
     },
@@ -212,6 +229,112 @@ vispro.model.Widget = Backbone.Model.extend({
     isValid: function () {
         
         return true;
+    },
+
+    bringToFront: function () {
+        
+        // var workspace = this.workspace,
+        //     maxZIndex = workspace.getMaxZIndex(),
+        //     currentZIndex = this.zIndex,
+        //     sortedWidgets = workspace.widgetList.sortByZIndex();
+
+
+        // _.each(sortedWidgets, function(widget, i) {
+        //     if (i > currentZIndex) {
+        //         widget.zIndex--;
+        //         widget.trigger('zReordering', widget.zIndex);
+        //     }
+        // });
+
+        // this.zIndex = maxZIndex;
+
+        // this.trigger('zReordering', maxZIndex);
+
+        this.workspace.bringWidgetToFront(this);
+
+        return this;
+    },
+
+    sendToBack: function () {
+
+        // var workspace = this.workspace,
+        //     minZIndex = 0,
+        //     currentZIndex = this.zIndex,
+        //     sortedWidgets = workspace.widgetList.sortByZIndex();
+
+
+        // _.each(sortedWidgets, function(widget, i) {
+        //     if (i < currentZIndex) {
+        //         widget.zIndex++;
+        //         widget.trigger('zReordering', widget.zIndex);
+        //     }
+        // });
+
+        // this.zIndex = minZIndex;
+
+        // this.trigger('zReordering', minZIndex);
+
+        this.workspace.sendWidgetToBack(this);
+
+        return this;
+    },
+
+    sendBackward: function () {
+
+        // var workspace = this.workspace,
+        //     currentZIndex = this.zIndex,
+        //     minZIndex = 0,
+        //     newZIndex = currentZIndex - 1,
+        //     switchWidget;
+
+        // if ( currentZIndex != minZIndex) {
+            
+        //      switchWidget = workspace.widgetList.getByZIndex(newZIndex);
+        //      switchWidget.zIndex = currentZIndex;
+        //      switchWidget.trigger('zReordering', currentZIndex);
+
+        //      this.zIndex = newZIndex;
+        //      this.trigger('zReordering', newZIndex);
+        // }
+
+        this.workspace.sendWidgetBackward(this);
+
+        return this;
+
+    },
+
+    bringForward: function () {
+
+        // var workspace = this.workspace,
+        //     currentZIndex = this.zIndex,
+        //     maxZIndex = workspace.getMaxZIndex(),
+        //     newZIndex = currentZIndex + 1,
+        //     switchWidget;
+
+        // if ( currentZIndex != maxZIndex) {
+            
+        //      switchWidget = workspace.widgetList.getByZIndex(newZIndex);
+        //      switchWidget.zIndex = currentZIndex;
+        //      switchWidget.trigger('zReordering', currentZIndex);
+
+        //      this.zIndex = newZIndex;
+        //      this.trigger('zReordering', newZIndex);
+        // }
+
+        this.workspace.bringWidgetForward(this);
+
+        return this;
+    },
+
+    getZIndex: function () {
+        return this.zIndex;
+    },
+
+    setZIndex: function (zIndex) {
+        this.zIndex = zIndex;
+        this.trigger('zReordering', zIndex);
+
+        return this;
     },
 
     compile: function () {

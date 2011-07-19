@@ -26,6 +26,17 @@ vispro.model.WidgetList = Backbone.Collection.extend({
         return list;
     },
 
+    getByZIndex: function (zIndex) {
+
+        var list = [];
+        
+        list = this.filter(function (widget) {
+            return widget.zIndex === zIndex;
+        });
+
+        return list[0];
+    },
+
     sortByLinks: function () {
     
         var sorted = [];
@@ -52,6 +63,19 @@ vispro.model.WidgetList = Backbone.Collection.extend({
         return sorted;
     },
 
+    sortByZIndex: function () {
+    
+        var unsorted = [];
+        
+        this.each(function (widget){
+            unsorted.push(widget);
+        });
+
+        return unsorted.sort(function (widget_a, widget_b) {
+            return widget_a.zIndex - widget_b.zIndex;
+        });
+    },
+
     overlap: function () {
         
         this.each(function (widget) {
@@ -60,7 +84,7 @@ vispro.model.WidgetList = Backbone.Collection.extend({
         });
         
         return this;
-    },
+    }
     
 });
 

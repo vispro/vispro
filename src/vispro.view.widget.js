@@ -7,7 +7,10 @@ vispro.view.Widget = Backbone.View.extend({
             dimensions = model.dimensions,
             position = model.position,
             image = model.image,
-            element = $(this.el);
+            element = $(this.el),
+            width_resizable = descriptor.dimensions.width.resizable,
+            height_resizable = descriptor.dimensions.height.resizable
+            handles_str = width_resizable ? 'e, ' + (height_resizable ? ', s, se' :  '') : height_resizable ? 's' : '';
         
         element 
             .addClass('widget')
@@ -19,11 +22,16 @@ vispro.view.Widget = Backbone.View.extend({
                 height: dimensions.height + 'px',
                 'background-image': 'url(' + image + ')',
                 'background-repeat': 'no-repeat',
-                'background-position': 'center center'
+                'background-position': 'left top',
+                'z-index': model.zIndex+''
             })
             .draggable({
                 cursor: 'move',
                 grid: [ model.snap, model.snap ]
+            })
+            .resizable({
+                constrain: '#workspace',
+                handles: handles_str
             });
 
         model
@@ -31,7 +39,8 @@ vispro.view.Widget = Backbone.View.extend({
             .bind('move', _.bind(this.move, this))
             .bind('selected', _.bind(this.select, this))
             .bind('overlapped', _.bind(this.overlap, this))
-            .bind('remove', _.bind(this.remove, this));
+            .bind('remove', _.bind(this.remove, this))
+            .bind('zReordering', _.bind(this.zReordering, this));
         
         this.model = model;
         this.element = element;
@@ -103,6 +112,12 @@ vispro.view.Widget = Backbone.View.extend({
         return this;
     },
 
+    zReordering: function (zIndex) {
+        
+        $(this.el)
+            .css('z-index', zIndex+'');
+    },
+
     overlap: function (overlapped) {
         
         if (overlapped) {
@@ -136,14 +151,14 @@ vispro.view.Widget = Backbone.View.extend({
 
     onMouseover: function (event) {
 
-        event.stopPropagation();
+        // event.stopPropagation();
 
         this.element.addClass('over');
     },
 
     onMouseout: function (event) {
     
-        event.stopPropagation();
+        // event.stopPropagation();
 
         this.element.removeClass('over');
     },

@@ -2,10 +2,11 @@ style
 
 
 widget validate
-widget resize
-widget background-color 
+v - widget resize
+v - widget background-color 
 widget z-order
 widget setProperty
+widget toggle snap-to-grid
 
 label delete
 
@@ -14,7 +15,13 @@ toolbar delete
 descriptor name
 
 inspector linker
+inspector resize
 
 
 
 documentazione
+
+
+
+
+ENRICO NON H CAPITO GIT

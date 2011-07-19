@@ -140,7 +140,7 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
             })
             .mouseout(function () {
                 arrow.attr({ 'stroke': 'black' });
-                overlay.attr({opacity: 0.0,});
+                overlay.attr({opacity: 0.0});
                 if (arrow.attr('path')) {
                     arrow.animate({ path: arrow_path }, 500, "bounce");
                 }
