@@ -18,6 +18,7 @@ vispro.model.Widget = Backbone.Model.extend({
 
         _.each(descriptor.dependencies, function (dependency, type) {
             dependencies[type] = _.extend({}, dependency);
+            dependencies[type].value = undefined;
         });
 
         _.each(descriptor.properties, function (property, name) {
@@ -86,13 +87,17 @@ vispro.model.Widget = Backbone.Model.extend({
         }
 
         dependencies[type].value = widget;
-        this.trigger('addlink', widget);
+        this.trigger('addlink', dependencies);
 
         return this;
     },
 
     removeLink: function (widget) {
         
+        if (typeof widget === 'undefined') {
+            return;
+        }
+
         var dependencies = this.dependencies,
             type = widget.type;
 
@@ -101,7 +106,7 @@ vispro.model.Widget = Backbone.Model.extend({
         }
 
         dependencies[type].value = undefined;
-        this.trigger('removelink', widget);
+        this.trigger('removelink', dependencies);
 
         return this;
     },

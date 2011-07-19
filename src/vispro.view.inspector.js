@@ -37,6 +37,10 @@ vispro.view.Inspector = Backbone.View.extend({
             '   data-property-type="dependency" data-property-name="<%= type %>" >' +
             '   <option value="undefined"> - </option>' +
             '</select>'
+        ),
+
+        option: _.template(
+            '<option value="<%= value %>"><%= name %></option>'
         )
     },
 
@@ -90,9 +94,11 @@ vispro.view.Inspector = Backbone.View.extend({
         elements.dependencies = $(properties);
 
         _.each(model.dependencies, function (dependency, type) {
+            property = $(templates.property({ name: type}));
             input = $(templates.dependency({ type: type }));
-            properties.append(input);
             inputs[type] = $(input);
+            properties.append(property);
+            property.append(input);
         });
 
         properties = $(templates.properties({ name: 'properties', label: 'Properties' }));
@@ -100,8 +106,11 @@ vispro.view.Inspector = Backbone.View.extend({
         elements.properties = $(properties);
 
         _.each(model.properties, function (property, name) {
-
-            inputs[name] = input;
+            property = $(templates.property({ name: name }));
+            input = $(templates.text({ name: name, value: property }));
+            inputs[name] = $(input);
+            properties.append(property);
+            property.append(input);
         });
 
         model
@@ -141,8 +150,8 @@ vispro.view.Inspector = Backbone.View.extend({
         this
             .updatePosition(model.position)
             .updateDimensions(model.dimensions)
-            .updateDependencies();
-                
+            .updateDependencies(model.dependencies);
+        
         return this;
     },
 
@@ -178,13 +187,38 @@ vispro.view.Inspector = Backbone.View.extend({
         return this;
     },
 
-    updateDependencies: function () {
+    updateDependencies: function (dependencies) {
         
         var inputs = this.inputs,
-            widget = this.model;
+            model = this.model,
+            templates = this.templates,
+            collection = model.collection;
 
-        _.each(widget.dependencies, function (dependency, type) {
+        _.each(dependencies, function (dependency, type) {
 
+            var input = inputs[type],
+                widgets = collection.getByType(type),
+                value = dependency.value,
+                option = $(templates.option({ value: 'undefined', name: '-'}));
+
+            option
+                .data('widget', undefined);
+
+            input
+                .empty()
+                .append(option);
+
+            _.each(widgets, function (widget) {
+                var option = $(templates.option({ value: widget.id, name: widget.id }));
+
+                option
+                    .data('widget', widget);
+                
+                input
+                    .append(option);
+            });
+
+            input.val(value ? value.id : 'undefined');
         });
 
         return this;
@@ -196,27 +230,41 @@ vispro.view.Inspector = Backbone.View.extend({
             type = input.attr('data-property-type'),
             name = input.attr('data-property-name'),
             value = input.val(),
-            model = this.model;
+            model = this.model,
+            selected,
+            link;
 
         console.log(input);
 
         if (type === "position") {
+
             model.move({ 
                 top: (name === 'top') ? +value : model.position.top, 
                 left: (name === 'left') ? +value : model.position.left 
             });
         }
         else if (type === "dimension") {
+
             model.resize({ 
                 width: (name === 'width') ? +value : model.dimensions.width, 
                 height: (name === 'height') ? +value : model.dimensions.height
             });
         }
         else if (type === "property") {
+
             model.setProperty(name, value);
         }
         else if (type === "dependency") {
             
+            selected = $('option:selected', input);
+            link = selected.data('widget');
+
+            if (link === undefined) {
+                model.removeLink(model.dependencies[name].value);
+            }
+            else {
+                model.addLink(link);
+            }
         }
 
     },
