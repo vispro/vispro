@@ -22,22 +22,22 @@ vispro.view.Buttonbar = Backbone.View.extend({
             .appendTo(root)
             .append(b_sendToBack
                 // .attr('data-type', 'sendToBack')
-                .click($.proxy(model.sendToBack, model))
+                _.bind('click', model.sendToBack, model)
                 .button()
             )
             .append(b_sendBackward
                 // .attr('data-type', 'sendBackward')
-                .click($.proxy(model.sendBackward, model))
+                _.bind('click', model.sendBackward, model)
                 .button()
             )
             .append(b_bringToFront
                 // .attr('data-type', 'bringToFront')
-                .click($.proxy(model.bringToFront, model))
+                _.bind('click', model.bringToFront, model)
                 .button()
             )
             .append(b_bringForward
                 // .attr('data-type', 'bringForward')
-                .click($.proxy(model.bringForward, model))
+                _.bind('click', model.bringForward, model)
                 .button()
             );
 
