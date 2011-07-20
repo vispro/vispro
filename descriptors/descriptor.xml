@@ -34,7 +34,7 @@
             </properties>
             <code>
                 <insert match="html">
-<![CDATA[<div id="<%= id %>" style="position:absolute; top:<%= top %>; left:<%= left %>; z-index: <%= zIndex %>" ></div>]]>
+<![CDATA[<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>" ></div>]]>
                 </insert>
                 <insert match="js">
 <![CDATA[var <%= id %> = geopoi.sdk.zoom("<%= id %>", 
@@ -71,7 +71,7 @@
             </properties>
             <code>
                 <insert match="html">
-<![CDATA[<div id="<%= id %>" style="position:absolute; top:<%= top %>; left:<%= left %>; z-index: <%= zIndex %>" ></div>]]>
+<![CDATA[<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>" ></div>]]>
                 </insert>
                 <insert match="js">
 <![CDATA[var <%= id %> = geopoi.sdk.zoom("<%= id %>", 

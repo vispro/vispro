@@ -29,7 +29,7 @@ vispro.view.ButtonbarList = Backbone.View.extend({
         view
             .init({ 
                 model: widget,
-                root: this.el,
+                root: this.el
              })
             .render();
 

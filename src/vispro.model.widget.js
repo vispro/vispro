@@ -3,6 +3,7 @@ vispro.model.Widget = Backbone.Model.extend({
     init: function (options) {
 
         var descriptor = options.descriptor,
+            label = descriptor.label,
             type = descriptor.type,
             name = descriptor.name || type,
             image = descriptor.image.src,
@@ -35,6 +36,7 @@ vispro.model.Widget = Backbone.Model.extend({
 
         this.type = type;
         this.name = name;
+        this.label = label;
         this.image = image;
         this.snap = 15;
         this.id = id;
@@ -53,7 +55,7 @@ vispro.model.Widget = Backbone.Model.extend({
     setId: function (id) {
         
         this.id = id;
-        // this.trigger('change', id);
+        this.trigger('change_id', id);
 
         return this;
     },

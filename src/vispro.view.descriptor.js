@@ -16,6 +16,7 @@ vispro.view.Descriptor = Backbone.View.extend({
     init: function (options) {
 
         var descriptor = options.descriptor,
+            label = descriptor.label,
             name = descriptor.name,
             image = descriptor.image.src,
             dimensions = descriptor.dimensions,
@@ -34,24 +35,11 @@ vispro.view.Descriptor = Backbone.View.extend({
             height: height
         }))
             .css('z-index', 1000000);
-
-        // img = $('<img>');
-
-        // img
-        //     .addClass('descriptor-image')
-        //     .attr({
-        //         src: image,
-        //         alt: name
-        //     })
-        //     .css({
-        //         width: min(+width, 100) + 'px',
-        //         height: min(+height, 100) + 'px'
-        //     });
-
+        
         element
             .addClass('descriptor')
             .html(templates.element({
-                name: name,
+                name: label,
                 src: image,
                 alt: name,
                 width: min(+width, 100),

@@ -1,8 +1,10 @@
+var INPUT_WIDTH;
+
 vispro.view.Inspector = Backbone.View.extend({
     
     templates: {
         element: _.template(
-            '<span class="inspector-label"><%= name %></span>'
+            '<span class="inspector-label"><%= label %></span>'
         ),
 
         properties: _.template(
@@ -55,7 +57,7 @@ vispro.view.Inspector = Backbone.View.extend({
             property,
             input;
         
-        element.html(templates.element({ name: model.type }));
+        element.html(templates.element({ label: model.label }));
 
         properties = $(templates.properties({ name: 'dimensions', label: 'Dimensions' }));
         element.append(properties);
@@ -89,21 +91,29 @@ vispro.view.Inspector = Backbone.View.extend({
         properties.append(property);
         property.append(input);
 
-        properties = $(templates.properties({ name: 'dipendencies', label: 'Dependencies' }));
-        element.append(properties);
-        elements.dependencies = $(properties);
+        if (!_.isEmpty(model.dependencies)) {
+            properties = $(templates.properties({ name: 'dipendencies', label: 'Dependencies' }));
+            element.append(properties);
+            elements.dependencies = $(properties);
 
-        _.each(model.dependencies, function (dependency, type) {
-            property = $(templates.property({ name: type}));
-            input = $(templates.dependency({ type: type }));
-            inputs[type] = $(input);
-            properties.append(property);
-            property.append(input);
-        });
+            _.each(model.dependencies, function (dependency, type) {
+                property = $(templates.property({ name: type}));
+                input = $(templates.dependency({ type: type }));
+                inputs[type] = $(input);
+                properties.append(property);
+                property.append(input);
+            });
+        }
 
         properties = $(templates.properties({ name: 'properties', label: 'Properties' }));
         element.append(properties);
         elements.properties = $(properties);
+
+        property = $(templates.property({ name: 'id' }));
+        input = $(templates.text({ name: 'id', value: model.id }));
+        inputs.id = $(input);
+        properties.append(property);
+        property.append(input);
 
         _.each(model.attributes, function (value, name) {
             property = $(templates.property({ name: name }));
@@ -119,8 +129,8 @@ vispro.view.Inspector = Backbone.View.extend({
             .bind('move', _.bind(this.updatePosition, this))
             .bind('addlink', _.bind(this.updateDependencies, this))
             .bind('removelink', _.bind(this.updateDependencies, this))
-            .bind('remove', _.bind(this.remove, this));
-            // .bind('change:tooltip', _bind(this.changeProperty, this));
+            .bind('remove', _.bind(this.remove, this))
+            .bind('change', _.bind(this.updateProperties, this));
 
         this.model = model;
         this.element = element;
@@ -188,6 +198,35 @@ vispro.view.Inspector = Backbone.View.extend({
         return this;
     },
 
+    updateProperties: function (property) {
+        
+        var templates = this.templates,
+            elements = this.elements,
+            model = this.model,
+            properties = elements.properties,
+            inputs = this.inputs,
+            property,
+            input;
+
+        properties.empty();
+
+        property = $(templates.property({ name: 'id' }));
+        input = $(templates.text({ name: 'id', value: model.id }));
+        inputs.id = $(input);
+        properties.append(property);
+        property.append(input);
+
+        _.each(model.attributes, function (value, name) {
+            property = $(templates.property({ name: name }));
+            input = $(templates[model.descriptor.properties[name].type]({ name: name, value: value }));
+            inputs[name] = $(input);
+            properties.append(property);
+            property.append(input);
+        });
+
+        return this;
+    },
+
     updateDependencies: function (dependencies) {
         
         var inputs = this.inputs,
@@ -235,7 +274,11 @@ vispro.view.Inspector = Backbone.View.extend({
             selected,
             link;
 
-        if (type === "position") {
+        if (name === 'id') {
+
+            model.setId(value);
+        }
+        else if (type === "position") {
 
             model.move({ 
                 top: (name === 'top') ? +value : model.position.top, 
@@ -270,7 +313,6 @@ vispro.view.Inspector = Backbone.View.extend({
         } else if (type === "text" || type === "number"){
 
             model.setProperty(name, value);
-                
         }
     },
 

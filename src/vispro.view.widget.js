@@ -22,7 +22,7 @@ vispro.view.Widget = Backbone.View.extend({
                 height: dimensions.height + 'px',
                 'background-image': 'url(' + image + ')',
                 'background-repeat': 'no-repeat',
-                'background-position': 'left top',
+                'background-position': 'center center',//'left top',
                 'z-index': model.zIndex+''
             })
             .draggable({
@@ -139,7 +139,10 @@ vispro.view.Widget = Backbone.View.extend({
         
         event.stopPropagation();
 
-        this.model.resize(ui.size);
+        var t = ui,
+            size = ui.size;
+
+        this.model.resize(size);
     },
 
     onDrag: function (event, ui) {

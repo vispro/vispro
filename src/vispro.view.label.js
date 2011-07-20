@@ -18,11 +18,9 @@ vispro.view.Label = Backbone.View.extend({
             .append(label)
             .append(button);
         
-        console.log(element, label, button);
-
         model
             .bind('selected', _.bind(this.select, this))
-            .bind('change:id', _.bind(this.render, this))
+            .bind('change_id', _.bind(this.render, this))
             .bind('remove', _.bind(this.remove, this));
 
         this.model = model;
@@ -73,20 +71,20 @@ vispro.view.Label = Backbone.View.extend({
         }
     },
 
-    onMouseover: function (event) {
+    onMouseenter: function (event) {
         
         this.element.addClass('over');
     },
 
-    onMouseout: function (event) {
+    onMouseleave: function (event) {
     
         this.element.removeClass('over'); 
     },
 
     events: {
         click: 'onClick',
-        mouseover: 'onMouseover',
-        mouseout: 'onMouseout'
+        mouseenter: 'onMouseenter',
+        mouseleave: 'onMouseleave'
     }
 
 });

@@ -222,6 +222,21 @@ body {
 	position: relative;
 	padding-left: 15px;
 	height: 25px;
+	display: block;
+}
+
+.inspector-properties {
+	display: block;
+	padding-bottom: 5px;
+}
+
+.inspector-properties-label {
+	position: relative;
+	display: block;
+	padding-left: 15px;
+	top: 4px;
+	height: 25px;
+	width: 50px;
 }
 
 .inspector-property {
@@ -237,7 +252,8 @@ body {
 	float: left;
 }
 
-.inspector-property-input {
+.inspector-input {
+	position: relative;
 	border: 1px solid #d2d2d2;
 	height: 20px;
 	font-family: Helvetica, Verdana, sans-serif;

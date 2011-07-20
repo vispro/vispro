@@ -1,5 +1,14 @@
 vispro.view.Buttonbar = Backbone.View.extend({
 
+    template: _.template(
+        '<div class="buttonset">' + 
+        '    <button class="action bottom">bottom</button>' + 
+        '    <button class="action down">down</button>' + 
+        '    <button class="action up">up</button>' + 
+        '    <button class="action top">top</button>' + 
+        '</div>'
+    ),
+
     templates: {
         button: _.template(
             '<button><%= label %></button>'
@@ -11,41 +20,20 @@ vispro.view.Buttonbar = Backbone.View.extend({
         var element = $(this.el),
             root = options.root,
             model = options.model,
-            template = this.templates.button,
-            b_sendToBack = $(template({label: 's2B'})),
-            b_sendBackward = $(template({label: 'sb'})),
-            b_bringToFront = $(template({label: 'b2F'})),
-            b_bringForward = $(template({label: 'bf'}));
+            template = this.template;
 
         element
             .addClass('buttonbar')
-            .appendTo(root)
-            .append(b_sendToBack
-                // .attr('data-type', 'sendToBack')
-                .click($.proxy(model.sendToBack, model))
-                .button()
-            )
-            .append(b_sendBackward
-                // .attr('data-type', 'sendBackward')
-                .click($.proxy(model.sendBackward, model))
-                .button()
-            )
-            .append(b_bringToFront
-                // .attr('data-type', 'bringToFront')
-                .click($.proxy(model.bringToFront, model))
-                .button()
-            )
-            .append(b_bringForward
-                // .attr('data-type', 'bringForward')
-                .click($.proxy(model.bringForward, model))
-                .button()
-            );
+            .html(template())
+            .buttonset()
+            .appendTo(root);
 
          model
             .bind('selected', _.bind(this.select, this))
             .bind('remove', _.bind(this.remove, this));
 
         this.element = element;
+        this.model = model;
 
         return this;
     },
@@ -57,54 +45,48 @@ vispro.view.Buttonbar = Backbone.View.extend({
 
     select: function (selected) {
         
-        var  element = $(this.el);
-
         if (selected) {
-            element.show();
+            this.render().element.show();
         }
         else {
-            element.hide();
+            this.element.hide();
         }
 
         return this;
     }, 
     
     remove: function () {
+
         this.element.remove();
 
         delete this;
     },
 
-    // onClick: function (event) {
+    onClickBottom: function (event) {
 
-    //     console.log('sto a cliccà!');
+        this.model.sendToBack();
+    },
 
-    //     var target = $(event.target),
-    //         type = target.attr('data-type'),
-    //         model = this.model;
-
-    //     console.log(target);
+    onClickDown: function (event) {
         
-    //     if (type === 'sendToBack') {
-    //         $.proxy(model.sendToBack, model);
-    //     }
+        this.model.sendBackward();
+    },
 
-    //     if (type === 'sendBackward') {
-    //         $.proxy(model.sendBackward, model);
-    //     }
+    onClickUp: function (event) {
+        
+        this.model.bringForward();
+    },
 
-    //     if (type === 'bringToFront') {
-    //         $.proxy(model.bringToFront, model);
-    //     }
-
-    //     if (type === 'bringForward') {
-    //         $.proxy(model.bringForward, model);
-    //     }
-    // },
+    onClickTop: function (event) {
+        
+        this.model.bringToFront();
+    },
     
-    
-    // events: {
-    //     click: 'onClick'
-    // }  
+    events: {
+        'click button.action.bottom': 'onClickBottom',
+        'click button.action.down': 'onClickDown',
+        'click button.action.up': 'onClickUp',
+        'click button.action.top': 'onClickTop'
+    }  
     
 });
