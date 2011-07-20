@@ -1,13 +1,24 @@
 vispro.view.Label = Backbone.View.extend({
     
+    template: _.template(
+        '<span class="label-label"><%= id %></span>' + 
+        '<span class="label-button">x</span>'
+    ),
+
     init: function (options) {
                 
         var model = options.model,
-            element = $(this.el);
-        
+            element = $(this.el),
+            template = this.template,
+            label = $('<span class="label label">'),
+            button = $('<span class="label button">x</span>');
+
         element
             .addClass('label')
-            .text(model.id);
+            .append(label)
+            .append(button);
+        
+        console.log(element, label, button);
 
         model
             .bind('selected', _.bind(this.select, this))
@@ -16,13 +27,15 @@ vispro.view.Label = Backbone.View.extend({
 
         this.model = model;
         this.element = element;
+        this.label = label;
+        this.button = button;
 
         return this;
     },
 
     render: function () {
         
-        this.element.text(this.model.id);
+        this.label.text(this.model.id);
 
         return this;
     },
@@ -50,14 +63,14 @@ vispro.view.Label = Backbone.View.extend({
 
         event.stopPropagation();
 
-        this.model.select();
-    },
+        var target = $(event.target);
 
-    onDoubleclick: function (event) {
-        
-        event.stopPropagation();
-
-        this.model.destroy();  
+        if (target.hasClass('button')) {
+            this.model.destroy();
+        }
+        else {
+            this.model.select();
+        }
     },
 
     onMouseover: function (event) {
@@ -72,7 +85,6 @@ vispro.view.Label = Backbone.View.extend({
 
     events: {
         click: 'onClick',
-        dblclick: 'onDoubleclick',
         mouseover: 'onMouseover',
         mouseout: 'onMouseout'
     }
