@@ -60,21 +60,20 @@ body {
 }
 
 #buttonset {
-	display: inline;
 	position: relative;
 	top: 10px;
 	left: 215px;
 }
 
 #buttonbarList {
-	display: inline;
-	position: relative;
+	position: absolute;
 	top: 10px;
 	left: 215px;
 }
 
 .buttonbar {
-	display: inline;
+	position: relative;
+	left: 215px;
 }
 
 #logo {

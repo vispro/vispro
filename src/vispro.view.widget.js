@@ -6,23 +6,35 @@ vispro.view.Widget = Backbone.View.extend({
             descriptor = model.descriptor,
             dimensions = model.dimensions,
             position = model.position,
-            image = model.image,
+            src = model.image,
             element = $(this.el),
+            img = $('<img>'),
             width_resizable = descriptor.dimensions.width.resizable,
             height_resizable = descriptor.dimensions.height.resizable
             handles_str = width_resizable ? 'e, ' + (height_resizable ? ', s, se' :  '') : height_resizable ? 's' : '';
         
+        img
+            .attr({
+                src: src
+            })
+            .css({
+                position: 'absolute',
+                width: '100%',
+                height: '100%'
+            });
+
         element 
             .addClass('widget')
+            .append(img)
             .css({
                 position: 'absolute',
                 left: position.left + 'px',
                 top: position.top + 'px',
                 width: dimensions.width + 'px',
                 height: dimensions.height + 'px',
-                'background-image': 'url(' + image + ')',
-                'background-repeat': 'no-repeat',
-                'background-position': 'center center',//'left top',
+            //     'background-image': 'url(' + src + ')',
+            //     'background-repeat': 'no-repeat',
+            //     'background-position': 'center center',//'left top',
                 'z-index': model.zIndex+''
             })
             .draggable({
@@ -138,10 +150,9 @@ vispro.view.Widget = Backbone.View.extend({
         
         event.stopPropagation();
 
-        var t = ui,
-            size = ui.size;
+        console.log(ui);
 
-        this.model.resize(size);
+        this.model.resize(ui.size);
     },
 
     onDrag: function (event, ui) {
