@@ -149,9 +149,7 @@ vispro.view.Widget = Backbone.View.extend({
     onResize: function (event, ui) {
         
         event.stopPropagation();
-
-        console.log(ui);
-
+        
         this.model.resize(ui.size);
     },
 

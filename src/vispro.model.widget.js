@@ -292,6 +292,7 @@ vispro.model.Widget = Backbone.Model.extend({
         state.position = this.position;
         state.zIndex = this.zIndex;
         state.properties = this.attributes;
+        
         _.each(this.dependencies, function (dependency, type) {
             dep_value = dependency.value;
             if (dep_value) {
