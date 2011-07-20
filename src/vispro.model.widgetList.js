@@ -4,12 +4,23 @@ vispro.model.WidgetList = Backbone.Collection.extend({
     
     model: vispro.model.Widget,
 
+    getByCid: function (cid) {
+        
+        var result;
+
+        result = this.detect(function (widget) {
+            return widget.cid === cid;
+        });
+
+        return result;
+    },
+
     getById: function (id) {
         
         var result;
 
         result = this.detect(function (widget) {
-            return widget.attributes.id === id;
+            return widget.id === id;
         });
 
         return result;
@@ -42,17 +53,17 @@ vispro.model.WidgetList = Backbone.Collection.extend({
         var sorted = [];
         
         while (this.any(function (widget) {
-            return sorted.indexOf(widget) == -1;
+            return _.indexOf(sorted, widget) == -1;
         })) {
 
             this
                 .chain()
                 .filter(function (widget) {
-                    return sorted.indexOf(widget) == -1;
+                    return _.indexOf(sorted, widget) == -1;
                 })
                 .filter(function (widget) {
                     return _.all(widget.getLinkList(), function (link) {
-                        return sorted.indexOf(link) >= 0;
+                        return _.indexOf(sorted, link) >= 0;
                     });
                 })
                 .each(function (widget) {

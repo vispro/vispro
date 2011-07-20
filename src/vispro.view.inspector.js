@@ -130,7 +130,8 @@ vispro.view.Inspector = Backbone.View.extend({
             .bind('addlink', _.bind(this.updateDependencies, this))
             .bind('removelink', _.bind(this.updateDependencies, this))
             .bind('remove', _.bind(this.remove, this))
-            .bind('change', _.bind(this.updateProperties, this));
+            .bind('change', _.bind(this.updateProperties, this))
+            .bind('change_id', _.bind(this.updateProperties, this));
 
         this.model = model;
         this.element = element;
@@ -151,7 +152,6 @@ vispro.view.Inspector = Backbone.View.extend({
         
         this.element.remove();
 
-        delete this;
     },
 
     render: function () {

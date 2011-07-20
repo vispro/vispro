@@ -293,7 +293,7 @@ vispro.model.Widget = Backbone.Model.extend({
         _.each(this.dependencies, function (dependency, type) {
             dep_value = dependency.value;
             if (dep_value) {
-                dependencies[type] = dependency.value.id;
+                dependencies[type] = dependency.value.cid;
             }
         });
 
@@ -330,7 +330,7 @@ vispro.model.Widget = Backbone.Model.extend({
             dimensions = this.dimensions,
             properties = this.attributes,
             dependencies = this.dependencies,
-            ids = { id: this.id, cid: this.cid},
+            props = { id: this.id, cid: this.cid, zIndex: this.zIndex},
             links = {},
             values = {},
             sources = {};
@@ -352,8 +352,8 @@ vispro.model.Widget = Backbone.Model.extend({
                 var value,
                     dependency;
 
-                if (parameter in ids) {
-                    value = ids[parameter];
+                if (parameter in props) {
+                    value = props[parameter];
                 }
                 else if (parameter in properties) {
                     value = properties[parameter];

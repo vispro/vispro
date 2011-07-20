@@ -1,23 +1,18 @@
 vispro.view.Label = Backbone.View.extend({
-    
-    template: _.template(
-        '<span class="label-label"><%= id %></span>' + 
-        '<span class="label-button">x</span>'
-    ),
 
     init: function (options) {
                 
         var model = options.model,
             element = $(this.el),
             template = this.template,
-            label = $('<span class="label label">'),
+            label = $('<span class="label"></span>'),
             button = $('<span class="label button">x</span>');
 
         element
             .addClass('label')
             .append(label)
             .append(button);
-        
+
         model
             .bind('selected', _.bind(this.select, this))
             .bind('change_id', _.bind(this.render, this))
@@ -42,7 +37,6 @@ vispro.view.Label = Backbone.View.extend({
         
         this.element.remove();
 
-        delete this;
     },
 
     select: function (model, selected) {

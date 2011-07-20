@@ -59,7 +59,6 @@ vispro.view.Buttonbar = Backbone.View.extend({
 
         this.element.remove();
 
-        delete this;
     },
 
     onClickBottom: function (event) {

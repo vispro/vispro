@@ -24,7 +24,8 @@ vispro.view.WidgetLinker = Backbone.View.extend({
                 top: y - radius,
                 left: x - radius,
                 width: 2 * radius,
-                height: 2 * radius
+                height: 2 * radius,
+                'z-index': '1000000'
             })
             .draggable({
                 helper: function () {
@@ -74,7 +75,13 @@ vispro.view.WidgetLinker = Backbone.View.extend({
         this.container.render();
     },
 
+    onClick: function (event) {
+        
+        console.log('ME STANNO A CLICCA');
+    },
+
     events: {
+        click: 'onClick',
         dragstart: 'onDragstart',
         dragstop: 'onDragstop',
         drag: 'onDrag',

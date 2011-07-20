@@ -16,7 +16,10 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
         
         canvas
             .attr({ id: 'workspace-layer-link' })
-            .css({ position: 'absolute' });
+            .css({ 
+                position: 'absolute', 
+                'z-index': '2001'
+            });
         
         this.model = model;
         this.layerLinks = layerLinks;

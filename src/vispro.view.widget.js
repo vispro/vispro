@@ -71,7 +71,6 @@ vispro.view.Widget = Backbone.View.extend({
     
         this.element.remove();
         
-        delete this;
     },
 
     resize: function (dimensions) {
