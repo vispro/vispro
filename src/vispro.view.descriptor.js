@@ -35,29 +35,28 @@ vispro.view.Descriptor = Backbone.View.extend({
         }))
             .css('z-index', 1000000);
 
-        img = $('<img>');
+        // img = $('<img>');
 
-        img
-            .addClass('descriptor-image')
-            .attr({
-                src: image,
-                alt: name
-            })
-            .css({
-                width: min(+width, 100) + 'px',
-                height: min(+height, 100) + 'px'
-            });
+        // img
+        //     .addClass('descriptor-image')
+        //     .attr({
+        //         src: image,
+        //         alt: name
+        //     })
+        //     .css({
+        //         width: min(+width, 100) + 'px',
+        //         height: min(+height, 100) + 'px'
+        //     });
 
         element
-        //     .html(templates.element({
-        //         name: name,
-        //         src: image,
-        //         alt: name,
-        //         width: min(+width, 100),
-        //         height: min(+height, 80)
-        //     }))
             .addClass('descriptor')
-            .append(img)
+            .html(templates.element({
+                name: name,
+                src: image,
+                alt: name,
+                width: min(+width, 100),
+                height: min(+height, 80)
+            }))
             .data('descriptor', descriptor)
             .draggable({
                 cursor: 'move',

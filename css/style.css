@@ -213,6 +213,10 @@ body {
 	background-color: #f1f1f1;
 }
 
+.label.button {
+	padding-left: 25px;
+}
+
 /*
  * PANEL INSPECTOR
  */
