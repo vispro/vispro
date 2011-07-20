@@ -149,7 +149,7 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
                 }
             })
             .click(function () {
-                widgetFrom.removeLink(widgetTo);
+                widgetFrom.removeLink(widgetTo.type);
                 arrow.attr({path: ''});
                 link.attr({path: ''});
                 arrow.remove();

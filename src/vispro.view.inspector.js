@@ -1,5 +1,3 @@
-var INPUT_WIDTH;
-
 vispro.view.Inspector = Backbone.View.extend({
     
     templates: {
@@ -161,7 +159,8 @@ vispro.view.Inspector = Backbone.View.extend({
         this
             .updatePosition(model.position)
             .updateDimensions(model.dimensions)
-            .updateDependencies(model.dependencies);
+            .updateDependencies(model.dependencies)
+            .updateProperties();
         
         return this;
     },
@@ -207,6 +206,8 @@ vispro.view.Inspector = Backbone.View.extend({
             inputs = this.inputs,
             property,
             input;
+
+        OUT = properties;
 
         properties.empty();
 
@@ -258,7 +259,7 @@ vispro.view.Inspector = Backbone.View.extend({
                     .append(option);
             });
 
-            input.val(value ? value.id : 'undefined');
+            input.val(value ? value : 'undefined');
         });
 
         return this;
@@ -299,10 +300,10 @@ vispro.view.Inspector = Backbone.View.extend({
             link = selected.data('widget');
 
             if (link === undefined) {
-                model.removeLink(model.dependencies[name].value);
+                model.removeLink(name);
             }
             else {
-                model.addLink(link);
+                model.addLink(link.type, link.cid);
             }
         }
 

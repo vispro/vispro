@@ -92,33 +92,31 @@ vispro.model.Widget = Backbone.Model.extend({
         return this;
     },
 
-    addLink: function (widget) {
+    addLink: function (type, cid) {
 
-        if (typeof widget === 'undefined') {
+        if (typeof type === 'undefined') {
             return;
         }
 
-        var dependencies = this.dependencies,
-            type = widget.type;
+        var dependencies = this.dependencies;
 
         if (!(type in dependencies)) {
             return this;
         }
 
-        dependencies[type].value = widget;
+        dependencies[type].value = cid;
         this.trigger('addlink', dependencies);
 
         return this;
     },
 
-    removeLink: function (widget) {
+    removeLink: function (type) {
         
-        if (typeof widget === 'undefined') {
+        if (typeof type === 'undefined') {
             return;
         }
 
-        var dependencies = this.dependencies,
-            type = widget.type;
+        var dependencies = this.dependencies;
 
         if (!(type in dependencies)) {
             return this;
@@ -132,15 +130,19 @@ vispro.model.Widget = Backbone.Model.extend({
 
     getLinkList: function () {
         
-        var list = [];
+        var list = [],
+            collection = this.collection;
         
         _(this.dependencies)
             .chain()
             .filter(function (dependency) {
                 return dependency.value !== undefined;
             })
+            .filter(function (dependency) {
+                return collection.getByCid(dependency.value) !== undefined;
+            })
             .each(function (dependency) {
-                list.push(dependency.value);
+                list.push(collection.getByCid(dependency.value));
             });
 
         return list;

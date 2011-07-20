@@ -71,7 +71,7 @@ vispro.view.WidgetLinker = Backbone.View.extend({
             linker = draggable.data('linker'),
             widget = linker.model;
         
-        widget.addLink(model);
+        widget.addLink(model.type, model.cid);
         this.container.render();
     },
 
