@@ -299,7 +299,7 @@ vispro.model.Widget = Backbone.Model.extend({
     },
 
     restore: function (state, dependencies) {
-        var obj = {};
+        // var obj = {};
 
         this.cid = state.cid;
 
@@ -308,10 +308,10 @@ vispro.model.Widget = Backbone.Model.extend({
         this.setId(state.id);
         this.setZIndex(state.zIndex);
 
-        _.each(state.properties, function(value, name) {
-            obj[name] = value;
-        });
-        this.set(obj);
+        // _.each(state.properties, function(value, name) {
+        //     obj[name] = value;
+        // });
+        this.set(state.properties);
 
         _.each(dependencies, function (widget) {
             this.addLink(widget);

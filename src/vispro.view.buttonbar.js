@@ -45,6 +45,8 @@ vispro.view.Buttonbar = Backbone.View.extend({
             .bind('selected', _.bind(this.select, this))
             .bind('remove', _.bind(this.remove, this));
 
+        this.element = element;
+
         return this;
     },
 
@@ -68,7 +70,9 @@ vispro.view.Buttonbar = Backbone.View.extend({
     }, 
     
     remove: function () {
-        //...
+        this.element.remove();
+
+        delete this;
     },
 
     // onClick: function (event) {
