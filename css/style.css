@@ -55,24 +55,34 @@ body {
 	background-color: #f1f1f1;
 }
 
+#bar_slot {
+	position: relative;
+	top: 10px;
+	left: 215px;
+}
+
 #toolbar {
 	display: inline;
 }
 
+#buttonbarList {
+	display: inline;
+}
+
 #buttonset {
-	position: relative;
+	/*position: relative;*/
+	display: inline;
 	top: 10px;
 	left: 215px;
 }
 
-#buttonbarList {
-	position: absolute;
-	top: 10px;
-	left: 215px;
+.buttonset {
+	display: inline;
 }
 
 .buttonbar {
-	position: relative;
+	/*position: relative;*/
+	display: inline;
 	left: 215px;
 }
 

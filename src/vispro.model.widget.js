@@ -282,8 +282,7 @@ vispro.model.Widget = Backbone.Model.extend({
 
     save: function () {
         var dependencies = {},
-            state = {dependencies: dependencies},
-            dep_value;
+            state = {dependencies: dependencies};
 
         state.name = this.name;
         state.cid = this.cid;
@@ -292,18 +291,15 @@ vispro.model.Widget = Backbone.Model.extend({
         state.position = this.position;
         state.zIndex = this.zIndex;
         state.properties = this.attributes;
-        _.each(this.dependencies, function (dependency, type) {
-            dep_value = dependency.value;
-            if (dep_value) {
-                dependencies[type] = dependency.value.cid;
-            }
+        _.each(this.getLinkList(), function (dependency) {
+            dependencies[dependency.type] = dependency.cid;
         });
 
         return state;
     },
 
-    restore: function (state, dependencies) {
-        // var obj = {};
+    restore: function (state) {
+        var dependencies = state.dependencies;
 
         this.cid = state.cid;
 
@@ -312,15 +308,11 @@ vispro.model.Widget = Backbone.Model.extend({
         this.setId(state.id);
         this.setZIndex(state.zIndex);
 
-        // _.each(state.properties, function(value, name) {
-        //     obj[name] = value;
-        // });
         this.set(state.properties);
 
-        _.each(dependencies, function (widget) {
-            this.addLink(widget);
+        _.each(dependencies, function (id, type) {
+            this.addLink(type, id);
         }, this);
-
 
     },
 

@@ -4,14 +4,10 @@ vispro.view.Label = Backbone.View.extend({
                 
         var model = options.model,
             element = $(this.el),
-            template = this.template,
-            label = $('<span class="label"></span>'),
-            button = $('<span class="label button">x</span>');
+            template = this.template;
 
         element
-            .addClass('label')
-            .append(label)
-            .append(button);
+            .addClass('label');
 
         model
             .bind('selected', _.bind(this.select, this))
@@ -20,15 +16,13 @@ vispro.view.Label = Backbone.View.extend({
 
         this.model = model;
         this.element = element;
-        this.label = label;
-        this.button = button;
 
         return this;
     },
 
     render: function () {
         
-        this.label.text(this.model.id);
+        this.element.text(this.model.id);
 
         return this;
     },
@@ -39,7 +33,9 @@ vispro.view.Label = Backbone.View.extend({
 
     },
 
-    select: function (model, selected) {
+    select: function (selected) {
+
+        console.log('SO SELEZIONATO!');
 
         if (selected) {
             this.element.addClass('selected');
@@ -55,14 +51,7 @@ vispro.view.Label = Backbone.View.extend({
 
         event.stopPropagation();
 
-        var target = $(event.target);
-
-        if (target.hasClass('button')) {
-            this.model.destroy();
-        }
-        else {
-            this.model.select();
-        }
+        this.model.select();
     },
 
     onMouseenter: function (event) {

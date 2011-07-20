@@ -11,7 +11,6 @@ vispro.view.ButtonbarList = Backbone.View.extend({
             root = options.root;
 
         element
-            .cover()
             .appendTo(root);
                 
         model

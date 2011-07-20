@@ -1,17 +1,18 @@
 vispro.view.Buttonbar = Backbone.View.extend({
 
-    template: _.template(
-        '<div class="buttonset">' + 
-        '    <button class="action bottom">bottom</button>' + 
-        '    <button class="action down">down</button>' + 
-        '    <button class="action up">up</button>' + 
-        '    <button class="action top">top</button>' + 
-        '</div>'
-    ),
-
     templates: {
-        button: _.template(
-            '<button><%= label %></button>'
+
+        positions: _.template(
+            '<div class="buttonset">' + 
+            '    <button class="action bottom">bottom</button>' + 
+            '    <button class="action down">down</button>' + 
+            '    <button class="action up">up</button>' + 
+            '    <button class="action top">top</button>' + 
+            '</div>'
+        ),
+
+        trash: _.template(
+            '<button class="action trash">trash</button>'
         )
     },
 
@@ -20,12 +21,21 @@ vispro.view.Buttonbar = Backbone.View.extend({
         var element = $(this.el),
             root = options.root,
             model = options.model,
-            template = this.template;
+            templates = this.templates,
+            positions = $(templates.positions()).buttonset(),
+            trash = $(templates.trash()).button({
+                icons: {
+                    primary: "ui-icon-trash"
+                },
+                text: false
+
+            });
+
 
         element
             .addClass('buttonbar')
-            .html(template())
-            .buttonset()
+            .append(positions)
+            .append(trash)
             .appendTo(root);
 
          model
@@ -80,12 +90,18 @@ vispro.view.Buttonbar = Backbone.View.extend({
         
         this.model.bringToFront();
     },
+
+    onClickTrash: function (event) {
+        
+        this.model.destroy();
+    },
     
     events: {
         'click button.action.bottom': 'onClickBottom',
         'click button.action.down': 'onClickDown',
         'click button.action.up': 'onClickUp',
-        'click button.action.top': 'onClickTop'
+        'click button.action.top': 'onClickTop',
+        'click button.action.trash': 'onClickTrash'
     }  
     
 });

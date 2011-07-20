@@ -22,6 +22,7 @@ vispro.view.LabelList = Backbone.View.extend({
         widgetList
             .bind('add', _.bind(this.add, this))
 
+        this.panelList = element.find('.panel-list');
         this.element = element;
         this.model = model;
         this.widgetList = widgetList;
@@ -37,7 +38,7 @@ vispro.view.LabelList = Backbone.View.extend({
             .init({ model: widget })
             .render()
             .element
-                .appendTo(this.element);
+                .appendTo(this.panelList);
         
         return this;
     },
