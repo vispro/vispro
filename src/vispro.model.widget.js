@@ -132,7 +132,8 @@ vispro.model.Widget = Backbone.Model.extend({
 
     getLinkList: function () {
         
-        var list = [];
+        var list = [],
+            collection = this.collection;
         
         _(this.dependencies)
             .chain()
