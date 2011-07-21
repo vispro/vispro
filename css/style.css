@@ -136,6 +136,7 @@ body {
 	height: 105px;
 	padding-left: 15px;
 	padding-top: 5px;
+	cursor: pointer;
 }
 
 .descriptor-label {
@@ -143,7 +144,7 @@ body {
 	padding-bottom: 5px;
 }
 
-.descriptor.selected {
+.descriptor.over {
 	border-right: 1px solid #4d90f0;
 	background-color: #f1f1f1;
 }
@@ -212,6 +213,11 @@ body {
 	height: 20px;
 	padding-top: 5px;
 	padding-left: 15px;
+	cursor: pointer;
+}
+
+.label.over {
+	background-color: #fbfbfb;
 }
 
 .label.selected {
@@ -272,7 +278,7 @@ body {
 
 .inspector-property-select {
 	
-}
+} 
 
 /* 
  * GRID

@@ -76,12 +76,12 @@ vispro.view.Descriptor = Backbone.View.extend({
 
     focus: function () {
         
-        this.element.addClass('focus');
+        this.element.addClass('over');
     },
 
     blur: function () {
         
-        this.element.removeClass('focus');
+        this.element.removeClass('over');
     },
 
     events: {
