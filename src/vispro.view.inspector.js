@@ -95,7 +95,7 @@ vispro.view.Inspector = Backbone.View.extend({
         if (i_dimensions.width.resizable === false) {
             inputs.width.attr({ readonly: true });
         }
-        if (i_dimensions.width.resizable === false) {
+        if (i_dimensions.height.resizable === false) {
             inputs.height.attr({ readonly: true });
         }
         if (_.isEmpty(i_dependencies)) {
