@@ -184,7 +184,7 @@ vispro.view.Inspector = Backbone.View.extend({
                 value = model.get(name);
             
             if (type === 'bool') {
-                input.attr({ checked: value });
+                input.attr({ checked: value+'' });
             }
 
             input.val(value);
