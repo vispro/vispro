@@ -3,7 +3,7 @@ vispro.view.Inspector = Backbone.View.extend({
     templates: {
 
         element: _.template(
-            '<span class="inspector-label">Inspector</span>' + 
+            '<span class="inspector-label"><%= label %></span>' + 
             
             '<div class="inspector-properties position">' + 
             '    <span class="inspector-properties-label">Position</span>' + 

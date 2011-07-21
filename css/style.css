@@ -132,7 +132,7 @@ body {
  */
 
 .descriptor {
-	width: 183px;
+	width: 165px;
 	height: 105px;
 	padding-left: 15px;
 	padding-top: 5px;
@@ -142,6 +142,8 @@ body {
 .descriptor-label {
 	display: block;
 	padding-bottom: 5px;
+	width: 165px;
+	text-overflow: ellipsis;
 }
 
 .descriptor.over {

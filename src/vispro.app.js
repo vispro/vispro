@@ -47,7 +47,7 @@ vispro.App = Backbone.View.extend({
         
         panels.east
             .layout({
-                south__size: .6,
+                south__size: .7,
                 south__spacing_open: 2
             });
 
@@ -75,7 +75,7 @@ vispro.App = Backbone.View.extend({
                 workspace: workspace,
                 widgetList: widgetList,
                 states: {
-                    normal: _.bind(this.normal, this),
+                    visual: _.bind(this.normal, this),
                     link: _.bind(this.link, this),
                     code: _.bind(this.code, this)
                 }    
@@ -211,7 +211,7 @@ vispro.App = Backbone.View.extend({
     },
 
     states: {
-        normal: 'normal',
+        normal: 'visual',
         link: 'link',
         code: 'code'
     }

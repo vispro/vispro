@@ -4,7 +4,7 @@ vispro.model.Workspace = Backbone.Model.extend({
         type: 'workspace',
         name: 'Workspace',
         dimensions: {
-            width: 800,
+            width: 600,
             height: 450
         },
         grid: 15
