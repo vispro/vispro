@@ -148,6 +148,25 @@ vispro.model.Widget = Backbone.Model.extend({
         return list;
     },
 
+    getEffectiveLinks: function () {
+        
+        var obj = [],
+            collection = this.collection;
+        
+        _.each(this.dependencies, function (dependency, type) {
+            var cid = dependency.value,
+                widget = cid ? collection.getByCid(cid) : undefined;
+
+            if (widget) {
+                obj[dependency.name] = widget.id;
+            }
+        })
+
+        return obj;
+    },
+
+
+
     isOverlappedOn: function (widget) {
         
         if (this === widget) {
@@ -346,14 +365,9 @@ vispro.model.Widget = Backbone.Model.extend({
             properties = this.attributes,
             dependencies = this.dependencies,
             props = { id: this.id, cid: this.cid, zIndex: this.zIndex},
-            links = {},
+            links = this.getEffectiveLinks(),
             values = {},
             sources = {};
-
-        _.each(dependencies, function (dependency) {
-            links[dependency.name] = (dependency.value !== undefined)
-                ? dependency.value.id : 'undefined';
-        });
                 
         _.each(templates, function (template, name) {
 

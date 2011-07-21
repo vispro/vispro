@@ -62,8 +62,7 @@ var vispro = (function () {
     }
 
     function unload() {
-        app
-            .unload(); 
+        window.location.reload(); 
     }
 
     function init (/* descriptor_url */) {        
@@ -89,9 +88,14 @@ var vispro = (function () {
     }
 
     function restore (state_str) {
-        var state = $.secureEvalJSON(state_str);
-
-        load(state.descriptor_url, state);
+        var state;
+        
+        try {
+            state = $.secureEvalJSON(state_str);
+            load(state.descriptor_url, state);
+        } catch (error) {
+            throw error;
+        }
     }
     
     return {

@@ -28,7 +28,6 @@ vispro.view.Buttonbar = Backbone.View.extend({
                     primary: "ui-icon-trash"
                 },
                 text: false
-
             });
 
 
@@ -93,7 +92,13 @@ vispro.view.Buttonbar = Backbone.View.extend({
 
     onClickTrash: function (event) {
         
-        this.model.destroy();
+        var model = this.model;
+
+        if (window.confirm ('Eliminare ' + model.label + ' ' + model.id + '?')) {
+            
+            model.destroy();
+        }
+        
     },
     
     events: {
