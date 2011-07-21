@@ -184,7 +184,7 @@ vispro.view.Inspector = Backbone.View.extend({
                 value = model.get(name);
             
             if (type === 'bool') {
-                input.attr({ checked: value+'' });
+                input.attr({ checked: value});
             }
 
             input.val(value);
@@ -245,8 +245,8 @@ vispro.view.Inspector = Backbone.View.extend({
             inputs = this.inputs;
         
         model.resize({
-            width: inputs.width.val(),
-            height: inputs.height.val()
+            width: +inputs.width.val(),
+            height: +inputs.height.val()
         });
 
         return this;
@@ -258,8 +258,8 @@ vispro.view.Inspector = Backbone.View.extend({
             inputs = this.inputs;
         
         model.move({
-            top: inputs.top.val(),
-            left: inputs.left.val()
+            top: +inputs.top.val(),
+            left: +inputs.left.val()
         });
 
         return this;
