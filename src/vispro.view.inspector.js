@@ -71,9 +71,13 @@ vispro.view.Inspector = Backbone.View.extend({
     init: function (options) {
 
         var model = options.model,
+            descriptor = model.descriptor,
+            i_dimensions = descriptor.dimensions,
+            i_dependencies = model.dependencies,
             templates = this.templates,
             element = $(this.el),
-            inputs = {};
+            inputs = {},
+            divs = {};
 
         element.html(templates.element(model));
 
@@ -84,6 +88,19 @@ vispro.view.Inspector = Backbone.View.extend({
         inputs.id = $(element.find('.inspector-input.id'));
         inputs.properties = $(element.find('.inspector-input.property'));
         inputs.dependencies = $(element.find('.inspector-input.dependency'));
+
+        divs.properties = $(element.find('.inspector-properties.properties'));
+        divs.dependencies = $(element.find('.inspector-properties.dependencies'));
+
+        if (i_dimensions.width.resizable === false) {
+            inputs.width.attr({ readonly: true });
+        }
+        if (i_dimensions.width.resizable === false) {
+            inputs.height.attr({ readonly: true });
+        }
+        if (_.isEmpty(i_dependencies)) {
+            divs.dependencies.hide();
+        }
 
         model
             .bind('selected', _.bind(this.select, this))
