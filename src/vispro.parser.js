@@ -13,10 +13,10 @@ vispro.parseXML = function (vispro_descriptor_xml, callback) {
         tag_widget_image = 'image',
         tag_widget_dimensions = 'dimensions',
         tag_widegt_dependencies = 'dependencies',
-            tag_widget_dependency = 'dependency',
+        tag_widget_dependency = 'dependency',
         tag_widget_properties = 'properties',
         tag_widget_code = 'code',
-            tag_widget_template = 'insert';
+        tag_widget_template = 'insert';
 
     var jdescriptor_xml = $(vispro_descriptor_xml),
         output_template = $.trim(jdescriptor_xml.find('source').text()),

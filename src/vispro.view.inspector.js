@@ -36,14 +36,15 @@ vispro.view.Inspector = Backbone.View.extend({
             '        <input type="text" class="inspector-input id" />' +
             '    </div>' +
 
-            '<% _.each(attributes, function (attribute, name) { %>' + 
-
+            '<% _.each(descriptor.properties, function (property, name) { %>' + 
+            
             '    <div class="inspector-property">' +
             '        <span class="inspector-property-label"><%= name %></span>' +
-            '        <input type="text" class="inspector-input property" data-name="<%= name %>" />' +
+            '        <input type="<%= (property.type === "bool" ? "checkbox" : property.type) %>" ' + 
+            '            class="inspector-input property" data-name="<%= name %>" data-type="<%= property.type %>" />' +
             '    </div>' + 
 
-            '<% }); %>' + 
+            '<% }, this); %>' + 
 
             '</div>' + 
 
@@ -74,6 +75,7 @@ vispro.view.Inspector = Backbone.View.extend({
             descriptor = model.descriptor,
             i_dimensions = descriptor.dimensions,
             i_dependencies = model.dependencies,
+            i_properties = descriptor.properties,
             templates = this.templates,
             element = $(this.el),
             inputs = {},
@@ -178,7 +180,12 @@ vispro.view.Inspector = Backbone.View.extend({
 
             var input = $(input),
                 name = input.attr('data-name'),
+                type = input.attr('data-type'),
                 value = model.get(name);
+            
+            if (type === 'bool') {
+                input.attr({ checked: value });
+            }
 
             input.val(value);
         });

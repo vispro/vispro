@@ -30,7 +30,7 @@
                 </dependency>
             </dependencies>
             <properties>
-                <bool name="tooltip" label="Tooltip property" default="false"/>
+                <bool name="tooltip" label="Tooltip property" default="true"/>
             </properties>
             <code>
                 <insert match="html">

@@ -35,8 +35,6 @@ vispro.view.Label = Backbone.View.extend({
 
     select: function (selected) {
 
-        console.log('SO SELEZIONATO!');
-
         if (selected) {
             this.element.addClass('selected');
         }

@@ -108,17 +108,3 @@ vispro.model.WidgetList = Backbone.Collection.extend({
     }
     
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
