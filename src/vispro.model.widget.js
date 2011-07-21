@@ -224,12 +224,31 @@ vispro.model.Widget = Backbone.Model.extend({
 
     resize: function (dimensions) {
         
+        var i = this.descriptor.dimensions,
+            i_width = i.width,
+            i_height = i.height,
+            width = dimensions.width,
+            height = dimensions.height;
+
+        if (i.width.resizable 
+                && i_width.min < width 
+                && width < i_width.max) {
+                
+            this.dimensions.width = width;
+        }
+        if (i.height.resizable
+                && i_height.min < height
+                && height < i_height.max) {
+            
+            this.dimensions.height = height;            
+        }
+
         this.dimensions = {
             width: dimensions.width,
             height: dimensions.height
         };
 
-        this.trigger('resize', dimensions);
+        this.trigger('resize', this.dimensions);
         this.collection.overlap();
 
         return this;
@@ -291,8 +310,10 @@ vispro.model.Widget = Backbone.Model.extend({
         state.position = this.position;
         state.zIndex = this.zIndex;
         state.properties = this.attributes;
+        
         _.each(this.getLinkList(), function (dependency) {
             dependencies[dependency.type] = dependency.cid;
+
         });
 
         return state;
