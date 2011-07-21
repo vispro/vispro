@@ -109,7 +109,7 @@ vispro.parseXML = function (vispro_descriptor_xml, callback) {
             widget_json_properties[attrs['name']] = property;
             property.label = attrs['name'];
             property.type = j_xml_property_node[0].nodeName;
-            property.value = attrs['default'];
+            property.value = attrs['default'] == 'true';
             property.writable = true;
         });
 
