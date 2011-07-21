@@ -280,7 +280,8 @@ vispro.view.Inspector = Backbone.View.extend({
         var model = this.model,
             target = $(event.target),
             name = target.attr('data-name'),
-            value = target.val(),
+            type = target.attr('data-type'),
+            value = type === 'bool' ? target.is(':checked') : target.val(),
             obj = {};
         
         obj[name] = value;
@@ -314,7 +315,7 @@ vispro.view.Inspector = Backbone.View.extend({
         'change input.top': 'change_position',
         'change input.left': 'change_position',
         'change input.id': 'change_id',
-        'change .inspector-input.property': 'change_property',
+        'change input.property': 'change_property',
         'change select.dependency': 'change_dependency'
     }
 
