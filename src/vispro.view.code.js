@@ -42,6 +42,7 @@ vispro.view.Code = Backbone.View.extend({
             source = model.compile();
         }
         else {
+            alert(vispro.save());
             source = vispro.logger.print();
         }
 
