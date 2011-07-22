@@ -34,7 +34,16 @@ vispro.view.Code = Backbone.View.extend({
         var el = $(this.el),
             code = this.code,
             model = this.model,
+            source = '';
+        
+        vispro.logger.clear();
+        
+        if (model.isValid() === true) {
             source = model.compile();
+        }
+        else {
+            source = vispro.logger.print();
+        }
 
         el.empty();
 

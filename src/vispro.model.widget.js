@@ -165,8 +165,6 @@ vispro.model.Widget = Backbone.Model.extend({
         return obj;
     },
 
-
-
     isOverlappedOn: function (widget) {
         
         if (this === widget) {
@@ -275,7 +273,25 @@ vispro.model.Widget = Backbone.Model.extend({
 
     isValid: function () {
         
-        return true;
+        var collection = this.collection,
+            test = true;
+
+        _(this.dependencies)
+            .each(function (dependency, type) {
+                if (dependency.required === true
+                    && (dependency.value === undefined
+                    || collection.getByCid(dependency.value) === undefined)) {
+                        
+                vispro.logger.log(
+                    "widget " + this.type + " " + this.id + " " + 
+                    "must have link " + dependency.name + "!"
+                );
+
+                test = false;
+            }
+        }, this);
+
+        return test;
     },
 
     bringToFront: function () {
@@ -297,7 +313,6 @@ vispro.model.Widget = Backbone.Model.extend({
         this.workspace.sendWidgetBackward(this);
 
         return this;
-
     },
 
     bringForward: function () {

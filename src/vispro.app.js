@@ -15,7 +15,8 @@ vispro.App = Backbone.View.extend({
 
     models: {
         descriptorList: new vispro.model.DescriptorList(),
-        workspace: new vispro.model.Workspace()
+        workspace: new vispro.model.Workspace(),
+        logger: new vispro.model.Logger()
     },
 
     views: {
@@ -110,7 +111,6 @@ vispro.App = Backbone.View.extend({
             .init({ model: models.workspace })
             .element
                 .appendTo(panels.east_south);
-
 
         models.descriptorList
             .addAll(parsed_obj.descriptors);

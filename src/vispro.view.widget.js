@@ -9,9 +9,17 @@ vispro.view.Widget = Backbone.View.extend({
             src = model.image,
             element = $(this.el),
             img = $('<img>'),
-            width_resizable = descriptor.dimensions.width.resizable,
-            height_resizable = descriptor.dimensions.height.resizable
-            handles_str = width_resizable ? 'e, ' + (height_resizable ? ', s, se' :  '') : height_resizable ? 's' : '';
+            i_dimensions = descriptor.dimensions,
+            i_width = i_dimensions.width,
+            i_height = i_dimensions.height,
+            width_resizable = i_width.resizable,
+            height_resizable = i_height.resizable,
+            resizable = width_resizable || height_resizable,
+            handles_str = '';
+        
+        handles_str += width_resizable ? 'e, ' : '';
+        handles_str += height_resizable ? 's, ' : '';
+        handles_str += width_resizable && height_resizable ? 'se' : '';
         
         img
             .attr({
@@ -35,16 +43,20 @@ vispro.view.Widget = Backbone.View.extend({
             //     'background-image': 'url(' + src + ')',
             //     'background-repeat': 'no-repeat',
             //     'background-position': 'center center',//'left top',
-                'z-index': model.zIndex+''
+                'z-index': model.zIndex + ''
             })
             .draggable({
                 cursor: 'move',
                 grid: [ model.snap, model.snap ]
-            })
-            .resizable({
-                constrain: '#workspace',
-                handles: handles_str
             });
+        
+        if (resizable) {
+            element
+                .resizable({
+                    constrain: '#workspace',
+                    handles: handles_str
+                });
+        }
 
         model
             .bind('resize', _.bind(this.resize, this))
@@ -160,14 +172,14 @@ vispro.view.Widget = Backbone.View.extend({
         this.model.move(ui.position);
     },
 
-    onMouseover: function (event) {
+    onMouseenter: function (event) {
 
         // event.stopPropagation();
 
         this.element.addClass('over');
     },
 
-    onMouseout: function (event) {
+    onMouseleave: function (event) {
     
         // event.stopPropagation();
 
@@ -176,8 +188,8 @@ vispro.view.Widget = Backbone.View.extend({
 
     events: {
         mousedown: 'onClick',
-        mouseover: 'onMouseover',
-        mouseout: 'onMouseout',
+        mouseenter: 'onMouseenter',
+        mouseleave: 'onMouseleave',
         resize: 'onResize',
         drag: 'onDrag'
     }

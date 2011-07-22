@@ -92,10 +92,12 @@ vispro.model.Workspace = Backbone.Model.extend({
 
     isValid: function () {
         
-        var test;
+        var test = true;
 
-        test = _.all(widgetList, function (widget) {
-            return widget.isValid();
+        this.widgetList.each(function (widget) {
+            var valid = widget.isValid();
+            test = test && valid;
+            // console.log(valid, test);
         });
 
         return test;
@@ -229,7 +231,7 @@ vispro.model.Workspace = Backbone.Model.extend({
             engine = _.template(code),
             sources = {},
             source;
-
+        
         _.each(matches, function (match) {
             sources[match] = '';
 

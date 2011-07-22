@@ -97,7 +97,7 @@ var vispro = (function () {
             throw error;
         }
     }
-    
+        
     return {
         guid: guid,
         init: init,
