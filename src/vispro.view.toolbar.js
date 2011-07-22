@@ -8,8 +8,7 @@ vispro.view.Toolbar = Backbone.View.extend({
 
     templates: {
         button: _.template(
-            '<input type="radio" id="state-<%= name %>" name="radio_state"/>' + 
-            '<label for="state-<%= name %>"><%= name %></label>'
+            '<button id="state-<%= name %>" name="radio_state"><%= name %></button>'
         )
     },
 
@@ -25,8 +24,7 @@ vispro.view.Toolbar = Backbone.View.extend({
         //states button
         _.each(options.states, function (state, name) {
             var button = $(template({ name: name }));
-            button.appendTo(buttonset);
-            $(button.find('label')).click(state);
+            button.click(state).appendTo(buttonset);
         }, this);
 
         buttonset.buttonset();
