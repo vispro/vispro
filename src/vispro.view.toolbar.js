@@ -25,7 +25,7 @@ vispro.view.Toolbar = Backbone.View.extend({
         //states button
         _.each(options.states, function (state, name) {
             var button = $(template({ name: name }));
-            button.click(state).appendTo(buttonset);
+            $(button.find('input')).click(state).appendTo(buttonset);
         }, this);
 
         buttonset.buttonset();
