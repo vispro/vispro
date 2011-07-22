@@ -40,9 +40,9 @@ vispro.view.Code = Backbone.View.extend({
         
         if (model.isValid() === true) {
             source = model.compile();
+            alert(vispro.save());
         }
         else {
-            alert(vispro.save());
             source = vispro.logger.print();
         }
 
