@@ -48,14 +48,15 @@ vispro.view.Widget = Backbone.View.extend({
             });
         
         if (resizable) {
-            resize_handler_dimensions.width = 15;
-            resize_handler_dimensions.height = 15;
+            resize_handler_dimensions.width = 18;
+            resize_handler_dimensions.height = 18;
             
             resize_handler
                 .addClass('resizing-anchor')
                 .css({
                     'background-image': 'url("css/images/resize.png")',
-                    /*border: 1px solid lightgray,*/
+                    'border': '1px solid lightgray',
+                    'background-color': 'rgba(128,128,128,0.5)',
                     '-o-background-size': 'contain',
                     '-moz-background-size': 'contain',
                     '-webkit-background-size': 'contain', 
@@ -179,11 +180,9 @@ vispro.view.Widget = Backbone.View.extend({
         
         var resize_handler_dimensions = this.resize_handler_dimensions,
             dimensions = {
-              left: ui.position.left + resize_handler_dimensions.width,
-              top: ui.position.top + resize_handler_dimensions.height
+              width: ui.position.left + resize_handler_dimensions.width,
+              height: ui.position.top + resize_handler_dimensions.height
             };
-
-        console.log(resize_handler_dimensions.width, resize_handler_dimensions.height);
 
         event.stopPropagation();
 
@@ -203,18 +202,18 @@ vispro.view.Widget = Backbone.View.extend({
         this.model.move(ui.position);
     },
 
-    onDragstart: function (event, ui) {
+    // onDragstart: function (event, ui) {
 
-        var target = $(event.target);
+    //     var target = $(event.target);
 
-        if (target.hasClass('resizing-anchor')) {
-            return;
-        }
+    //     if (target.hasClass('resizing-anchor')) {
+    //         return;
+    //     }
             
-        this.model.resnapped();
+    //     this.model.resnapped();
 
-        return this;
-    },
+    //     return this;
+    // },
 
     onMouseenter: function (event) {
 
@@ -242,7 +241,7 @@ vispro.view.Widget = Backbone.View.extend({
         mouseleave: 'onMouseleave',
         resize: 'onResize',
         'drag': 'onDrag',
-        'dragstart': 'onDragstart',
+        // 'dragstart': 'onDragstart',
         'drag div.resizing-anchor': 'onResize'
     }
     

@@ -239,17 +239,37 @@ vispro.view.Inspector = Backbone.View.extend({
         return this;
     },
 
+    change_left: function (event, ui) {
+        
+        var model = this.model,
+            inputs = this.inputs;
+        
+        model.move({
+            left: +inputs.left.val()
+        });
+
+        return this;
+    },
+
+    change_top: function (event, ui) {
+        
+        var model = this.model,
+            inputs = this.inputs;
+        
+        model.move({
+            top: +inputs.top.val()
+        });
+
+        return this;
+    },
+
     change_width: function (event, ui) {
         
         var model = this.model,
-            inputs = this.inputs,
-            snap = model.snap,
-            grid = model.grid,
-            old_width = model.dimensions.width,
-            val = +inputs.width.val();
-        
+            inputs = this.inputs;
+
         model.resize({
-            width: val + (val > old_width ? grid : 0 ) - (val % grid)
+            width:  +inputs.width.val()
         });
 
         return this;
@@ -258,27 +278,10 @@ vispro.view.Inspector = Backbone.View.extend({
     change_height: function (event, ui) {
         
        var model = this.model,
-            inputs = this.inputs,
-            snap = model.snap,
-            grid = model.grid,
-            old_height = model.dimensions.height,
-            val = +inputs.height.val();
-        
-        model.resize({
-            height: val + (val > old_height ? grid : 0 ) - (val % grid)
-        });
-
-        return this;
-    },
-
-    change_position: function (event, ui) {
-        
-        var model = this.model,
             inputs = this.inputs;
-        
-        model.move({
-            top: +inputs.top.val(),
-            left: +inputs.left.val()
+
+        model.resize({
+            height:  +inputs.height.val()
         });
 
         return this;
@@ -331,8 +334,8 @@ vispro.view.Inspector = Backbone.View.extend({
     events: {
         'change input[data-name="width"]': 'change_width',
         'change input[data-name="height"]': 'change_height',
-        'change input[data-name="top"]': 'change_position',
-        'change input[data-name="left"]': 'change_position',
+        'change input[data-name="top"]': 'change_top',
+        'change input[data-name="left"]': 'change_left',
         'change input[data-name="id"]': 'change_id',
         'change input.property': 'change_property',
         'change select.dependency': 'change_dependency'

@@ -234,12 +234,12 @@ vispro.model.Widget = Backbone.Model.extend({
         return this;
     },
 
-    resnapped: function () {
+    // resnapped: function () {
         
-        this.snapped = false;
+    //     this.snapped = false;
 
-        return this;
-    },
+    //     return this;
+    // },
 
     resnap: function (snap) {
         
@@ -259,37 +259,28 @@ vispro.model.Widget = Backbone.Model.extend({
 
         var grid = this.grid,
             snap = this.snap,
-            snapped = this.snapped,
-            newPositionLeft = position.left, 
-            newPositionTop = position.top
+            // snapped = this.snapped,
+            halfGrid = Math.floor(grid / 2),
+            left = position.left,
+            top = position.top,
+            newPositionLeft = left + halfGrid, 
+            newPositionTop = top + halfGrid,
             oldPosition = this.position,
             oldPositionLeft = oldPosition.left,
             oldPositionTop = oldPosition.top,
             modLeft = newPositionLeft % grid,
-            modTop = newPositionTop % grid,
-            deltaLeft = newPositionLeft - oldPositionLeft,
-            deltaTop = newPositionTop - oldPositionTop,
-            signDeltaLeft = (deltaLeft > 0) * 2 - 1,
-            signDeltaTop = (deltaTop > 0) * 2 -1;
+            modTop = newPositionTop % grid;
 
         if (snap) {
-            if (snapped) {
+            // if (snapped) {
                 this.position = {
-                    left: newPositionLeft - modLeft,
-                    top: newPositionTop - modTop
-                };
-            }
-            else {
-                this.position = {
-                    left: signDeltaLeft == 1 ? newPositionLeft + deltaLeft : newPositionLeft - (grid - deltaLeft),
-                    top: signDeltaTop == 1 ? newPositionTop + deltaTop : newPositionTop - (grid - deltaTop)
-                };
-                this.snapped = true;
-            }       
+                    left: left != undefined ? newPositionLeft - modLeft : oldPositionLeft,
+                    top: top != undefined ? newPositionTop - modTop : oldPositionTop
+                };      
         } else {
             this.position = {
-                left: newPositionLeft,
-                top: newPositionTop
+                left: position.left,
+                top: position.top
             };
         }
         
@@ -299,7 +290,7 @@ vispro.model.Widget = Backbone.Model.extend({
         return this;
     },
 
-    resize: function (bottom_left_corner_pos) {
+    resize: function (dimensions) {
         
         var i = this.descriptor.dimensions,
             i_width = i.width,
@@ -307,24 +298,28 @@ vispro.model.Widget = Backbone.Model.extend({
             grid = this.grid,
             snap = this.snap,
             widget_dimensions = this.dimensions,
-            x = bottom_left_corner_pos.left,
-            y = bottom_left_corner_pos.top,
-            modWidth = x % grid,
-            modHeight = y % grid,
-            width = (x || widget_dimensions.width) - (snap && x ? modWidth : 0),
-            height = (y || widget_dimensions.height) - (snap && y ? modHeight : 0);
+            widget_position = this.position,
+            width = dimensions.width || 0,
+            height = dimensions.height || 0,
+            halfGrid = Math.floor(grid / 2),
+            preSnappedWidth = width + halfGrid,
+            preSnappedHeight = height + halfGrid,
+            modWidth = (widget_position.left + preSnappedWidth) % grid,
+            modHeight = (widget_position.top + preSnappedHeight) % grid,
+            snappedWidth = preSnappedWidth - modWidth,
+            snappedHeight = preSnappedHeight - modHeight;
 
         if (i_width.resizable 
                 && i_width.min <= width 
                 && width <= i_width.max) {
                
-            this.dimensions.width = width;
+            this.dimensions.width = snap ? snappedWidth : (width || widget_dimensions.width);
         }
         if (i_height.resizable
                 && i_height.min <= height
                 && height <= i_height.max) {
             
-            this.dimensions.height = height;            
+            this.dimensions.height = snap ? snappedHeight : (height || widget_dimensions.height);            
         }
 
         this.trigger('resize', this.dimensions);
