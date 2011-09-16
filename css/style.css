@@ -132,7 +132,7 @@ body {
  */
 
 .descriptor {
-	width: 165px;
+	width: 183px;
 	height: 105px;
 	padding-left: 15px;
 	padding-top: 5px;
@@ -142,8 +142,6 @@ body {
 .descriptor-label {
 	display: block;
 	padding-bottom: 5px;
-	width: 165px;
-	text-overflow: ellipsis;
 }
 
 .descriptor.over {
@@ -332,14 +330,23 @@ body {
 
 /*-------------------TEST-------------------*/
 
+div.resizing-anchor {
+	display: none;            
+}
+
+div.resizing-anchor.display-resize-anchor-over {
+	display: block;
+}
+
+div.resizing-anchor.display-resize-anchor-selected {
+	display: block;
+}
 
 #panel-center {
 	-webkit-box-shadow: 2px 2px 5px 1px rgba(0,0,0,.25) inset; 
 	-moz-box-shadow: 2px 2px 5px 1px rgba(0,0,0,.25) inset; 
 	box-shadow: 2px 2px 5px 1px rgba(0,0,0,.25) inset;
 }
-
-
 
 #img_logo_sogei {
 	margin-top: 4px;
