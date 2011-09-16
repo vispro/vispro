@@ -80,7 +80,7 @@
         tooltip: <%= tooltip %>,
         vertical: true,
         slider: true,
-        size: <%= height %>
+        size: <%= width %>
     } );]]>
                 </insert>
             </code>
@@ -105,7 +105,7 @@
 <![CDATA[<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>]]>
                 </insert>
                 <insert match="js">
-<![CDATA[var <%= id %> = new geopoi.maps.Map("<%= id %>");]]>
+<![CDATA[var <%= id %> = geopoi.sdk.map("<%= id %>");]]>
                 </insert>
             </code>
         </widget>
@@ -132,12 +132,14 @@
             </properties>
             <code>
                 <insert match="html">
-<![CDATA[<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; min-height:<%= height %>px; z-index: <%= zIndex %>"></div>]]>
+<![CDATA[<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; z-index: <%= zIndex %>"></div>]]>
                 </insert>
                 <insert match="js">
-<![CDATA[var <%= id %> = geopoi.sdk.info("<%= id %>",
+<![CDATA[var <%= id %> = geopoi.sdk.infoDiv("<%= id %>",
         {
             map: <%= request_map %>,
+            width: <%= width %>,
+            height: <%= height %>,
             tooltip: <%= tooltip %>
         });]]>
                 </insert>
@@ -169,13 +171,13 @@
             </properties>
             <code>
                 <insert match="html">
-<![CDATA[<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>]]>
+<![CDATA[<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; z-index: <%= zIndex %>"></div>]]>
                 </insert>
                 <insert match="js">
-<![CDATA[var <%= id %> = geopoi.sdk.search("<%= id %>",
+<![CDATA[var <%= id %> = geopoi.sdk.infoDiv("<%= id %>",
         {
             map: <%= request_map %>,
-            tooltip: <%= tooltip %>,
+            tooltip: <%= tooltip %>
             opt: false,
             infoDiv: <%= req_info %>
         });]]>
@@ -208,10 +210,10 @@
             </properties>
             <code>
                 <insert match="html">
-<![CDATA[<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>]]>
+<![CDATA[<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; z-index: <%= zIndex %>"></div>]]>
                 </insert>
                 <insert match="js">
-<![CDATA[var <%= id %> = geopoi.sdk.search("<%= id %>",
+<![CDATA[var <%= id %> = geopoi.sdk.infoDiv("<%= id %>",
     {
         map: <%= request_map %>,
         tooltip: <%= tooltip %>
@@ -222,7 +224,7 @@
             </code>
         </widget>
 
-<!-- Widget 7 -->
+        <!-- Widget 7 -->
         <widget type="pan" name="panotto">
             <label>Pan a 8 direzioni</label>
             <description>Pan a 8 direzioni</description>
@@ -262,23 +264,23 @@
     
     <!-- HTML Source Code -->
     <source>
-<![CDATA[<!DOCTYPE html>
-<html>
-    <head>
-        <title>SoGeI - VisPro</title>
-        <script type="text/javascript" src="../php/geopoiAPI.php?&key=506a222c-54ab-0b71-a398-b935cbc92943&sdk=true"></script>
-        <link href="../MobilityManager/css/redmond/jquery-ui-1.8.12.custom.css" type="text/css" rel="stylesheet" />
-        <link href="../MobilityManager/css/geopoi.sdk.navigation.css" type="text/css" rel="Stylesheet" />
-    </head>
-    <body>
-        
-        <%= html %>
-        <script>
-
+    <![CDATA[<!DOCTYPE html>
+    <html>
+        <head>
+            <title>SoGeI - VisPro</title>
+            <script src="../php/geopoiAPI.php?&key=506a222c-54ab-0b71-a398-b935cbc92943&sdk=true"></script>
+            <link rel="stylesheet" href="../MobilityManager/css/redmond/jquery-ui-1.8.12.custom.css" />
+            <link rel="stylesheet" href="../MobilityManager/css/geopoi.sdk.navigation.css" />
+        </head>
+        <body>
+            
+            <%= html %>
+            
+            <script>
             <%= js %>
-        </script>
-    </body>
-</html>
-]]>
+            </script>
+        </body>
+    </html>
+    ]]>
     </source>
 </vispro>

@@ -1,150 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
-    <xs:element name="vispro">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="types"/>
-                <xs:element ref="widgets"/>
-                <xs:element ref="source"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="types">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element maxOccurs="unbounded" ref="type"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="widgets">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element maxOccurs="unbounded" ref="widget"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="widget">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="label"/>
-                <xs:element ref="description"/>
-                <xs:element ref="images"/>
-                <xs:element ref="dimension"/>
-                <xs:element ref="dependencies"/>
-                <xs:element ref="properties"/>
-                <xs:element ref="code"/>
-            </xs:sequence>
-            <xs:attribute name="name" use="required" type="xs:ID"/>
-            <xs:attribute name="type" use="required" type="xs:IDREF"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="label" type="xs:string"/>
-    <xs:element name="images">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="icon"/>
-                <xs:element ref="image"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="icon">
-        <xs:complexType>
-            <xs:attribute name="url" use="required"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="image">
-        <xs:complexType>
-            <xs:attribute name="url" use="required"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="dimension">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="width"/>
-                <xs:element ref="height"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="width">
-        <xs:complexType>
-            <xs:attribute name="max" type="xs:integer"/>
-            <xs:attribute name="min" type="xs:integer"/>
-            <xs:attribute name="resizable" use="required" type="xs:boolean"/>
-            <xs:attribute name="value" use="required" type="xs:integer"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="height">
-        <xs:complexType>
-            <xs:attribute name="max" type="xs:integer"/>
-            <xs:attribute name="min" type="xs:integer"/>
-            <xs:attribute name="resizable" use="required" type="xs:boolean"/>
-            <xs:attribute name="value" use="required" type="xs:integer"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="dependencies">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element minOccurs="0" maxOccurs="unbounded" ref="dependency"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="dependency">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="description"/>
-            </xs:sequence>
-            <xs:attribute name="label" type="xs:NCName"/>
-            <xs:attribute name="name" use="required" type="xs:NCName"/>
-            <xs:attribute name="required" use="required" type="xs:boolean"/>
-            <xs:attribute name="type" use="required" type="xs:IDREF"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="properties">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:choice maxOccurs="unbounded" minOccurs="0">
-                    <xs:element ref="number"/>
-                    <xs:element ref="string"/>
-                    <xs:element ref="bool"/>
-                </xs:choice>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="bool">
-        <xs:complexType>
-            <xs:attribute name="label" use="required"/>
-            <xs:attribute name="name" use="required" type="xs:NCName"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="code">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element maxOccurs="unbounded" ref="insert"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="insert">
-        <xs:complexType mixed="true">
-            <xs:attribute name="match" use="required" type="xs:NCName"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="source" type="xs:string"/>
-    <xs:element name="description" type="xs:string"/>
-    <xs:element name="string">
-        <xs:complexType>
-            <xs:attribute name="label"/>
-            <xs:attribute name="name" type="xs:NCName" use="required"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="number">
-        <xs:complexType>
-            <xs:attribute name="label"/>
-            <xs:attribute name="name" type="xs:NCName" use="required"/>
-        </xs:complexType>
-    </xs:element>
-    <xs:element name="type">
-        <xs:complexType>
-            <xs:attribute name="name" type="xs:ID" use="required"/>
-        </xs:complexType>
-    </xs:element>
+  <xs:element name="vispro">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="types"/>
+        <xs:element ref="widgets"/>
+        <xs:element ref="source"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="types">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="type"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="widgets">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="widget"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="widget">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="label"/>
+        <xs:element ref="description"/>
+        <xs:element ref="images"/>
+        <xs:element ref="dimension"/>
+        <xs:element ref="dependencies"/>
+        <xs:element ref="properties"/>
+        <xs:element ref="code"/>
+      </xs:sequence>
+      <xs:attribute name="name" use="required" type="xs:ID"/>
+      <xs:attribute name="type" use="required" type="xs:IDREF"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="label" type="xs:string"/>
+  <xs:element name="images">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="icon"/>
+        <xs:element ref="image"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="icon">
+    <xs:complexType>
+      <xs:attribute name="url" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="image">
+    <xs:complexType>
+      <xs:attribute name="url" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="dimension">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="width"/>
+        <xs:element ref="height"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="width">
+    <xs:complexType>
+      <xs:attribute name="max" type="xs:integer"/>
+      <xs:attribute name="min" type="xs:integer"/>
+      <xs:attribute name="resizable" use="required" type="xs:boolean"/>
+      <xs:attribute name="value" use="required" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="height">
+    <xs:complexType>
+      <xs:attribute name="max" type="xs:integer"/>
+      <xs:attribute name="min" type="xs:integer"/>
+      <xs:attribute name="resizable" use="required" type="xs:boolean"/>
+      <xs:attribute name="value" use="required" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="dependencies">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="dependency"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="dependency">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="description"/>
+      </xs:sequence>
+      <xs:attribute name="label" type="xs:NCName"/>
+      <xs:attribute name="name" use="required" type="xs:NCName"/>
+      <xs:attribute name="required" use="required" type="xs:boolean"/>
+      <xs:attribute name="type" use="required" type="xs:IDREF"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="properties">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice maxOccurs="unbounded" minOccurs="0">
+          <xs:element ref="number"/>
+          <xs:element ref="string"/>
+          <xs:element ref="bool"/>
+        </xs:choice>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="bool">
+    <xs:complexType>
+      <xs:attribute name="label" use="required"/>
+      <xs:attribute name="name" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="code">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" ref="insert"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="insert">
+    <xs:complexType mixed="true">
+      <xs:attribute name="match" use="required" type="xs:NCName"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="source" type="xs:string"/>
+  <xs:element name="description" type="xs:string"/>
+  <xs:element name="string">
+    <xs:complexType>
+      <xs:attribute name="label"/>
+      <xs:attribute name="name" type="xs:NCName" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="number">
+    <xs:complexType>
+      <xs:attribute name="label"/>
+      <xs:attribute name="name" type="xs:NCName" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="type">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:ID" use="required"/>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>
