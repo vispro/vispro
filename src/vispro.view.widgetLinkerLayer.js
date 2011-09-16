@@ -6,14 +6,21 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
         '</div>'
     ),
 
-    init: function (options) {
+    initialize: function (attributes, options) {
         
         var element = this.el,
+            root = $(options.root),
             model = options.model,
             layerLinks = Raphael(element[0], 0, 0),
             layerLinkers = element.find('#workspace-layer-linker'),
             canvas = $(layerLinks.canvas);
         
+        element
+            .appendTo(root);
+        
+        model.
+            bind('restate', this.restate, this);
+
         canvas
             .attr({ id: 'workspace-layer-link' })
             .css({ 
@@ -49,18 +56,29 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
         
         this.tempLink = layerLinks.path('');
         
-        layerLinkers
-            .empty();
+        layerLinkers.empty();
             
         widgetList.each(function (widget) {
-            var linkedWidgetList = widget.getLinkList();
-            
-            this.createLinker(widget);
 
-            _.each(linkedWidgetList, function (linkedWidget) {
+            var linkedWidgetList = widget.getLinkList();
+
+            this.createLinker(widget);
+            _(linkedWidgetList).each(function (linkedWidget) {
                 this.createLink(widget, linkedWidget);
             }, this);
         }, this);
+
+        return this;
+    },
+
+    restate: function (state) {
+        
+        if (state === 'link') {
+            this.show();
+        }
+        else {
+            this.hide();
+        }
 
         return this;
     },
@@ -83,13 +101,13 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
         
         var layerLinks = this.layerLinks,
             layerLinkers = this.layerLinkers,
-            linker = new vispro.view.WidgetLinker();
-            
-        linker
-            .init({ 
+            linker = new vispro.view.WidgetLinker({}, {
                 container: this,
-                model: widget
-            })
+                model: widget //,
+                //root: layerLinkers
+            });
+        
+        linker
             .render();
 
         layerLinkers
@@ -124,12 +142,14 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
             .attr({
                 'stroke-width': 3
             });
+
         arrow
             .attr({
                 'stroke-width': 3,
                 'stroke-linecap': 'round',
                 'stroke-linejoin': 'bevel'
             });
+
         overlay
             .attr({
                 opacity: 0.0,

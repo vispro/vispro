@@ -1,6 +1,6 @@
 vispro.view.WidgetLinker = Backbone.View.extend({
     
-    init: function (options) {
+    initialize: function (attributes, options) {
         
         var element = $(this.el),
             container = options.container,
@@ -14,8 +14,13 @@ vispro.view.WidgetLinker = Backbone.View.extend({
             x = left + width / 2,
             y = top + height / 2,
             radius = 6,
-            position = {left: x, top: y};
+            position = {left: x, top: y},
+            helper = $('<div>');
         
+        function draggable () {
+            return helper;
+        }
+
         element
             .addClass('linker')
             .data('linker', this)
@@ -28,9 +33,7 @@ vispro.view.WidgetLinker = Backbone.View.extend({
                 'z-index': '1000000'
             })
             .draggable({
-                helper: function () {
-                    return $('<div>');
-                },
+                helper: draggable,
                 cursorAt: {
                     top: 0,
                     left: 0
@@ -77,7 +80,6 @@ vispro.view.WidgetLinker = Backbone.View.extend({
 
     onClick: function (event) {
         
-        console.log('ME STANNO A CLICCA');
     },
 
     events: {

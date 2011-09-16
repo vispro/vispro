@@ -1,6 +1,6 @@
 vispro.view.Widget = Backbone.View.extend({
 
-    init: function (options) {
+    initialize: function (attributes, options) {
         
         var model = options.model,
             descriptor = model.descriptor,
@@ -8,20 +8,20 @@ vispro.view.Widget = Backbone.View.extend({
             position = model.position,
             src = model.image,
             element = $(this.el),
-            img = $('<img>'),
+            image = $('<img>'),
             i_dimensions = descriptor.dimensions,
-            i_width = i_dimensions.width,
-            i_height = i_dimensions.height,
-            width_resizable = i_width.resizable,
-            height_resizable = i_height.resizable,
+            width_resizable = i_dimensions.width.resizable,
+            height_resizable = i_dimensions.height.resizable,
             resizable = width_resizable || height_resizable,
-            handles_str = '';
-        
-        handles_str += width_resizable ? 'e, ' : '';
-        handles_str += height_resizable ? 's, ' : '';
-        handles_str += width_resizable && height_resizable ? 'se' : '';
-        
-        img
+            drag_helper = $('<div>'),
+            resize_helper = $('<div>'),
+            resize_handler = $('<div>'),
+            resize_handler_dimensions = {
+                width: 0,
+                height: 0
+            };
+
+        image
             .attr({
                 src: src
             })
@@ -32,42 +32,63 @@ vispro.view.Widget = Backbone.View.extend({
             });
 
         element 
-            .addClass('widget')
-            .append(img)
+            .addClass('widget dragging-anchor')
+            .append(image)
             .css({
                 position: 'absolute',
                 left: position.left + 'px',
                 top: position.top + 'px',
                 width: dimensions.width + 'px',
                 height: dimensions.height + 'px',
-            //     'background-image': 'url(' + src + ')',
-            //     'background-repeat': 'no-repeat',
-            //     'background-position': 'center center',//'left top',
                 'z-index': model.zIndex + ''
             })
             .draggable({
                 cursor: 'move',
-                grid: [ model.snap, model.snap ]
+                helper: function () { return drag_helper; }
             });
         
         if (resizable) {
-            element
-                .resizable({
-                    constrain: '#workspace',
-                    handles: handles_str
-                });
+            resize_handler_dimensions.width = 15;
+            resize_handler_dimensions.height = 15;
+            
+            resize_handler
+                .addClass('resizing-anchor')
+                .css({
+                    'background-image': 'url("css/images/resize.png")',
+                    /*border: 1px solid lightgray,*/
+                    '-o-background-size': 'contain',
+                    '-moz-background-size': 'contain',
+                    '-webkit-background-size': 'contain', 
+                    'background-size': 'contain',
+                    'cursor': 'se-resize',
+                    'position': 'absolute',
+                    'width': resize_handler_dimensions.width + 'px',
+                    'height': resize_handler_dimensions.height + 'px',
+                    'bottom': '0px',
+                    'right': '0px',
+                })
+                .draggable({
+                    cursor: 'se-resize',
+                    helper: function () {
+                        return resize_helper;
+                    }
+                })
+                .appendTo(element);
         }
 
         model
-            .bind('resize', _.bind(this.resize, this))
-            .bind('move', _.bind(this.move, this))
-            .bind('selected', _.bind(this.select, this))
-            .bind('overlapped', _.bind(this.overlap, this))
-            .bind('remove', _.bind(this.remove, this))
-            .bind('zReordering', _.bind(this.zReordering, this));
+            .bind('resize', this.resize, this)
+            .bind('move', this.move, this)
+            .bind('selected', this.select, this)
+            .bind('overlapped', this.overlap, this)
+            .bind('remove', this.remove, this)
+            .bind('zReordering', this.zReordering, this);
         
         this.model = model;
         this.element = element;
+        this.resizable = resizable;
+        this.resize_handler = resize_handler;
+        this.resize_handler_dimensions = resize_handler_dimensions;
 
         return this;
     },
@@ -93,32 +114,19 @@ vispro.view.Widget = Backbone.View.extend({
 
     remove: function () {
     
-        this.element.remove();
-        
+        this.element.remove();  
     },
 
     resize: function (dimensions) {
         
-        var element = this.element;
-                
-        if (element.hasClass('ui-resizable-resizing')) {
-            return;
-        }
-
-        element.animate(dimensions, 'fast');
+        this.element.css(dimensions);
 
         return this;
     },
 
     move: function (position) {
         
-        var element = this.element;
-
-        if (element.hasClass('ui-draggable-dragging')) {
-            return;
-        }
-
-        element.animate(position, 'fast');
+        this.element.css(position);
 
         return this;
     },
@@ -127,9 +135,15 @@ vispro.view.Widget = Backbone.View.extend({
         
         if (selected) {
             this.element.addClass('selected');
+            if (this.resizable) {
+                this.resize_handler.addClass('display-resize-anchor-selected');
+            }
         }
         else {
             this.element.removeClass('selected');
+            if (this.resizable) {
+                this.resize_handler.removeClass('display-resize-anchor-selected');  
+            }
         }
 
         return this;
@@ -137,8 +151,9 @@ vispro.view.Widget = Backbone.View.extend({
 
     zReordering: function (zIndex) {
         
-        $(this.el)
-            .css('z-index', zIndex+'');
+        this.element.css('z-index', zIndex + '');
+
+        return this;
     },
 
     overlap: function (overlapped) {
@@ -149,27 +164,56 @@ vispro.view.Widget = Backbone.View.extend({
         else {
             this.element.removeClass('overlapped');
         }
+
+        return this;
     },
 
     onClick: function (event, ui) {
 
         event.stopPropagation();
-
+        
         this.model.select();
     },
 
-    onResize: function (event, ui) {
+     onResize: function (event, ui) {
         
+        var resize_handler_dimensions = this.resize_handler_dimensions,
+            dimensions = {
+              left: ui.position.left + resize_handler_dimensions.width,
+              top: ui.position.top + resize_handler_dimensions.height
+            };
+
+        console.log(resize_handler_dimensions.width, resize_handler_dimensions.height);
+
         event.stopPropagation();
-        
-        this.model.resize(ui.size);
+
+        this.model.resize(dimensions);
     },
 
     onDrag: function (event, ui) {
 
+        var target = $(event.target);
+             
+        if (target.hasClass('resizing-anchor')) {
+            return;
+        }
+            
         event.stopPropagation();
 
         this.model.move(ui.position);
+    },
+
+    onDragstart: function (event, ui) {
+
+        var target = $(event.target);
+
+        if (target.hasClass('resizing-anchor')) {
+            return;
+        }
+            
+        this.model.resnapped();
+
+        return this;
     },
 
     onMouseenter: function (event) {
@@ -177,6 +221,9 @@ vispro.view.Widget = Backbone.View.extend({
         // event.stopPropagation();
 
         this.element.addClass('over');
+        if (this.resizable) {
+            this.resize_handler.addClass('display-resize-anchor-over');
+        }
     },
 
     onMouseleave: function (event) {
@@ -184,6 +231,9 @@ vispro.view.Widget = Backbone.View.extend({
         // event.stopPropagation();
 
         this.element.removeClass('over');
+        if (this.resizable) {
+            this.resize_handler.removeClass('display-resize-anchor-over');
+        }
     },
 
     events: {
@@ -191,7 +241,9 @@ vispro.view.Widget = Backbone.View.extend({
         mouseenter: 'onMouseenter',
         mouseleave: 'onMouseleave',
         resize: 'onResize',
-        drag: 'onDrag'
+        'drag': 'onDrag',
+        'dragstart': 'onDragstart',
+        'drag div.resizing-anchor': 'onResize'
     }
     
 });

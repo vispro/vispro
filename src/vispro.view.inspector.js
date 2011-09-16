@@ -3,17 +3,17 @@ vispro.view.Inspector = Backbone.View.extend({
     templates: {
 
         element: _.template(
-            '<span class="inspector-label"><%= label %></span>' + 
+            '<span class="inspector-label">Inspector</span>' + 
             
             '<div class="inspector-properties position">' + 
             '    <span class="inspector-properties-label">Position</span>' + 
             '    <div class="inspector-property">' +
             '        <span class="inspector-property-label">left</span>' +
-            '        <input type="number" class="inspector-input left" />' +
+            '        <input type="number" class="inspector-input" data-name="left" />' +
             '    </div>' +
             '    <div class="inspector-property">' +
             '        <span class="inspector-property-label">top</span>' +
-            '        <input type="number" class="inspector-input top" />' +
+            '        <input type="number" class="inspector-input" data-name="top" />' +
             '    </div>' +
             '</div>' + 
             
@@ -21,11 +21,11 @@ vispro.view.Inspector = Backbone.View.extend({
             '    <span class="inspector-properties-label">Dimensions</span>' + 
             '    <div class="inspector-property">' +
             '        <span class="inspector-property-label">width</span>' +
-            '        <input type="number" class="inspector-input width" />' +
+            '        <input type="number" class="inspector-input" data-name="width" />' +
             '    </div>' +
             '    <div class="inspector-property">' +
             '        <span class="inspector-property-label">height</span>' +
-            '        <input type="number" class="inspector-input height" />' +
+            '        <input type="number" class="inspector-input" data-name="height" />' +
             '    </div>' +
             '</div>' +
 
@@ -33,7 +33,7 @@ vispro.view.Inspector = Backbone.View.extend({
             '    <span class="inspector-properties-label">Properties</span>' + 
             '    <div class="inspector-property">' +
             '        <span class="inspector-property-label">id</span>' +
-            '        <input type="text" class="inspector-input id" />' +
+            '        <input type="text" class="inspector-input" data-name="id" />' +
             '    </div>' +
 
             '<% _.each(descriptor.properties, function (property, name) { %>' + 
@@ -69,7 +69,7 @@ vispro.view.Inspector = Backbone.View.extend({
 
     },
 
-    init: function (options) {
+    initialize: function (attributes, options) {
 
         var model = options.model,
             descriptor = model.descriptor,
@@ -83,13 +83,13 @@ vispro.view.Inspector = Backbone.View.extend({
 
         element.html(templates.element(model));
 
-        inputs.width = $(element.find('.inspector-input.width'));
-        inputs.height = $(element.find('.inspector-input.height'));
-        inputs.top = $(element.find('.inspector-input.top'));
-        inputs.left = $(element.find('.inspector-input.left'));
-        inputs.id = $(element.find('.inspector-input.id'));
-        inputs.properties = $(element.find('.inspector-input.property'));
-        inputs.dependencies = $(element.find('.inspector-input.dependency'));
+        inputs.width = $(element.find('input[data-name="width"]'));
+        inputs.height = $(element.find('input[data-name="height"]'));
+        inputs.top = $(element.find('input[data-name="top"]'));
+        inputs.left = $(element.find('input[data-name="left"]'));
+        inputs.id = $(element.find('input[data-name="id"]'));
+        inputs.properties = $(element.find('input.property'));
+        inputs.dependencies = $(element.find('select.dependency'));
 
         divs.properties = $(element.find('.inspector-properties.properties'));
         divs.dependencies = $(element.find('.inspector-properties.dependencies'));
@@ -105,14 +105,14 @@ vispro.view.Inspector = Backbone.View.extend({
         }
 
         model
-            .bind('selected', _.bind(this.select, this))
-            .bind('resize', _.bind(this.render_dimensions, this))
-            .bind('move', _.bind(this.render_position, this))
-            .bind('addlink', _.bind(this.render_dependencies, this))
-            .bind('removelink', _.bind(this.render_dependencies, this))
-            .bind('remove', _.bind(this.remove, this))
-            .bind('change', _.bind(this.render_properties, this))
-            .bind('change_id', _.bind(this.render_properties, this));
+            .bind('selected', this.select, this)
+            .bind('resize', this.render_dimensions, this)
+            .bind('move', this.render_position, this)
+            .bind('addlink', this.render_dependencies, this)
+            .bind('removelink', this.render_dependencies, this)
+            .bind('remove', this.remove, this)
+            .bind('change', this.render_properties, this)
+            .bind('change_id', this.render_properties, this);
 
         this.model = model;
         this.element = element;
@@ -124,7 +124,7 @@ vispro.view.Inspector = Backbone.View.extend({
         
     appendTo: function (root) {
         
-        root.append(this.element);
+        this.element.appendTo(root);
 
         return this;
     },
@@ -239,14 +239,33 @@ vispro.view.Inspector = Backbone.View.extend({
         return this;
     },
 
-    change_dimension: function (event, ui) {
+    change_width: function (event, ui) {
         
         var model = this.model,
-            inputs = this.inputs;
+            inputs = this.inputs,
+            snap = model.snap,
+            grid = model.grid,
+            old_width = model.dimensions.width,
+            val = +inputs.width.val();
         
         model.resize({
-            width: +inputs.width.val(),
-            height: +inputs.height.val()
+            width: val + (val > old_width ? grid : 0 ) - (val % grid)
+        });
+
+        return this;
+    },
+
+    change_height: function (event, ui) {
+        
+       var model = this.model,
+            inputs = this.inputs,
+            snap = model.snap,
+            grid = model.grid,
+            old_height = model.dimensions.height,
+            val = +inputs.height.val();
+        
+        model.resize({
+            height: val + (val > old_height ? grid : 0 ) - (val % grid)
         });
 
         return this;
@@ -310,11 +329,11 @@ vispro.view.Inspector = Backbone.View.extend({
     },
 
     events: {
-        'change input.width': 'change_dimension',
-        'change input.height': 'change_dimension',
-        'change input.top': 'change_position',
-        'change input.left': 'change_position',
-        'change input.id': 'change_id',
+        'change input[data-name="width"]': 'change_width',
+        'change input[data-name="height"]': 'change_height',
+        'change input[data-name="top"]': 'change_position',
+        'change input[data-name="left"]': 'change_position',
+        'change input[data-name="id"]': 'change_id',
         'change input.property': 'change_property',
         'change select.dependency': 'change_dependency'
     }

@@ -6,38 +6,47 @@ vispro.view.DescriptorList = Backbone.View.extend({
         '</div>'
     ),
 
-    init: function (options) {
+    initialize: function (attributes, options) {
+
+        var root = $(options.root) || $('<div>'),
+            workspace = options.model,
+            collection = workspace.descriptorList,
+            element = this.el;
         
-        var model = options.model,
-            element = $(this.el);
+        element.appendTo(root).cover();
         
-        element
-            .cover();
+        collection.bind('add', this.add, this);
+
+        workspace.bind('change_state', this.setState, this);
         
-        model
-            .bind('add', _.bind(this.add, this));
-        
-        this.model = model;
+        this.collection = collection;
+        this.workspace = workspace;
         this.element = element;
+        this.root = root;
+        
+        return this;
+    },
+
+    appendTo: function (root) {
+        
+        this.root = root;
+        this.element.appendTo(root);
 
         return this;
     },
 
     add: function (descriptor) {
 
-        var view = new vispro.view.Descriptor();
+        var view = new vispro.view.Descriptor({}, { model: descriptor });
 
-        view
-            .init({ descriptor: descriptor })
-            .render()
-            .appendTo($(this.element));
+        view.appendTo(this.element);
 
         return this;            
     },
 
     addAll: function (descriptorList) {
         
-        _.each(descriptorList, function (descriptor) {
+        _(descriptorList).each(function (descriptor) {
             this.add(descriptor);
         }, this);
 
@@ -59,7 +68,7 @@ vispro.view.DescriptorList = Backbone.View.extend({
     },
 
     enable: function () {
-                
+        
         this.element.cover('disable');
         
         return this;

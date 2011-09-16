@@ -6,61 +6,61 @@ vispro.view.InspectorList = Backbone.View.extend({
         '</div>'
     ),
 
-    init: function (options) {
+    initialize: function (attributes, options) {
 
         var element = this.el,
+            root = options.root,
             model = options.model,
-            widgetList = model.widgetList;
+            widgetList = model.widgetList,
+            inspectorWorkspace = new vispro.view.InspectorWorkspace({}, {
+                model: model
+            });
+        
+        element.appendTo(root).cover();
+        inspectorWorkspace.appendTo(element);
+        
+        widgetList.bind('add', this.add, this);
 
-        element
-            .cover();
-                
-        widgetList
-            .bind('add', _.bind(this.add, this));
-                
         this.model = model;
         this.element = element;
+        this.root = root;
 
         return this;
     },
     
     add: function (widget) {
         
-        var view = new vispro.view.Inspector();
+        var view = new vispro.view.Inspector({}, { model: widget });
 
-        view
-            .init({ model: widget })
-            .render()
-            .appendTo(this.element);
+        view.render().appendTo(this.element);
 
         return this;
     },
 
     show: function () {
         
-        this.render();
-        $(this.el).show();
+        this.render().element.show();
 
         return this;
     },
 
     hide: function () {
         
-        $(this.el).hide();
+        this.element.hide();
         
         return this;
     },
 
     enable: function () {
                 
-        $(this.el).cover('disable');
+        this.element.cover('disable');
         
         return this;
     },
 
     disable: function () {
         
-        $(this.el).cover('enable');
+        this.element.cover('enable');
         
         return this;
     }

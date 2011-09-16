@@ -1,63 +1,52 @@
 vispro.view.Code = Backbone.View.extend({
 
-    el: $('<div class="panel"></div>'),
+    el: $(
+        '<div class="panel">' + 
+        '   <code class="JScript"></code>' +
+        '</div>'
+    ),
     
-    init: function (options) {
+    initialize: function (attributes, options) {
                 
         var element = this.el,
-            code = $('<code>'),
-            model = options.model;
+            root = $(options.root),
+            code = element.find('.JScript');
+            workspace = options.model;
         
-        code
-            .addClass('JScript')
-            .css({
-                position: 'absolute'
-            });
-
         element
-            .css({
-                position: 'absolute',
-                width: '100%',
-                height: '100%'
-            })
-            .append(code);
+            .appendTo(root);
 
-        this.model = model;
+        workspace
+            .bind('restate', this.restate, this);
+
+        this.workspace = workspace;
         this.code = code;
         this.element = element;
+        this.root = root;
 
         return this;
     },
     
     render: function () {
         
-        var el = $(this.el),
-            code = this.code,
-            model = this.model,
-            source = '';
+        var code = this.code,
+            workspace = this.workspace,
+            source = workspace.compile();
+
+        code.text(source).beautifyCode('javascript');
+
+        return this;
+    },
+
+    restate: function (state) {
         
-        vispro.logger.clear();
-        
-        if (model.isValid() === true) {
-            source = model.compile();
-            alert(vispro.save());
+        if (state === 'code') {
+            this.show();
         }
         else {
-            source = vispro.logger.print();
+            this.hide();
         }
-
-        el.empty();
-
-        code = $('<code>');
-        code
-            .addClass('JScript')
-            .css({
-                position: 'absolute'
-            })
-            .appendTo(el)
-            .text(source)
-            .beautifyCode('javascript');
-
+        
         return this;
     },
 

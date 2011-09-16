@@ -4,12 +4,13 @@ vispro.view.Workspace = Backbone.View.extend({
         '<div id="workspace" class="panel grid-15"></div>'
     ),
 
-    init: function (options) {
+    initialize: function (attributes, options) {
         
-        var model = options.model,
+        var element = this.el,
+            root = $(options.root),
+            model = options.model,
             dimensions = model.dimensions,
-            widgetList = model.widgetList,
-            element = this.el;
+            widgetList = model.widgetList;
 
         element
             .css({
@@ -17,18 +18,21 @@ vispro.view.Workspace = Backbone.View.extend({
                 height: dimensions.height + 'px'
             })
             .resizable({ autoHide: true })
-            .droppable({ accept: '.descriptor' });
+            .droppable({ accept: '.descriptor' })
+            .appendTo(root);
 
         model
-            .bind('selected', _.bind(this.select, this))
-            .bind('resize', _.bind(this.resize, this))
+            .bind('selected', this.select, this)
+            .bind('resize', this.resize, this)
+            .bind('change_grid', _.bind(this.change_grid, this))
 
         widgetList
-            .bind('add', _.bind(this.addWidget, this))
-            .bind('remove', _.bind(this.removeWidget, this));
+            .bind('add', this.addWidget, this)
+            .bind('remove', this.removeWidget, this);
 
         this.model = model;
         this.element = element;
+        this.root = root;
 
         return this;
     },
@@ -39,9 +43,10 @@ vispro.view.Workspace = Backbone.View.extend({
             .cover('disable')
             .resizable('enable');
         
-        _.each(this.widgetList, function (widget) {
-            widget.element.cover('disable');
-        });
+        _(this.widgetList)
+            .each(function (widget) {
+                widget.element.cover('disable');
+            });
                 
         return this;
     },
@@ -52,9 +57,10 @@ vispro.view.Workspace = Backbone.View.extend({
             .cover('enable')
             .resizable('disable');
         
-        _.each(this.widgetList, function (widget) {
-            widget.element.cover('disable');
-        });
+        _(this.widgetList)
+            .each(function (widget) {
+                widget.element.cover('disable');
+            });
         
         return this;
     },
@@ -75,9 +81,8 @@ vispro.view.Workspace = Backbone.View.extend({
 
     addWidget: function (widget) {
         
-        var view = new vispro.view.Widget();
+        var view = new vispro.view.Widget({}, { model: widget });
 
-        view.init({ model: widget });
         this.element.append(view.element);
         widget.overlap();
         
@@ -106,7 +111,7 @@ vispro.view.Workspace = Backbone.View.extend({
     resize: function () {
         
         var element = this.element;
-                
+        
         if (element.hasClass('ui-resizable-resizing')) {
             return;
         }
@@ -114,6 +119,18 @@ vispro.view.Workspace = Backbone.View.extend({
         element.animate(this.model.dimensions, 'fast');
 
         return this;
+    },
+
+    change_grid: function (grid) {
+        
+        var element = this.el,
+            classes = element.attr('class').split(/\s+/),
+            classPrefix = 'grid-',
+            classToRemove = _.detect(classes, function(el) {return el.indexOf(classPrefix) == 0}),
+            classToAdd = classPrefix + grid;
+        
+        element.removeClass(classToRemove);
+        element.addClass(classToAdd);
     },
 
     onClick: function (event, ui) {
@@ -141,20 +158,20 @@ vispro.view.Workspace = Backbone.View.extend({
             dropped = ui.draggable,
             descriptor = dropped.data('descriptor'),
             model = this.model,
-            left = ui.offset.left - element.offset().left,
-            top = ui.offset.top - element.offset().top,
-            grid = model.attributes.grid,
-            widget = model.createWidget(descriptor);
-        
-        left -= left % grid;
-        top -= top % grid;
-
-        widget.position.left = left;
-        widget.position.top = top;
-
+            widget = model.createWidget(descriptor),
+            e_offset = element.offset(),
+            ui_offset = ui.offset,
+            position = {
+                left: ui_offset.left - e_offset.left,
+                top: ui_offset.top - e_offset.top
+            };
+                
         model
             .addWidget(widget)
             .selectWidget(widget);
+        
+        widget
+            .move(position);
     },
 
     events: {

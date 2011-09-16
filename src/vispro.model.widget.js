@@ -1,34 +1,37 @@
 vispro.model.Widget = Backbone.Model.extend({
     
-    init: function (options) {
+    initialize: function (attributes, options) {
 
         var descriptor = options.descriptor,
+            workspace = options.workspace,
             label = descriptor.label,
             type = descriptor.type,
             name = descriptor.name || type,
             image = descriptor.image.src,
-            position = options.position || { top: 0, left: 0 },
+            position = {},
             dimensions = {},
             dependencies = {},
-            attributes = {},
+            attributes = attributes || {},
             id = vispro.guid(type),
-            workspace = options.workspace,
-            zIndex = options.zIndex;
-        
-        _.each(descriptor.dimensions, function (dimension, name) {
+            zIndex = 10000, //workspace.widgetList.size(),
+            snap = workspace.snap,
+            snapped = workspace.snap,
+            grid = workspace.grid;
+            
+        _(descriptor.dimensions).each(function (dimension, name) {
             dimensions[name] = dimension.value;
         });
 
-        _.each(descriptor.dependencies, function (dependency, type) {
-            dependencies[type] = _.extend({}, dependency);
+        _(descriptor.dependencies).each(function (dependency, type) {
+            dependencies[type] = _({}).extend(dependency);
             dependencies[type].value = undefined;
         });
 
-        _.each(descriptor.properties, function (property, name) {
+        _(descriptor.properties).each(function (property, name) {
             if (property.type === 'bool') {
                 attributes[name] = property.value === 'true';
             } else if (property.type === 'number') {
-                attributes[name] = Number(property.value);
+                attributes[name] = +property.value;
             } else {
                 attributes[name] = property.value;
             }
@@ -48,6 +51,10 @@ vispro.model.Widget = Backbone.Model.extend({
         this.attributes = attributes;
         this.workspace = workspace;
         this.zIndex = zIndex;
+        this.snap = snap;
+        this.snapped = snapped;
+        this.grid = grid;
+        this.workspace = workspace;
 
         return this;
     },
@@ -61,13 +68,15 @@ vispro.model.Widget = Backbone.Model.extend({
     },
 
     setProperty: function (name, value) {
-        console.log(name, value);
+
         this.attributes[name] = value;
 
         return this;
     },
 
     select: function () {
+
+        this.workspace.unselect();
 
         this.collection
             .chain()
@@ -150,19 +159,19 @@ vispro.model.Widget = Backbone.Model.extend({
 
     getEffectiveLinks: function () {
         
-        var obj = [],
+        var map = {},
             collection = this.collection;
         
-        _.each(this.dependencies, function (dependency, type) {
-            var cid = dependency.value,
-                widget = cid ? collection.getByCid(cid) : undefined;
+        _(this.dependencies)
+            .chain()
+            .filter(function (dependecy) {
+                return collection.getByCid(dependecy.value) !== undefined;
+            })
+            .each(function (dependency) {
+                map[dependency.name] = collection.getByCid(dependecy.value);
+            });
 
-            if (widget) {
-                obj[dependency.name] = widget.id;
-            }
-        })
-
-        return obj;
+        return map;
     },
 
     isOverlappedOn: function (widget) {
@@ -197,13 +206,12 @@ vispro.model.Widget = Backbone.Model.extend({
 
             test;
         
-        test = 
-            !(
-                (a_max_x <= b_min_x) || // a is to the left of b 
-                (a_min_x >= b_max_x) || // a is to the right of b 
-                (a_max_y <= b_min_y) || // a is above b 
-                (a_min_y >= b_max_y)    // a is below b
-            ); 
+        test = !(
+            (a_max_x <= b_min_x) || // a is to the left of b 
+            (a_min_x >= b_max_x) || // a is to the right of b 
+            (a_max_y <= b_min_y) || // a is above b 
+            (a_min_y >= b_max_y)    // a is below b
+        ); 
         
         return test;
     },
@@ -226,44 +234,98 @@ vispro.model.Widget = Backbone.Model.extend({
         return this;
     },
 
+    resnapped: function () {
+        
+        this.snapped = false;
+
+        return this;
+    },
+
+    resnap: function (snap) {
+        
+        this.snap = snap;
+
+        return this;
+    },
+
+    regrid: function (grid) {
+        
+        this.grid = grid;
+
+        return this;
+    },
+
     move: function (position) {
 
-        this.position = {
-            left: position.left,
-            top: position.top
-        };
+        var grid = this.grid,
+            snap = this.snap,
+            snapped = this.snapped,
+            newPositionLeft = position.left, 
+            newPositionTop = position.top
+            oldPosition = this.position,
+            oldPositionLeft = oldPosition.left,
+            oldPositionTop = oldPosition.top,
+            modLeft = newPositionLeft % grid,
+            modTop = newPositionTop % grid,
+            deltaLeft = newPositionLeft - oldPositionLeft,
+            deltaTop = newPositionTop - oldPositionTop,
+            signDeltaLeft = (deltaLeft > 0) * 2 - 1,
+            signDeltaTop = (deltaTop > 0) * 2 -1;
 
-        this.trigger('move', position);
+        if (snap) {
+            if (snapped) {
+                this.position = {
+                    left: newPositionLeft - modLeft,
+                    top: newPositionTop - modTop
+                };
+            }
+            else {
+                this.position = {
+                    left: signDeltaLeft == 1 ? newPositionLeft + deltaLeft : newPositionLeft - (grid - deltaLeft),
+                    top: signDeltaTop == 1 ? newPositionTop + deltaTop : newPositionTop - (grid - deltaTop)
+                };
+                this.snapped = true;
+            }       
+        } else {
+            this.position = {
+                left: newPositionLeft,
+                top: newPositionTop
+            };
+        }
+        
+        this.trigger('move', this.position);
         this.collection.overlap();
 
         return this;
     },
 
-    resize: function (dimensions) {
+    resize: function (bottom_left_corner_pos) {
         
         var i = this.descriptor.dimensions,
             i_width = i.width,
             i_height = i.height,
-            width = dimensions.width,
-            height = dimensions.height;
+            grid = this.grid,
+            snap = this.snap,
+            widget_dimensions = this.dimensions,
+            x = bottom_left_corner_pos.left,
+            y = bottom_left_corner_pos.top,
+            modWidth = x % grid,
+            modHeight = y % grid,
+            width = (x || widget_dimensions.width) - (snap && x ? modWidth : 0),
+            height = (y || widget_dimensions.height) - (snap && y ? modHeight : 0);
 
-        if (i.width.resizable 
-                && i_width.min < width 
-                && width < i_width.max) {
-                
+        if (i_width.resizable 
+                && i_width.min <= width 
+                && width <= i_width.max) {
+               
             this.dimensions.width = width;
         }
-        if (i.height.resizable
-                && i_height.min < height
-                && height < i_height.max) {
+        if (i_height.resizable
+                && i_height.min <= height
+                && height <= i_height.max) {
             
             this.dimensions.height = height;            
         }
-
-        this.dimensions = {
-            width: dimensions.width,
-            height: dimensions.height
-        };
 
         this.trigger('resize', this.dimensions);
         this.collection.overlap();
@@ -273,69 +335,103 @@ vispro.model.Widget = Backbone.Model.extend({
 
     isValid: function () {
         
-        var collection = this.collection,
-            test = true;
-
-        _(this.dependencies)
-            .each(function (dependency, type) {
-                if (dependency.required === true
-                    && (dependency.value === undefined
-                    || collection.getByCid(dependency.value) === undefined)) {
-                        
-                vispro.logger.log(
-                    "widget " + this.type + " " + this.id + " " + 
-                    "must have link " + dependency.name + "!"
-                );
-
-                test = false;
-            }
-        }, this);
-
-        return test;
-    },
-
-    bringToFront: function () {
-        
-        this.workspace.bringWidgetToFront(this);
-
-        return this;
+        return true;
     },
 
     sendToBack: function () {
 
-        this.workspace.sendWidgetToBack(this);
+        var zIndex = this.zIndex;
+
+        this.collection
+            .chain()
+            .filter(function (widget) {
+                return widget.zIndex < zIndex;
+            })
+            .each(function (widget) {
+                widget.zIndex += 1;
+            });
+        
+        this.zIndex = 0;
+        this.trigger('zorder', 0, this);
 
         return this;
     },
 
     sendBackward: function () {
 
-        this.workspace.sendWidgetBackward(this);
+        var zIndex = this.zIndex;
 
+        if (zIndex === 0) {
+            return this;
+        }
+
+        this.collection
+            .chain()
+            .filter(function (widget) {
+                return widget.zIndex = zIndex - 1;
+            })
+            .each(function (widget) {
+                widget.zIndex += 1;
+            });
+
+        zIndex = this.zIndex -= 1;
+        this.trigger('zorder', zIndex, this);
+        
         return this;
+
     },
 
-    bringForward: function () {
+    bringWidgetForward: function () {
 
-        this.workspace.bringWidgetForward(this);
+        var zIndex = this.zIndex;
 
-        return this;
+        if (zIndex === this.collection.size() - 1) {
+            return this;
+        }
+
+        this.collection
+            .chain()
+            .filter(function (widget) {
+                return widget.zIndex = zIndex + 1;
+            })
+            .each(function (widget) {
+                widget.zIndex -= 1;
+            });
+
+        zIndex = this.zIndex += 1;
+        this.trigger('zorder', zIndex, this);
+        
+        return this;    
     },
 
-    getZIndex: function () {
-        return this.zIndex;
-    },
+    bringToFront: function () {
 
-    setZIndex: function (zIndex) {
-        this.zIndex = zIndex;
-        this.trigger('zReordering', zIndex);
+        var zIndex = this.zIndex;
+
+        this.collection
+            .chain()
+            .filter(function (widget) {
+                return widget.zIndex > zIndex;
+            })
+            .each(function (widget) {
+                widget.zIndex -= 1;
+            });
+        
+        zIndex = this.zIndex = this.collection.size() - 1;
+        this.trigger('zorder', zIndex, this);
 
         return this;
     },
 
     save: function () {
-        var dependencies = {},
-            state = {dependencies: dependencies};
+
+        var state = {},
+            dependencies = this.dependencies,
+            linkList = this.getLinkList();
+
+        _(linkList).each(function (dependency) {
+            dependencies[dependency.type] = dependency.cid;
+        });
 
         state.name = this.name;
         state.cid = this.cid;
@@ -343,32 +439,27 @@ vispro.model.Widget = Backbone.Model.extend({
         state.dimensions = this.dimensions;
         state.position = this.position;
         state.zIndex = this.zIndex;
-        state.properties = this.attributes;
-        
-        _.each(this.getLinkList(), function (dependency) {
-            dependencies[dependency.type] = dependency.cid;
-
-        });
+        state.properties = this.attributes;        
+        state.dependencies = dependencies;
 
         return state;
     },
 
     restore: function (state) {
-        var dependencies = state.dependencies;
 
+        this.name = state.name;
         this.cid = state.cid;
+        this.id = state.id;
+        this.dimensions = state.dimensions;
+        this.position = state.position;
+        this.zIndex = state.zIndex;
+        this.attributes = state.properties;
 
-        this.move(state.position);
-        this.resize(state.dimensions);
-        this.setId(state.id);
-        this.setZIndex(state.zIndex);
-
-        this.set(state.properties);
-
-        _.each(dependencies, function (id, type) {
+        _(state.dependencies).each(function (id, type) {
             this.addLink(type, id);
         }, this);
 
+        return this;
     },
 
     compile: function () {
@@ -379,19 +470,23 @@ vispro.model.Widget = Backbone.Model.extend({
             dimensions = this.dimensions,
             properties = this.attributes,
             dependencies = this.dependencies,
-            props = { id: this.id, cid: this.cid, zIndex: this.zIndex},
             links = this.getEffectiveLinks(),
             values = {},
-            sources = {};
+            sources = {},
+            props = { 
+                id: this.id, 
+                cid: this.cid, 
+                zIndex: this.zIndex
+            };
                 
-        _.each(templates, function (template, name) {
+        _(templates).each(function (template, name) {
 
             var code = template.code,
                 parameters = template.parameters,
                 engine = _.template(code),
                 values = {};
 
-            _.each(parameters, function (parameter) {
+            _(parameters).each(function (parameter) {
 
                 var value,
                     dependency;

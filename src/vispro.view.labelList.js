@@ -1,30 +1,23 @@
 vispro.view.LabelList = Backbone.View.extend({
 
-    el: $('<div id="labelList" class="panel"></div>'),
-
-    templates: {
-        element: _.template(
+    el: $(
+        '<div id="labelList" class="panel">' + 
             '<div class="panel-label">Browser</div>' +
-            '<div class="panel-list"></div>'
-        )
-    },
+        '</div>'
+    ),
 
-    init: function (options) {
+    initialize: function (attributes, options) {
 
-        var model = options.model,
-            widgetList = model.widgetList,
-            element = this.el;
+        var element = this.el,
+            root = options.root,
+            workspace = options.model,
+            widgetList = workspace.widgetList;
         
-        element
-            .html(this.templates.element())
-            .cover();
+        element.appendTo(root).cover();
 
-        widgetList
-            .bind('add', _.bind(this.add, this))
-
-        this.panelList = element.find('.panel-list');
+        widgetList.bind('add', this.add, this);
         this.element = element;
-        this.model = model;
+        this.workspace = workspace;
         this.widgetList = widgetList;
 
         return this;
@@ -32,21 +25,16 @@ vispro.view.LabelList = Backbone.View.extend({
     
     add: function (widget) {
         
-        var view = new vispro.view.Label();
+        var view = new vispro.view.Label({}, { model: widget });
         
-        view
-            .init({ model: widget })
-            .render()
-            .element
-                .appendTo(this.panelList);
+        view.appendTo(this.element);
         
         return this;
     },
 
     show: function () {
         
-        this.render();
-        this.element.show();
+        this.render().element.show();
 
         return this;
     },

@@ -74,19 +74,6 @@ vispro.model.WidgetList = Backbone.Collection.extend({
         return sorted;
     },
 
-    sortByZIndex: function () {
-    
-        var unsorted = [];
-        
-        this.each(function (widget){
-            unsorted.push(widget);
-        });
-
-        return unsorted.sort(function (widget_a, widget_b) {
-            return widget_a.zIndex - widget_b.zIndex;
-        });
-    },
-
     overlap: function () {
         
         this.each(function (widget) {
@@ -98,13 +85,24 @@ vispro.model.WidgetList = Backbone.Collection.extend({
     },
 
     save: function () {
-        var state = [];
 
-        _.each(this.sortByLinks(), function (widget) {
-            state.push(widget.save());
+        var states = [],
+            sortedWidget = this.sortByLinks();
+            
+        _(sortedWidget).each(function (widget) {
+            var state = widget.save();
+            states.push(state);
         });
 
-        return state;
+        return states;
+    },
+
+    restore: function (widgetList_list) {
+        
+        // _(state).each(function (widget_state) {
+        //     var widget = this.add({});
+        //     widget.restore(widget_state);
+        // });
     }
     
 });

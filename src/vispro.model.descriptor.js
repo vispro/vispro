@@ -2,7 +2,7 @@ vispro.model.Descriptor = Backbone.Model.extend({
     
     localStorage: new Store("vispro.model.Descriptor"),
 
-    init: function (options) {
+    initialize: function (attributes, options) {
         
         _.extend(this, options);
 

@@ -1,21 +1,27 @@
 vispro.view.Label = Backbone.View.extend({
 
-    init: function (options) {
+    initialize: function (attributes, options) {
                 
         var model = options.model,
             element = $(this.el),
             template = this.template;
 
-        element
-            .addClass('label');
+        element.addClass('label');
 
         model
-            .bind('selected', _.bind(this.select, this))
-            .bind('change_id', _.bind(this.render, this))
-            .bind('remove', _.bind(this.remove, this));
+            .bind('selected', this.select, this)
+            .bind('change_id', this.render, this)
+            .bind('remove', this.remove, this);
 
         this.model = model;
         this.element = element;
+
+        return this;
+    },
+
+    appendTo: function (root) {
+        
+        this.render().element.appendTo(root);
 
         return this;
     },
