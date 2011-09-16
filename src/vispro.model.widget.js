@@ -234,13 +234,6 @@ vispro.model.Widget = Backbone.Model.extend({
         return this;
     },
 
-    // resnapped: function () {
-        
-    //     this.snapped = false;
-
-    //     return this;
-    // },
-
     resnap: function (snap) {
         
         this.snap = snap;
@@ -259,7 +252,6 @@ vispro.model.Widget = Backbone.Model.extend({
 
         var grid = this.grid,
             snap = this.snap,
-            // snapped = this.snapped,
             halfGrid = Math.floor(grid / 2),
             left = position.left,
             top = position.top,
@@ -272,7 +264,6 @@ vispro.model.Widget = Backbone.Model.extend({
             modTop = newPositionTop % grid;
 
         if (snap) {
-            // if (snapped) {
                 this.position = {
                     left: left != undefined ? newPositionLeft - modLeft : oldPositionLeft,
                     top: top != undefined ? newPositionTop - modTop : oldPositionTop
