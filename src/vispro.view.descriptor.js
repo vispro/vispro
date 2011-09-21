@@ -55,14 +55,17 @@ vispro.view.Descriptor = Backbone.View.extend({
             .draggable({
                 cursor: 'move',
                 helper: draggable,
+                zIndex: 40000,
                 cursorAt: {
                     top: 0,
                     left: 0
                 }
-
+            })
+            .appendTo(root);
+            
+                
         model
             .bind('remove', this.remove, this);
-            .appendTo(root);
 
         this.element = element;
         this.model = model;

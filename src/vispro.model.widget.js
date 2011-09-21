@@ -13,7 +13,7 @@ vispro.model.Widget = Backbone.Model.extend({
             dependencies = {},
             attributes = attributes || {},
             id = workspace.guid(type),
-            zIndex = 10000, //workspace.widgetList.size(),
+            zIndex = options.zIndex,
             snap = workspace.snap,
             snapped = workspace.snap,
             grid = workspace.grid;
@@ -168,7 +168,7 @@ vispro.model.Widget = Backbone.Model.extend({
                 return collection.getByCid(dependecy.value) !== undefined;
             })
             .each(function (dependency) {
-                map[dependency.name] = collection.getByCid(dependecy.value);
+                map[dependency.name] = collection.getByCid(dependency.value);
             });
 
         return map;
@@ -327,8 +327,32 @@ vispro.model.Widget = Backbone.Model.extend({
     },
 
     isValid: function () {
+        var collection = this.collection,
+            test = true,
+            log = '';
+
+        _(this.dependencies)
+            .each(function (dependency, type) {
+                if (dependency.required === true
+                    && (dependency.value === undefined
+                    || collection.getByCid(dependency.value) === undefined)) {
+                        
+                log +=
+                    "widget " + this.type + " " + this.id + " " + 
+                    "must have a link " + dependency.name + "!" + '\n';
+
+                test = false;
+            }
+        }, this);
+
+        this.log = log;
+
+        return test;
+    },
+
+    getLog: function () {
         
-        return true;
+        return this.log;    
     },
 
     sendToBack: function () {
@@ -341,7 +365,7 @@ vispro.model.Widget = Backbone.Model.extend({
                 return widget.zIndex < zIndex;
             })
             .each(function (widget) {
-                widget.zIndex += 1;
+                widget.zreorder(widget.zIndex + 1);
             });
         
         this.zIndex = 0;
@@ -361,10 +385,10 @@ vispro.model.Widget = Backbone.Model.extend({
         this.collection
             .chain()
             .filter(function (widget) {
-                return widget.zIndex = zIndex - 1;
+                return widget.zIndex == zIndex - 1;
             })
             .each(function (widget) {
-                widget.zIndex += 1;
+                widget.zreorder(widget.zIndex + 1);
             });
 
         zIndex = this.zIndex -= 1;
@@ -374,7 +398,7 @@ vispro.model.Widget = Backbone.Model.extend({
 
     },
 
-    bringWidgetForward: function () {
+    bringForward: function () {
 
         var zIndex = this.zIndex;
 
@@ -385,10 +409,10 @@ vispro.model.Widget = Backbone.Model.extend({
         this.collection
             .chain()
             .filter(function (widget) {
-                return widget.zIndex = zIndex + 1;
+                return widget.zIndex == zIndex + 1;
             })
             .each(function (widget) {
-                widget.zIndex -= 1;
+                widget.zreorder(widget.zIndex - 1);
             });
 
         zIndex = this.zIndex += 1;
@@ -407,7 +431,7 @@ vispro.model.Widget = Backbone.Model.extend({
                 return widget.zIndex > zIndex;
             })
             .each(function (widget) {
-                widget.zIndex -= 1;
+                widget.zreorder(widget.zIndex - 1);
             });
         
         zIndex = this.zIndex = this.collection.size() - 1;

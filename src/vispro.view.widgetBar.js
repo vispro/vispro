@@ -74,35 +74,30 @@ vispro.view.WidgetBar = Backbone.View.extend({
 
     onClickSendBack: function (event) {
 
-        console.log('click');
         this.model.sendToBack();
     },
 
     onClickSendBackward: function (event) {
-        console.log('click');
         
         this.model.sendBackward();
     },
 
     onClickBringForward: function (event) {
-        console.log('click');
         
         this.model.bringForward();
     },
 
     onClickBringFront: function (event) {
-        console.log('click');
         
         this.model.bringToFront();
     },
 
     onClickDelete: function (event) {
-        console.log('click');
         
         var model = this.model;
 
         if (window.confirm('Eliminare ' + model.label + ' ' + model.id + '?')) {
-            model.destroy();
+            model.destroy({});
         }
     },
     

@@ -87,7 +87,7 @@ vispro.view.Widget = Backbone.View.extend({
             .bind('selected', this.select, this)
             .bind('overlapped', this.overlap, this)
             .bind('remove', this.remove, this)
-            .bind('zReordering', this.zReordering, this);
+            .bind('zorder', this.zReordering, this);
         
         this.model = model;
         this.element = element;
@@ -206,19 +206,6 @@ vispro.view.Widget = Backbone.View.extend({
         this.model.move(ui.position);
     },
 
-    // onDragstart: function (event, ui) {
-
-    //     var target = $(event.target);
-
-    //     if (target.hasClass('resizing-anchor')) {
-    //         return;
-    //     }
-            
-    //     this.model.resnapped();
-
-    //     return this;
-    // },
-
     onMouseenter: function (event) {
 
         // event.stopPropagation();
@@ -245,7 +232,6 @@ vispro.view.Widget = Backbone.View.extend({
         mouseleave: 'onMouseleave',
         resize: 'onResize',
         'drag': 'onDrag',
-        // 'dragstart': 'onDragstart',
         'drag div.resizing-anchor': 'onResize'
     }
     

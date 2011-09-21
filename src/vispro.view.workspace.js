@@ -25,7 +25,8 @@ vispro.view.Workspace = Backbone.View.extend({
         model
             .bind('selected', this.select, this)
             .bind('resize', this.resize, this)
-            .bind('change_grid', _.bind(this.change_grid, this))
+            .bind('change_grid', this.change_grid, this)
+            .bind('remode', this.remode, this);
 
         widgetList
             .bind('add', this.addWidget, this)
@@ -124,7 +125,7 @@ vispro.view.Workspace = Backbone.View.extend({
 
     change_grid: function (grid) {
         
-        var element = this.el,
+        var element = this.element,
             classes = element.attr('class').split(/\s+/),
             classPrefix = 'grid-',
             classToRemove = _.detect(classes, function(el) {return el.indexOf(classPrefix) == 0}),
@@ -132,6 +133,18 @@ vispro.view.Workspace = Backbone.View.extend({
         
         element.removeClass(classToRemove);
         element.addClass(classToAdd);
+    },
+
+    remode: function (mode) {
+        
+        if (mode === 'view') {
+            this.show();
+        }
+        else {
+            this.hide();
+        }
+        
+        return this;
     },
 
     onClick: function (event, ui) {

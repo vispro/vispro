@@ -32,7 +32,8 @@ vispro.model.Workspace = Backbone.Model.extend({
         
         widget = new vispro.model.Widget({}, {
             descriptor: descriptor,
-            workspace: this
+            workspace: this,
+            zIndex: this.widgetList.size()
         });
 
         return widget;
@@ -116,13 +117,23 @@ vispro.model.Workspace = Backbone.Model.extend({
 
     isValid: function () {
         
-        var test;
+        var test = true;
 
-        test = this.widgetList.all(function (widget) {
-            return widget.isValid();
+        this.widgetList.each(function (widget) {
+            test &= widget.isValid();
         });
 
         return test;
+    },
+
+    getLog: function () {
+        var log = '';
+
+        this.widgetList.each(function (widget) {
+            log += widget.getLog();
+        });
+
+        return log;
     },
 
     load: function (descriptor, state) {

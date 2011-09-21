@@ -3,9 +3,9 @@ vispro.view.PerspectiveBar = Backbone.View.extend({
     el: $(
         '<div class="perspective-bar">' + 
         '    <ul class="perspective-bar-list">' + 
-        '        <li class="perspective-bar-item"><a href="#workspace/view" data-state="view">view</a></li>' +
-        '        <li class="perspective-bar-item"><a href="#workspace/link" data-state="link">link</a></li>' +
-        '        <li class="perspective-bar-item"><a href="#workspace/code" data-state="code">code</a></li>' +
+        '        <li class="perspective-bar-item"><a href="#workspace/view" data-mode="view">view</a></li>' +
+        '        <li class="perspective-bar-item"><a href="#workspace/link" data-mode="link">link</a></li>' +
+        '        <li class="perspective-bar-item"><a href="#workspace/code" data-mode="code">code</a></li>' +
         '    </ul>' +
         '</div>'
     ),
@@ -18,7 +18,7 @@ vispro.view.PerspectiveBar = Backbone.View.extend({
         
         element.appendTo(root);
 
-        workspace.bind('restate', this.changeState, this);
+        workspace.bind('remode', this.changeState, this);
 
         this.element = element;
         this.root = root;
@@ -49,9 +49,9 @@ vispro.view.PerspectiveBar = Backbone.View.extend({
     onClickState: function (event) {
         
         var target = $(event.target),
-            state = target.attr('data-state');
+            mode = target.attr('data-mode');
 
-        this.workspace.restate(state);
+        this.workspace.remode(mode);
     },
 
     events: {
