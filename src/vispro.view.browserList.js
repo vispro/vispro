@@ -1,8 +1,9 @@
-vispro.view.LabelList = Backbone.View.extend({
+vispro.view.BrowserList = Backbone.View.extend({
 
     el: $(
-        '<div id="labelList" class="panel">' + 
-            '<div class="panel-label">Browser</div>' +
+        '<div id="collection-widget-browser">' + 
+            '<div class="collection-widget-browser-label">Browser</div>' +
+            '<div class="collection-widget-browser-list"></div>' +
         '</div>'
     ),
 
@@ -11,7 +12,8 @@ vispro.view.LabelList = Backbone.View.extend({
         var element = this.el,
             root = options.root,
             workspace = options.model,
-            widgetList = workspace.widgetList;
+            widgetList = workspace.widgetList,
+            viewList = $(element.find('.collection-browser-list'));
         
         element.appendTo(root).cover();
 
@@ -19,16 +21,19 @@ vispro.view.LabelList = Backbone.View.extend({
         this.element = element;
         this.workspace = workspace;
         this.widgetList = widgetList;
+        this.viewList = viewList;
 
         return this;
     },
     
     add: function (widget) {
         
-        var view = new vispro.view.Label({}, { model: widget });
-        
-        view.appendTo(this.element);
-        
+        var viewList = this.viewList,
+            view = new vispro.view.Browser({}, { 
+                model: widget,
+                root: viewList
+            });
+                
         return this;
     },
 

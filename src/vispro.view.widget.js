@@ -1,5 +1,9 @@
 vispro.view.Widget = Backbone.View.extend({
 
+    tagName: 'div',
+
+    className: 'widget',
+    
     initialize: function (attributes, options) {
         
         var model = options.model,
@@ -32,7 +36,7 @@ vispro.view.Widget = Backbone.View.extend({
             });
 
         element 
-            .addClass('widget dragging-anchor')
+            .addClass('dragging-anchor')
             .append(image)
             .css({
                 position: 'absolute',

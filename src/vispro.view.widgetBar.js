@@ -1,15 +1,15 @@
 vispro.view.WidgetBar = Backbone.View.extend({
 
+    tagName: 'div',
+
+    className: 'widget-bar',
+
     template: _.template(
-        '<div class="widgetbar">' + 
-        '    <ul class="widgetbar-action-list">' + 
-        '        <li class="widgetbar-item" data-action="send-back"><a>--</a></li>' + 
-        '        <li class="widgetbar-item" data-action="send-backward"><a>-</a></li>' + 
-        '        <li class="widgetbar-item" data-action="bring-forward"><a>+</a></li>' + 
-        '        <li class="widgetbar-item" data-action="bring-front"><a>++</a></li>' + 
-        '        <li class="widgetbar-item" data-action="delete"><a>x</a></li>' + 
-        '    </ul>' + 
-        '</div>'
+        '<input type="button" class="widget-bar-item" data-action="send-back" value="--" />' + 
+        '<input type="button" class="widget-bar-item" data-action="send-backward" value="-" />' + 
+        '<input type="button" class="widget-bar-item" data-action="bring-forward" value="+" />' + 
+        '<input type="button" class="widget-bar-item" data-action="bring-front" value="++" />' + 
+        '<input type="button" class="widget-bar-item" data-action="delete" value="x" />'
     ),
 
     initialize: function (attributes, options) {
@@ -74,25 +74,30 @@ vispro.view.WidgetBar = Backbone.View.extend({
 
     onClickSendBack: function (event) {
 
+        console.log('click');
         this.model.sendToBack();
     },
 
     onClickSendBackward: function (event) {
+        console.log('click');
         
         this.model.sendBackward();
     },
 
     onClickBringForward: function (event) {
+        console.log('click');
         
         this.model.bringForward();
     },
 
     onClickBringFront: function (event) {
+        console.log('click');
         
         this.model.bringToFront();
     },
 
     onClickDelete: function (event) {
+        console.log('click');
         
         var model = this.model;
 
@@ -102,10 +107,10 @@ vispro.view.WidgetBar = Backbone.View.extend({
     },
     
     events: {
-        'click .widgetbar-item[data-action="send-back"]': 'onClickSendBack',
-        'click .widgetbar-item[data-action="send-backward"]': 'onClickSendBackward',
-        'click .widgetbar-item[data-action="bring-forward"]': 'onClickBringForward',
-        'click .widgetbar-item[data-action="bring-front"]': 'onClickBringFront',
-        'click .widgetbar-item[data-action="delete"]': 'onClickDelete'
+        'click .widget-bar-item[data-action="send-back"]': 'onClickSendBack',
+        'click .widget-bar-item[data-action="send-backward"]': 'onClickSendBackward',
+        'click .widget-bar-item[data-action="bring-forward"]': 'onClickBringForward',
+        'click .widget-bar-item[data-action="bring-front"]': 'onClickBringFront',
+        'click .widget-bar-item[data-action="delete"]': 'onClickDelete'
     }
 });

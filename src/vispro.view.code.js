@@ -1,7 +1,7 @@
 vispro.view.Code = Backbone.View.extend({
 
     el: $(
-        '<div class="panel">' + 
+        '<div class="workspace-code">' + 
         '   <code class="JScript"></code>' +
         '</div>'
     ),

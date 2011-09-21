@@ -1,5 +1,9 @@
 vispro.view.WidgetLinker = Backbone.View.extend({
     
+    tagName: 'div',
+
+    className: 'linker',
+
     initialize: function (attributes, options) {
         
         var element = $(this.el),
@@ -22,7 +26,6 @@ vispro.view.WidgetLinker = Backbone.View.extend({
         }
 
         element
-            .addClass('linker')
             .data('linker', this)
             .css({
                 position: 'absolute',

@@ -1,11 +1,15 @@
 vispro.view.Inspector = Backbone.View.extend({
     
+    tagName: 'div',
+
+    className: 'widget-inspector',
+
     templates: {
 
         element: _.template(
-            '<span class="inspector-label">Inspector</span>' + 
+            '<div class="inspector-label">Inspector</div>' + 
             
-            '<div class="inspector-properties position">' + 
+            '<div class="inspector-properties">' + 
             '    <span class="inspector-properties-label">Position</span>' + 
             '    <div class="inspector-property">' +
             '        <span class="inspector-property-label">left</span>' +
@@ -17,7 +21,7 @@ vispro.view.Inspector = Backbone.View.extend({
             '    </div>' +
             '</div>' + 
             
-            '<div class="inspector-properties dimensions">' + 
+            '<div class="inspector-properties">' + 
             '    <span class="inspector-properties-label">Dimensions</span>' + 
             '    <div class="inspector-property">' +
             '        <span class="inspector-property-label">width</span>' +
@@ -29,7 +33,7 @@ vispro.view.Inspector = Backbone.View.extend({
             '    </div>' +
             '</div>' +
 
-            '<div class="inspector-properties properties">' + 
+            '<div class="inspector-properties attributes">' + 
             '    <span class="inspector-properties-label">Properties</span>' + 
             '    <div class="inspector-property">' +
             '        <span class="inspector-property-label">id</span>' +
@@ -91,7 +95,7 @@ vispro.view.Inspector = Backbone.View.extend({
         inputs.properties = $(element.find('input.property'));
         inputs.dependencies = $(element.find('select.dependency'));
 
-        divs.properties = $(element.find('.inspector-properties.properties'));
+        divs.properties = $(element.find('.inspector-properties.attributes'));
         divs.dependencies = $(element.find('.inspector-properties.dependencies'));
 
         if (i_dimensions.width.resizable === false) {
