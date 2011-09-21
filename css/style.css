@@ -74,6 +74,7 @@ body {
 	padding-left: 10px;
 }
 
+<<<<<<< HEAD
 .appbar-item-label {
 	text-decoration: none;
 	color: white;
@@ -252,6 +253,19 @@ body {
 	padding: 15px;
 	font-family: courier;
 }
+
+/*
+ *	WIDGET BAR
+ */
+
+ .widget-bar-list {
+ 	position: absolute;
+ 	left: left: 500px;
+ }
+
+ .widget-bar-item {
+ 	float: left;
+ }
 
 /*
  * PANEL BROWSER
