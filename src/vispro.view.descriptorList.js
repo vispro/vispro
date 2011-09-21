@@ -1,8 +1,9 @@
 vispro.view.DescriptorList = Backbone.View.extend({
 
     el: $(
-        '<div id="descriptorList" class="panel">' +
-        '   <div class="panel-label">Widgets</div>' +
+        '<div class="collection-descriptor panel">' + 
+        '   <div class="collection-descriptor-label panel-label ui-layout-north">Widgets</div>' + 
+        '   <div class="collection-descriptor-list panel-list ui-layout-center"></div>' + 
         '</div>'
     ),
 
@@ -11,9 +12,16 @@ vispro.view.DescriptorList = Backbone.View.extend({
         var root = $(options.root) || $('<div>'),
             workspace = options.model,
             collection = workspace.descriptorList,
-            element = this.el;
+            element = this.el,
+            viewList = $(element.find('.collection-descriptor-list'));
         
-        element.appendTo(root).cover();
+        element
+            .appendTo(root)
+            .layout({
+                north__closable: false, 
+                north__resizable: false,
+                north__spacing_open: 0
+            });
         
         collection.bind('add', this.add, this);
 
@@ -23,6 +31,7 @@ vispro.view.DescriptorList = Backbone.View.extend({
         this.workspace = workspace;
         this.element = element;
         this.root = root;
+        this.viewList = viewList;
         
         return this;
     },
@@ -37,9 +46,11 @@ vispro.view.DescriptorList = Backbone.View.extend({
 
     add: function (descriptor) {
 
-        var view = new vispro.view.Descriptor({}, { model: descriptor });
-
-        view.appendTo(this.element);
+        var viewList = this.viewList,
+            view = new vispro.view.Descriptor({}, { 
+                model: descriptor,
+                root: viewList
+            });
 
         return this;            
     },

@@ -1,12 +1,16 @@
-vispro.view.Label = Backbone.View.extend({
+vispro.view.Browser = Backbone.View.extend({
+
+    tagName: 'div',
+
+    className: 'widget-browser',
 
     initialize: function (attributes, options) {
                 
         var model = options.model,
-            element = $(this.el),
-            template = this.template;
-
-        element.addClass('label');
+            root = options.root,
+            element = $(this.el);
+        
+        element.appendTo(root);
 
         model
             .bind('selected', this.select, this)
@@ -15,6 +19,7 @@ vispro.view.Label = Backbone.View.extend({
 
         this.model = model;
         this.element = element;
+        this.root = root;
 
         return this;
     },
