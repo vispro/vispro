@@ -27,7 +27,12 @@ vispro.view.Code = Backbone.View.extend({
                 width: '100%',
                 height: '100%'
             })
-            .layout();
+            .layout({
+                center__size: .75,
+                south__size:.25,
+                south__closable: false,
+                south__resizable: false
+            });
 
 
         output_code = $(element.find('.output-code'));

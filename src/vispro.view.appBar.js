@@ -10,7 +10,7 @@ vispro.view.AppBar = Backbone.View.extend({
         '            <a class="appbar-item-label" href="#save">Save</a>' +
         '        </li>' +
         '        <li class="appbar-item" data-action="load">' + 
-        '            <a class="appbar-item-label" href="#load">Load</a>' + 
+        '            <a class="appbar-item-label" href="#load" data-action="load">Load</a>' + 
         '        </li>' +
         '    </ul>' +
         '</div>'
@@ -45,23 +45,24 @@ vispro.view.AppBar = Backbone.View.extend({
 
     onClickNew: function (event) {
         
-        
+        console.log('click');
     },
 
     onClickSave: function (event) {
         
-
+        console.log('click');
     },
 
     onClickLoad: function (event) {
         
-
+        var state = window.prompt('Paste your saved state here');
+        app.restore_from_string(state);
     },
 
     events: {
         'click .appbar-item[data-action="new"]': 'onClickNew',
         'click .appbar-item[data-action="save"]': 'onClickSave',
-        'click .appbar-item[data-action="load"]': 'onClickLoad'
+        'click a.appbar-item-label[data-action="load"]': 'onClickLoad'
     }
     
 });

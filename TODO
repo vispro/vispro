@@ -1,1 +1,8 @@
-- AGGIUNGERE UN BIND DELLA VIEW.DESCRIPTOR ALL'EVENTO REMOVE DEL MODEL.DESCRIPTOR, CHE ELIMINI LA VISTA ALLA DISTRUZIONE DEL MODELLO.
+_rendere cliccabili new, save, load
+_wisualizzare i link
+_sistemare pannelli code
+_curare inizializzazione inspector workspace
+_rendere individuabile widget selezionata in overlapping mode
+_rendere resizable il workspace
+_stile, stile, stile
+_riapplicare cover su pannelli

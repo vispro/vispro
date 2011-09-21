@@ -58,8 +58,33 @@ vispro.view.WorkspaceBar = Backbone.View.extend({
             state = target.attr('data-state');
     },
 
+    onGrid: function (event, ui) {
+        
+        var workspace = this.workspace,
+            target = $(event.target),
+            option = $(target.find('option:selected')),
+            value = option.val();
+        
+        workspace.regrid(value);
+
+        return this;
+    },
+
+    onSnap: function (event, ui) {
+        
+        var workspace = this.workspace,
+            target = $(event.target),
+            value = target.is(':checked');
+        
+        workspace.resnap(value);
+
+        return this;
+    },
+
     events: {
-        'click a': 'onClick'
+        'click a': 'onClick',
+        'change select[data-name="grid"]': 'onGrid',
+        'change input[data-name="snap"]': 'onSnap'
     }
     
 });
