@@ -10,7 +10,11 @@ vispro.view.Browser = Backbone.View.extend({
             root = options.root,
             element = $(this.el);
         
-        element.appendTo(root);
+        console.log(model.id);
+
+        element
+            .text(model.id)
+            .appendTo(root);
 
         model
             .bind('selected', this.select, this)
@@ -64,7 +68,7 @@ vispro.view.Browser = Backbone.View.extend({
     },
 
     onMouseenter: function (event) {
-        
+
         this.element.addClass('over');
     },
 

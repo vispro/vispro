@@ -1,12 +1,16 @@
 vispro.view.PerspectiveBar = Backbone.View.extend({
 
     el: $(
-        '<div class="perspective-bar">' + 
-        '    <ul class="perspective-bar-list">' + 
-        '        <li class="perspective-bar-item"><a href="#workspace/view" data-mode="view">view</a></li>' +
-        '        <li class="perspective-bar-item"><a href="#workspace/link" data-mode="link">link</a></li>' +
-        '        <li class="perspective-bar-item"><a href="#workspace/code" data-mode="code">code</a></li>' +
-        '    </ul>' +
+        '<div class="viewbar">' + 
+        '    <div class="viewbar-item" data-state="view">' +
+        '       <div class="viewbar-item-label">view</div>' +
+        '    </div>' +
+        '    <div class="viewbar-item" data-state="link">' +
+        '        <div class="viewbar-item-label">link</div>' + 
+        '    </div>' + 
+        '    <div class="viewbar-item" data-state="code">' + 
+        '       <div class="viewbar-item-label">code</div>' +
+        '    </div>' +
         '</div>'
     ),
 

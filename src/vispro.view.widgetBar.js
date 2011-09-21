@@ -2,24 +2,36 @@ vispro.view.WidgetBar = Backbone.View.extend({
 
     tagName: 'div',
 
-    className: 'widget-bar',
+    className: 'widgetbar',
 
     template: _.template(
-        '<input type="button" class="widget-bar-item" data-action="send-back" value="--" />' + 
-        '<input type="button" class="widget-bar-item" data-action="send-backward" value="-" />' + 
-        '<input type="button" class="widget-bar-item" data-action="bring-forward" value="+" />' + 
-        '<input type="button" class="widget-bar-item" data-action="bring-front" value="++" />' + 
-        '<input type="button" class="widget-bar-item" data-action="delete" value="x" />'
+        '<div class="widgetbar-button" data-action="send-back">' +
+        '    <span class="toolbar-button-label">--</span>' + 
+        '</div>' +
+        '<div class="widgetbar-button" data-action="send-backward">' + 
+        '    <span class="toolbar-button-label">-</span>' + 
+        '</div>' +
+        '<div class="widgetbar-button" data-action="bring-forward">' + 
+        '    <span class="toolbar-button-label">+</span>' + 
+        '</div>' +
+        '<div class="widgetbar-button" data-action="bring-front">' + 
+        '    <span class="toolbar-button-label">++</span>' + 
+        '</div>' +
+        '<div class="widgetbar-button" data-action="delete">' + 
+        '    <span class="toolbar-button-label">x</span>' + 
+        '</div>'
     ),
 
     initialize: function (attributes, options) {
 
-        var element = $(this.el),
-            template = this.template,
-            model = options.model;
+        var model = options.model,
+            root = options.root,
+            element = $(this.el),
+            template = this.template;
         
         element
-            .html(template());
+            .html(template())
+            .appendTo(root);
         
         model
             .bind('selected', this.select, this)
@@ -102,10 +114,10 @@ vispro.view.WidgetBar = Backbone.View.extend({
     },
     
     events: {
-        'click .widget-bar-item[data-action="send-back"]': 'onClickSendBack',
-        'click .widget-bar-item[data-action="send-backward"]': 'onClickSendBackward',
-        'click .widget-bar-item[data-action="bring-forward"]': 'onClickBringForward',
-        'click .widget-bar-item[data-action="bring-front"]': 'onClickBringFront',
-        'click .widget-bar-item[data-action="delete"]': 'onClickDelete'
+        'click .widgetbar-button[data-action="send-back"]': 'onClickSendBack',
+        'click .widgetbar-button[data-action="send-backward"]': 'onClickSendBackward',
+        'click .widgetbar-button[data-action="bring-forward"]': 'onClickBringForward',
+        'click .widgetbar-button[data-action="bring-front"]': 'onClickBringFront',
+        'click .widgetbar-button[data-action="delete"]': 'onClickDelete'
     }
 });

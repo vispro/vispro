@@ -1,9 +1,9 @@
 vispro.view.InspectorList = Backbone.View.extend({
 
     el: $(
-        '<div class="collection-widget-inspector">' +
-        '   <div class="collection-widget-inspector-label">Inspector</div>' +
-        '   <div class="collection-widget-inspector-list"></div>' +
+        '<div class="collection-widget-inspector panel">' +
+        '   <div class="collection-widget-inspector-label panel-label ui-layout-north">Inspector</div>' +
+        '   <div class="collection-widget-inspector-list panel-list ui-layout-center"></div>' +
         '</div>'
     ),
 
@@ -13,28 +13,40 @@ vispro.view.InspectorList = Backbone.View.extend({
             root = options.root,
             model = options.model,
             widgetList = model.widgetList,
+            viewList = $(element.find('.panel-list')),
             inspectorWorkspace = new vispro.view.InspectorWorkspace({}, {
-                model: model
+                model: model,
+                root: viewList
             });
         
-        element.appendTo(root).cover();
-        inspectorWorkspace.appendTo(element);
-        
-        widgetList.bind('add', this.add, this);
+        element
+            .appendTo(root)
+            .layout({
+                north__size: 35,
+                north__closable: false, 
+                north__resizable: false,
+                north__spacing_open: 0
+            });
+                
+        widgetList
+            .bind('add', this.add, this);
 
         this.model = model;
         this.element = element;
         this.root = root;
+        this.viewList = viewList;
 
         return this;
     },
     
     add: function (widget) {
         
-        var view = new vispro.view.Inspector({}, { model: widget });
-
-        view.render().appendTo(this.element);
-
+        var viewList = this.viewList,
+            view = new vispro.view.Inspector({}, { 
+                model: widget,
+                root: viewList 
+            });
+        
         return this;
     },
 

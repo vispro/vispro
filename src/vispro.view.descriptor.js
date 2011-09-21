@@ -6,8 +6,10 @@ vispro.view.Descriptor = Backbone.View.extend({
 
     template: _.template(
         '<span class="descriptor-label"><%= name %></span>' +
-        '<img class="descriptor-image" src="<%= src %>" alt="<%= alt %>"' +
-        '     style="width:<%= width %>px; height:<%= height %>px" />'
+        '<div class="descriptor-image-box">' + 
+        '    <img class="descriptor-image" src="<%= src %>" alt="<%= alt %>"' +
+        '        style="width:<%= width %>px; height:<%= height %>px" />' +
+        '</div>'
     ),
     
     template_helper: _.template(
@@ -27,20 +29,34 @@ vispro.view.Descriptor = Backbone.View.extend({
             name = model.name,
             image = model.image.src,
             dimensions = model.dimensions,
-            width = dimensions.width.value,
-            height = dimensions.height.value,
-            min = Math.min;
+            i_width = +dimensions.width.value,
+            i_height = +dimensions.height.value,
+            aspect = i_width / i_height,
+            min = Math.min,
+            m_width = 150,
+            m_height = 75,
+            width,
+            height;        
 
         function draggable () {
             return helper.appendTo('body');
         }
 
+        if (aspect > 1) {
+            width = min(i_width, m_width);
+            height = width / aspect;
+        }
+        // else {
+        //     height = min(i_height, m_height);
+        //     width = height * aspect;
+        // }
+
         helper
             .html(template_helper({
                 src: image,
                 alt: name,
-                width: width,
-                height: height
+                width: i_width,
+                height: i_height
             }));
             
         element
@@ -48,8 +64,8 @@ vispro.view.Descriptor = Backbone.View.extend({
                 name: label,
                 src: image,
                 alt: name,
-                width: min(+width, 100),
-                height: min(+height, 80)
+                width: width,
+                height: height
             }))
             .data('descriptor', model)
             .draggable({
@@ -62,10 +78,16 @@ vispro.view.Descriptor = Backbone.View.extend({
                 }
             })
             .appendTo(root);
-            
-                
+                  
         model
             .bind('remove', this.remove, this);
+        
+        element.find('.descriptor-image-box')
+            .css({
+                width: m_width,
+                height: m_height,
+                overflow: 'hidden'
+            });
 
         this.element = element;
         this.model = model;

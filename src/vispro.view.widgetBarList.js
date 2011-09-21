@@ -2,7 +2,7 @@ vispro.view.WidgetBarList = Backbone.View.extend({
 
     tagName: 'div',
 
-    className: 'collection-widget-bar',
+    className: 'widgetbar-list',
 
     initialize: function (attributes, options) {
 
@@ -37,10 +37,9 @@ vispro.view.WidgetBarList = Backbone.View.extend({
     add: function (widget) {
         
         var view = new vispro.view.WidgetBar({}, {
-            model: widget
+            model: widget,
+            root: this.element
         });
-
-        view.appendTo(this.element);
 
         return this;
     },

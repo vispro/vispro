@@ -21,6 +21,7 @@ vispro.view.InspectorWorkspace = Backbone.View.extend({
     initialize: function (attributes, options) {
 
         var model = options.model,
+            root = options.root,
             element = $(this.el),
             inputs = {},
             divs = {};
@@ -30,12 +31,15 @@ vispro.view.InspectorWorkspace = Backbone.View.extend({
         inputs.grid = $(element.find('.inspector-input[data-name="grid"]'));
         inputs.snap = $(element.find('.inspector-input[data-name="snap"]'));
 
+        element.appendTo(root);
+
         model
             .bind('selected', this.select, this)
             .bind('resize', this.render_dimensions, this);
 
         this.model = model;
         this.element = element;
+        this.root = root;
         this.inputs = inputs;
 
         return this;

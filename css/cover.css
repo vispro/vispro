@@ -1,0 +1,11 @@
+.ui-covered {
+	overflow: hidden;
+}
+
+.ui-layout-resizer {
+	background: #f1f1f1;
+}
+
+.ui-layout-toggler {
+	background: #2d2d2d;
+}

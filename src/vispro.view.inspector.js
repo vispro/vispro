@@ -7,7 +7,7 @@ vispro.view.Inspector = Backbone.View.extend({
     templates: {
 
         element: _.template(
-            '<div class="inspector-label">Inspector</div>' + 
+            '<div class="inspector-label"><%= label %></div>' + 
             
             '<div class="inspector-properties">' + 
             '    <span class="inspector-properties-label">Position</span>' + 
@@ -76,6 +76,7 @@ vispro.view.Inspector = Backbone.View.extend({
     initialize: function (attributes, options) {
 
         var model = options.model,
+            root = options.root,
             descriptor = model.descriptor,
             i_dimensions = descriptor.dimensions,
             i_dependencies = model.dependencies,
@@ -85,7 +86,9 @@ vispro.view.Inspector = Backbone.View.extend({
             inputs = {},
             divs = {};
 
-        element.html(templates.element(model));
+        element
+            .html(templates.element(model))
+            .appendTo(root);
 
         inputs.width = $(element.find('input[data-name="width"]'));
         inputs.height = $(element.find('input[data-name="height"]'));
@@ -120,12 +123,12 @@ vispro.view.Inspector = Backbone.View.extend({
 
         this.model = model;
         this.element = element;
+        this.root = root;
         this.inputs = inputs;
 
         return this;
     },
-
-        
+    
     appendTo: function (root) {
         
         this.element.appendTo(root);

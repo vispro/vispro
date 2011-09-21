@@ -1,14 +1,6 @@
-.ui-covered {
-	overflow: hidden;
-}
-
-.ui-layout-resizer {
-	background: #f1f1f1;
-}
-
-.ui-layout-toggler {
-	background: #2d2d2d;
-}
+/*
+ *	BODY
+ */
 
 body {
 	font-family: Helvetica, Verdana, sans-serif; 
@@ -32,29 +24,41 @@ body {
 	
 }
 
+#panel-center-center {
+	overflow: scroll;
+	-webkit-box-shadow: 2px 2px 5px 1px rgba(0,0,0,.25) inset; 
+	-moz-box-shadow: 2px 2px 5px 1px rgba(0,0,0,.25) inset; 
+	box-shadow: 2px 2px 5px 1px rgba(0,0,0,.25) inset;
+}
+
+#panel-east {
+	border-left: 1px solid #ebebeb;
+}
+
 .panel {
-	
+	height: 100%;
 }
 
 .panel-label {
 	overflow: hidden;
-	height: 24px;
 	padding-top: 10px;
 	padding-left: 10px;
 	padding-right: 10px;
 	font-size: 20px;
+	border-top: 1px solid #EBEBEB;
 	border-bottom: 1px solid #EBEBEB;
 }
 
 .panel-list {
-	overflow: scroll;
+	overflow: auto;
+	height: 100%;
 }
 
-/**
- *	APPLICATION BAR
-**/
+/*
+ *	APPBAR
+ */
 
-.app-bar {
+.appbar {
 	position: absolute;
 	top: 0px;
 	left: 0px;
@@ -64,39 +68,88 @@ body {
 	border-bottom: 1px solid #000000;
 }
 
-.app-bar-item {
+.appbar-item {
 	float: left;
 	padding-top: 5px;
 	padding-left: 10px;
 }
 
-.app-bar-item a {
+<<<<<<< HEAD
+.appbar-item-label {
 	text-decoration: none;
 	color: white;
 }
 
 /*
- * PERSPECTIVE BAR
+ * VIEWBAR
  */
 
-.perspective-bar {
+.viewbar {
 	position: absolute;
-	top: 50px;
-	left: 200px;
-	height: 24px;
-	border: 1px solid #000000;
+	top: 40px;
+	left: 199px;
+	height: 34px;
 }
 
-.perspective-bar-item {
+.viewbar-item {
 	float: left;
-	padding-top: 5px;
+	height: 33px;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-right: 1px;
+	border-top: 1px solid #000000;
+	border-left: 1px solid #000000;
+	border-right: 1px solid #000000;
+}
+
+.viewbar-item-label {
+	text-decoration: none;
+	padding-top: 10px;
+}
+
+/*
+ *	TOOLBAR
+ */
+
+.toolbar {
+	border-top: 1px solid #EBEBEB;
+	border-bottom: 1px solid #EBEBEB;
+}
+
+/*
+ *	WORKSPACEBAR
+ */
+
+.workspacebar {
+	float: left;
+}
+
+.workspacebar-item {
+	float: left;
+	padding-top: 10px;
 	padding-left: 10px;
 }
 
-.perspective-bar-item a {
-	text-decoration: none;
-	color: black;
+.workspacebar-item-label {
+	
 }
+
+/*
+ *	WIDGETBAR
+ */
+
+ .widgetbar-item {
+ 	float: left;
+ 	padding-left: 10px;
+ 	padding-top: 10px;
+ }
+
+ .widgetbar-button {
+ 	float: left;
+ 	padding-left: 10px;
+ 	padding-top: 10px;
+ 	cursor: pointer;
+ }
 
 /* 
  * PANEL DESCRIPTOR
@@ -105,7 +158,6 @@ body {
 .collection-descriptor {
 	position: absolute;
 	width: 199px;
-	height: 100%;
 }
 
 .collection-descriptor-label {
@@ -121,8 +173,8 @@ body {
 .descriptor {
 	width: 188px;
 	height: 100px;
-	padding-left: 10px;
 	padding-top: 10px;
+	padding-left: 10px;
 	cursor: pointer;
 }
 
@@ -131,6 +183,10 @@ body {
 }
 
 .descriptor-image {
+
+}
+
+.descriptor-image-box {
 	padding-top: 10px;
 }
 
@@ -139,13 +195,6 @@ body {
 	background-color: #f1f1f1;
 }
 
-#panel-center {
-
-}
-
-#panel-east {
-	border-left: 1px solid #ebebeb;
-}
 
 /*
  * PANEL WORKSPACE
@@ -153,14 +202,7 @@ body {
 
 #workspace {
 	position: absolute;
-	overflow: hidden;
 	border: 1px solid #2d2d2d;
-	top: 15px;
-	left: 15px;
-}
-
-#workspace-link {
-	position: absolute;
 	top: 15px;
 	left: 15px;
 }
@@ -186,18 +228,31 @@ body {
 	outline: 1px solid #d2d2d2;	
 }
 
+/*
+ * PANEL LINK
+ */
+
+#workspace-link {
+	position: absolute;
+	top: 15px;
+	left: 15px;
+}
+
 .linker {
 	border: 1px solid #2d2d2d;
 	border-radius: 10px 10px;
 	background-color: #d2d2d2;
 }
 
+/*
+ * PANEL CODE
+ */
+
 #code>pre {
 	position: relative;
 	padding: 15px;
 	font-family: courier;
 }
-
 
 /*
  *	WIDGET BAR
@@ -216,24 +271,20 @@ body {
  * PANEL BROWSER
  */
 
-.label {
+.widget-browser {
 	height: 20px;
 	padding-top: 5px;
-	padding-left: 15px;
+	padding-left: 10px;
 	cursor: pointer;
 }
 
-.label.over {
+.widget-browser.over {
 	background-color: #fbfbfb;
 }
 
-.label.selected {
+.widget-browser.selected {
 	border-left: 1px solid #4d90f0;
 	background-color: #f1f1f1;
-}
-
-.label.button {
-	padding-left: 25px;
 }
 
 /*
@@ -242,7 +293,8 @@ body {
 
 .inspector-label {
 	position: relative;
-	padding-left: 15px;
+	padding-top: 10px;
+	padding-left: 10px;
 	height: 25px;
 	display: block;
 }
@@ -255,7 +307,7 @@ body {
 .inspector-properties-label {
 	position: relative;
 	display: block;
-	padding-left: 15px;
+	padding-left: 10px;
 	top: 4px;
 	height: 25px;
 	width: 50px;
@@ -267,7 +319,7 @@ body {
 
 .inspector-property-label {
 	position: relative;
-	padding-left: 15px;
+	padding-left: 10px;
 	top: 4px;
 	height: 20px;
 	width: 50px;
@@ -335,7 +387,9 @@ body {
 	background-image: url('grid/1p25.png')
 }
 
-/*-------------------TEST-------------------*/
+/*
+ * RESIZE
+ */
 
 div.resizing-anchor {
 	display: none;            
@@ -347,15 +401,4 @@ div.resizing-anchor.display-resize-anchor-over {
 
 div.resizing-anchor.display-resize-anchor-selected {
 	display: block;
-}
-
-#panel-center {
-	-webkit-box-shadow: 2px 2px 5px 1px rgba(0,0,0,.25) inset; 
-	-moz-box-shadow: 2px 2px 5px 1px rgba(0,0,0,.25) inset; 
-	box-shadow: 2px 2px 5px 1px rgba(0,0,0,.25) inset;
-}
-
-#img_logo_sogei {
-	margin-top: 4px;
-	height: 25px;
 }

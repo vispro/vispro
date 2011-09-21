@@ -13,6 +13,9 @@ vispro.view.Workspace = Backbone.View.extend({
             widgetList = model.widgetList;
 
         element
+            .attr({
+                id: 'workspace'
+            })
             .addClass('grid-15')
             .css({
                 width: dimensions.width + 'px',

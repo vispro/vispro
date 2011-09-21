@@ -18,6 +18,7 @@ vispro.view.DescriptorList = Backbone.View.extend({
         element
             .appendTo(root)
             .layout({
+                north__size: 35,
                 north__closable: false, 
                 north__resizable: false,
                 north__spacing_open: 0
