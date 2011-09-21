@@ -1,14 +1,17 @@
-vispro.view.appBar = Backbone.View.extend({
+vispro.view.AppBar = Backbone.View.extend({
 
     el: $(
         '<div class="appbar">' +
         '    <ul class="appbar-list">' +
-        '        <li class="appbar-item" data-action="home"><a href="#app/home">Home</a></li>' + 
-        '        <li class="appbar-item" data-action="help"><a href="#app/help">Help</a></li>' +
-        '        <li class="appbar-item" data-action="save"><a href="#app/save">Save</a></li>' +
-        '        <li class="appbar-item" data-action="load"><a href="#app/load">Load</a></li>' +
-        '        <li class="appbar-item" data-action="login"><a href="#app/login">Login</a></li>' +
-        '        <li class="appbar-item" data-action="logout"><a href="#app/logout">Logout</a></li>' +
+        '        <li class="appbar-item" data-action="new">' + 
+        '            <a class="appbar-item-label" href="#new">New</a>' +
+        '        </li>' +
+        '        <li class="appbar-item" data-action="save">' + 
+        '            <a class="appbar-item-label" href="#save">Save</a>' +
+        '        </li>' +
+        '        <li class="appbar-item" data-action="load">' + 
+        '            <a class="appbar-item-label" href="#load">Load</a>' + 
+        '        </li>' +
         '    </ul>' +
         '</div>'
     ),
@@ -19,10 +22,19 @@ vispro.view.appBar = Backbone.View.extend({
             root = $(options.root),
             workspace = options.workspace;
 
+        element.appendTo(root);
+
         this.element = element;
         this.root = root;
         this.workspace = workspace;
         
+        return this;
+    },
+
+    appendTo: function (root) {
+        
+        this.render().element.appendTo(root);
+
         return this;
     },
 
@@ -31,17 +43,25 @@ vispro.view.appBar = Backbone.View.extend({
         return this;
     },
 
-    onClick: function (event) {
+    onClickNew: function (event) {
         
-        var model = this.model,
-            target = $(event.target),
-            action = target.attr('data-action');
+        
+    },
 
-        model[action]();
+    onClickSave: function (event) {
+        
+
+    },
+
+    onClickLoad: function (event) {
+        
+
     },
 
     events: {
-        'click a': 'onClick'
+        'click .appbar-item[data-action="new"]': 'onClickNew',
+        'click .appbar-item[data-action="save"]': 'onClickSave',
+        'click .appbar-item[data-action="load"]': 'onClickLoad'
     }
     
 });

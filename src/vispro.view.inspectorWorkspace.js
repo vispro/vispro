@@ -1,48 +1,27 @@
 vispro.view.InspectorWorkspace = Backbone.View.extend({
 
     el: $(
-        '<span class="inspector-label">Workspace</span>' + 
+        '<div class="workspace-inspector">' +
+        '    <span class="inspector-label">Workspace</span>' + 
         
-        '<div class="inspector-properties dimensions">' + 
-        '    <span class="inspector-properties-label">Dimensions</span>' + 
-        '    <div class="inspector-property">' +
-        '        <span class="inspector-property-label">width</span>' +
-        '        <input type="number" class="inspector-input" data-name="width" />' +
-        '    </div>' +
-        '    <div class="inspector-property">' +
-        '        <span class="inspector-property-label">height</span>' +
-        '        <input type="number" class="inspector-input" data-name="height" />' +
-        '    </div>' +
-        '</div>' +
-
-        '<div class="inspector-grid properties">' + 
-        '    <span class="inspector-properties-label">Grid</span>' + 
-        '    <div class="inspector-property">' +
-        '        <span class="inspector-property-label">step</span>' +
-        '        <select class="inspector-input" data-name="grid">' + 
-        '           <option value="15"> 15px </option>' +
-        '           <option value="16"> 16px </option>' +
-        '           <option value="17"> 17px </option>' +
-        '           <option value="18"> 18px </option>' +
-        '           <option value="19"> 19px </option>' +
-        '           <option value="20"> 20px </option>' +
-        '           <option value="21"> 21px </option>' +
-        '           <option value="22"> 22px </option>' +
-        '           <option value="23"> 23px </option>' +
-        '           <option value="24"> 24px </option>' +
-        '           <option value="25"> 25px </option>' +
-        '        </select>' +
-        '    </div>' +
-        '    <div class="inspector-property">' +
-        '        <span class="inspector-property-label">snap-to-grid</span>' +
-        '        <input type="checkbox" class="inspector-input" data-name="snap" />' +
+        '    <div class="inspector-properties dimensions">' + 
+        '        <span class="inspector-properties-label">Dimensions</span>' + 
+        '        <div class="inspector-property">' +
+        '            <span class="inspector-property-label">width</span>' +
+        '            <input type="number" class="inspector-input" data-name="width" />' +
+        '        </div>' +
+        '        <div class="inspector-property">' +
+        '            <span class="inspector-property-label">height</span>' +
+        '            <input type="number" class="inspector-input" data-name="height" />' +
+        '        </div>' +
         '    </div>' +
         '</div>'
     ),
-
+    
     initialize: function (attributes, options) {
 
         var model = options.model,
+            root = options.root,
             element = $(this.el),
             inputs = {},
             divs = {};
@@ -52,12 +31,15 @@ vispro.view.InspectorWorkspace = Backbone.View.extend({
         inputs.grid = $(element.find('.inspector-input[data-name="grid"]'));
         inputs.snap = $(element.find('.inspector-input[data-name="snap"]'));
 
+        element.appendTo(root);
+
         model
             .bind('selected', this.select, this)
             .bind('resize', this.render_dimensions, this);
 
         this.model = model;
         this.element = element;
+        this.root = root;
         this.inputs = inputs;
 
         return this;

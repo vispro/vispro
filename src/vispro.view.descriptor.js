@@ -1,53 +1,71 @@
 vispro.view.Descriptor = Backbone.View.extend({
 
-    templates: {
-        element: _.template(
-            '<span class="descriptor-label"><%= name %></span>' +
-            '<img class="descriptor-image" src="<%= src %>" alt="<%= alt %>"' +
-            ' style="width:<%= width %>px; height:<%= height %>px" />'
-        ),
+    tagName: 'div',
+
+    className: 'descriptor',
+
+    template: _.template(
+        '<span class="descriptor-label"><%= name %></span>' +
+        '<div class="descriptor-image-box">' + 
+        '    <img class="descriptor-image" src="<%= src %>" alt="<%= alt %>"' +
+        '        style="width:<%= width %>px; height:<%= height %>px" />' +
+        '</div>'
+    ),
     
-        helper: _.template(
-            '<img class="descriptor-helper" src="<%= src %>" alt="<%= alt %>"' +
-            ' style="width:<%= width %>px; height:<%= height %>px" />'
-        )
-    },
+    template_helper: _.template(
+        '<img class="descriptor-helper" src="<%= src %>" alt="<%= alt %>"' +
+        '    style="width:<%= width %>px; height:<%= height %>px; z-index:10000" />'
+    ),
 
     initialize: function (attributes, options) {
 
         var model = options.model,
-            templates = this.templates,
+            root = options.root,
+            template = this.template,
+            template_helper = this.template_helper,
             element = $(this.el),
             helper = $('<div>'),            
             label = model.label,
             name = model.name,
             image = model.image.src,
             dimensions = model.dimensions,
-            width = dimensions.width.value,
-            height = dimensions.height.value,
-            min = Math.min;
+            i_width = +dimensions.width.value,
+            i_height = +dimensions.height.value,
+            aspect = i_width / i_height,
+            min = Math.min,
+            m_width = 150,
+            m_height = 75,
+            width,
+            height;        
 
         function draggable () {
             return helper.appendTo('body');
         }
 
+        if (aspect > 1) {
+            width = min(i_width, m_width);
+            height = width / aspect;
+        }
+        // else {
+        //     height = min(i_height, m_height);
+        //     width = height * aspect;
+        // }
+
         helper
-            .html(templates.helper({
+            .html(template_helper({
+                src: image,
+                alt: name,
+                width: i_width,
+                height: i_height
+            }));
+            
+        element
+            .html(template({
+                name: label,
                 src: image,
                 alt: name,
                 width: width,
                 height: height
-            }))
-            .css('z-index', 1000000);
-                    
-        element
-            .addClass('descriptor')
-            .html(templates.element({
-                name: label,
-                src: image,
-                alt: name,
-                width: min(+width, 100),
-                height: min(+height, 80)
             }))
             .data('descriptor', model)
             .draggable({
@@ -57,17 +75,18 @@ vispro.view.Descriptor = Backbone.View.extend({
                     top: 0,
                     left: 0
                 }
+            })
+            .appendTo(root);
+        
+        element.find('.descriptor-image-box')
+            .css({
+                width: m_width,
+                height: m_height,
+                overflow: 'hidden'
             });
 
         this.element = element;
         this.model = model;
-
-        return this;
-    },
-
-    appendTo: function (element) {
-        
-        this.element.appendTo(element);
 
         return this;
     },

@@ -1,25 +1,37 @@
 vispro.view.WidgetBar = Backbone.View.extend({
 
+    tagName: 'div',
+
+    className: 'widgetbar',
+
     template: _.template(
-        '<div class="widgetbar">' + 
-        '    <ul class="widgetbar-action-list">' + 
-        '        <li class="widgetbar-item" data-action="send-back"><a>--</a></li>' + 
-        '        <li class="widgetbar-item" data-action="send-backward"><a>-</a></li>' + 
-        '        <li class="widgetbar-item" data-action="bring-forward"><a>+</a></li>' + 
-        '        <li class="widgetbar-item" data-action="bring-front"><a>++</a></li>' + 
-        '        <li class="widgetbar-item" data-action="delete"><a>x</a></li>' + 
-        '    </ul>' + 
+        '<div class="widgetbar-button" data-action="send-back">' +
+        '    <span class="toolbar-button-label">--</span>' + 
+        '</div>' +
+        '<div class="widgetbar-button" data-action="send-backward">' + 
+        '    <span class="toolbar-button-label">-</span>' + 
+        '</div>' +
+        '<div class="widgetbar-button" data-action="bring-forward">' + 
+        '    <span class="toolbar-button-label">+</span>' + 
+        '</div>' +
+        '<div class="widgetbar-button" data-action="bring-front">' + 
+        '    <span class="toolbar-button-label">++</span>' + 
+        '</div>' +
+        '<div class="widgetbar-button" data-action="delete">' + 
+        '    <span class="toolbar-button-label">x</span>' + 
         '</div>'
     ),
 
     initialize: function (attributes, options) {
 
-        var element = $(this.el),
-            template = this.template,
-            model = options.model;
+        var model = options.model,
+            root = options.root,
+            element = $(this.el),
+            template = this.template;
         
         element
-            .html(template());
+            .html(template())
+            .appendTo(root);
         
         model
             .bind('selected', this.select, this)
@@ -93,7 +105,7 @@ vispro.view.WidgetBar = Backbone.View.extend({
     },
 
     onClickDelete: function (event) {
-        
+            
         var model = this.model;
 
         if (window.confirm('Eliminare ' + model.label + ' ' + model.id + '?')) {
@@ -102,10 +114,10 @@ vispro.view.WidgetBar = Backbone.View.extend({
     },
     
     events: {
-        'click .widgetbar-item[data-action="send-back"]': 'onClickSendBack',
-        'click .widgetbar-item[data-action="send-backward"]': 'onClickSendBackward',
-        'click .widgetbar-item[data-action="bring-forward"]': 'onClickBringForward',
-        'click .widgetbar-item[data-action="bring-front"]': 'onClickBringFront',
-        'click .widgetbar-item[data-action="delete"]': 'onClickDelete'
+        'click .widgetbar-button[data-action="send-back"]': 'onClickSendBack',
+        'click .widgetbar-button[data-action="send-backward"]': 'onClickSendBackward',
+        'click .widgetbar-button[data-action="bring-forward"]': 'onClickBringForward',
+        'click .widgetbar-button[data-action="bring-front"]': 'onClickBringFront',
+        'click .widgetbar-button[data-action="delete"]': 'onClickDelete'
     }
 });

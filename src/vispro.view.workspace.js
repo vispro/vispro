@@ -1,18 +1,22 @@
 vispro.view.Workspace = Backbone.View.extend({
 
-    el: $(
-        '<div id="workspace" class="panel grid-15"></div>'
-    ),
+    tagName: 'div',
+
+    className: 'workspace',
 
     initialize: function (attributes, options) {
         
-        var element = this.el,
+        var element = $(this.el),
             root = $(options.root),
             model = options.model,
             dimensions = model.dimensions,
             widgetList = model.widgetList;
 
         element
+            .attr({
+                id: 'workspace'
+            })
+            .addClass('grid-15')
             .css({
                 width: dimensions.width + 'px',
                 height: dimensions.height + 'px'

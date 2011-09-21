@@ -168,7 +168,7 @@ vispro.model.Widget = Backbone.Model.extend({
                 return collection.getByCid(dependecy.value) !== undefined;
             })
             .each(function (dependency) {
-                map[dependency.name] = collection.getByCid(dependecy.value);
+                map[dependency.name] = collection.getByCid(dependency.value);
             });
 
         return map;
@@ -264,10 +264,10 @@ vispro.model.Widget = Backbone.Model.extend({
             modTop = newPositionTop % grid;
 
         if (snap) {
-                this.position = {
-                    left: left != undefined ? newPositionLeft - modLeft : oldPositionLeft,
-                    top: top != undefined ? newPositionTop - modTop : oldPositionTop
-                };      
+            this.position = {
+                left: left != undefined ? newPositionLeft - modLeft : oldPositionLeft,
+                top: top != undefined ? newPositionTop - modTop : oldPositionTop
+            };      
         } else {
             this.position = {
                 left: position.left,
@@ -367,7 +367,7 @@ vispro.model.Widget = Backbone.Model.extend({
 
     },
 
-    bringWidgetForward: function () {
+    bringForward: function () {
 
         var zIndex = this.zIndex;
 

@@ -13,7 +13,7 @@ vispro.view.App = Backbone.View.extend({
         '<div id="panel-west" class="panel ui-layout-west"></div> \n' + 
 
         '<div id="panel-center" class="ui-layout-center"> \n' +
-        '    <div id="panel-center-north" class="ui-layout-north"></div> \n' +
+        '    <div id="panel-center-north" class="toolbar ui-layout-north"></div> \n' +
         '    <div id="panel-center-center" class="ui-layout-center"></div> \n' +
         '</div> \n' +
 
@@ -34,7 +34,7 @@ vispro.view.App = Backbone.View.extend({
         element
             .html(template())
             .layout({ 
-                north__size: 40,
+                north__size: 75,
                 north__closable: false, 
                 north__resizable: false,
                 north__spacing_open: 0,
@@ -61,14 +61,21 @@ vispro.view.App = Backbone.View.extend({
         
         panel_east.layout({
             north__size: .4,
-            center__spacing_open: 2
+            north__closable: false, 
+            north__resizable: false,
+            center__spacing_open: 1
         });
         
         panel_center.layout({
-            north__size: 40,
+            north__size: 35,
             north__closable: false, 
             north__resizable: false,
             north__spacing_open: 0
+        });
+
+        views.appBar = new vispro.view.AppBar({}, {
+            model: workspace,
+            root: panel_north_north
         });
 
         views.descriptorList = new vispro.view.DescriptorList({}, { 
@@ -76,9 +83,14 @@ vispro.view.App = Backbone.View.extend({
             root: panel_west
         });
         
-        views.workspaceBar = new vispro.view.WorkspaceBar({}, { 
+        views.perspectiveBar = new vispro.view.PerspectiveBar({}, { 
             model: workspace,
             root: panel_north_center
+        });
+
+        views.workspaceBar = new vispro.view.WorkspaceBar({}, {
+            model: workspace,
+            root: panel_center_north
         });
 
         views.widgetBarList = new vispro.view.WidgetBarList({}, {
@@ -101,7 +113,7 @@ vispro.view.App = Backbone.View.extend({
             root: panel_center_center
         });
 
-        views.labelList = new vispro.view.LabelList({}, { 
+        views.browserList = new vispro.view.BrowserList({}, { 
             model: workspace,
             root: panel_east_north
         });
