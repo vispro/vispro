@@ -19,7 +19,7 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
             .appendTo(root);
         
         model.
-            bind('restate', this.restate, this);
+            bind('remode', this.remode, this);
 
         canvas
             .attr({ id: 'workspace-layer-link' })
@@ -71,9 +71,9 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
         return this;
     },
 
-    restate: function (state) {
+    remode: function (mode) {
         
-        if (state === 'link') {
+        if (mode === 'link') {
             this.show();
         }
         else {

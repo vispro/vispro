@@ -12,7 +12,7 @@ vispro.model.Widget = Backbone.Model.extend({
             dimensions = {},
             dependencies = {},
             attributes = attributes || {},
-            id = vispro.guid(type),
+            id = workspace.guid(type),
             zIndex = 10000, //workspace.widgetList.size(),
             snap = workspace.snap,
             snapped = workspace.snap,
@@ -61,7 +61,7 @@ vispro.model.Widget = Backbone.Model.extend({
 
     setId: function (id) {
         
-        this.id = id;
+        this.set({id: id});
         this.trigger('change_id', id);
 
         return this;
@@ -319,6 +319,13 @@ vispro.model.Widget = Backbone.Model.extend({
         return this;
     },
 
+    zreorder: function (zIndex) {
+        this.zIndex = zIndex;
+        this.trigger('zorder', zIndex);
+
+        return this;
+    },
+
     isValid: function () {
         
         return true;
@@ -412,11 +419,12 @@ vispro.model.Widget = Backbone.Model.extend({
     save: function () {
 
         var state = {},
+            state_dependencies = {},
             dependencies = this.dependencies,
             linkList = this.getLinkList();
 
         _(linkList).each(function (dependency) {
-            dependencies[dependency.type] = dependency.cid;
+            state_dependencies[dependency.type] = dependency.cid;
         });
 
         state.name = this.name;
@@ -426,26 +434,28 @@ vispro.model.Widget = Backbone.Model.extend({
         state.position = this.position;
         state.zIndex = this.zIndex;
         state.properties = this.attributes;        
-        state.dependencies = dependencies;
+        state.dependencies = state_dependencies;
 
         return state;
     },
 
     restore: function (state) {
+    
+        var dependencies = state.dependencies;
 
-        this.name = state.name;
         this.cid = state.cid;
-        this.id = state.id;
-        this.dimensions = state.dimensions;
-        this.position = state.position;
-        this.zIndex = state.zIndex;
-        this.attributes = state.properties;
 
-        _(state.dependencies).each(function (id, type) {
+        this.move(state.position);
+        this.resize(state.dimensions);
+        this.setId(state.id);
+        this.zreorder(state.zIndex);
+
+        this.set(state.properties);
+
+        _.each(dependencies, function (id, type) {
             this.addLink(type, id);
         }, this);
 
-        return this;
     },
 
     compile: function () {

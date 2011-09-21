@@ -142,15 +142,11 @@ vispro.parser.XML = Backbone.Model.extend({
         });
 
         callback.call(context, {
-            descriptor: {
-                template: {
-                    code: output_template,
-                    parameters: output_parameters
-                }
+            template: {
+                code: output_template,
+                parameters: output_parameters
             },
-            descriptorList: widgets_json,
-            workspace: {},
-            widgetList: []
+            descriptorList: widgets_json
         });
     }
 });

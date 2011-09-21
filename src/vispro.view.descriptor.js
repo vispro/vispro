@@ -58,6 +58,9 @@ vispro.view.Descriptor = Backbone.View.extend({
                     left: 0
                 }
             });
+        
+        model
+            .bind('remove', this.remove, this);
 
         this.element = element;
         this.model = model;
@@ -74,6 +77,13 @@ vispro.view.Descriptor = Backbone.View.extend({
 
     render: function () {
         
+        return this;
+    },
+
+    remove: function () {
+        
+        this.element.remove();
+
         return this;
     },
 

@@ -41,6 +41,34 @@ vispro.model.DescriptorList = Backbone.Collection.extend({
         });
 
         return result;
+    },
+
+    save: function () {
+
+        var states = [];
+
+        _(this.models)
+            .each(function(descriptor) {
+                states.push(descriptor.save());
+            }, this);
+
+        return states;
+    },
+
+    restore: function (state) {
+        this.addAll(state);
     }
+
+    // reset: function () {
+        
+    //     // this
+    //     //     .each(function (descriptor) {
+    //     //         this.remove(descriptor);
+    //     //     }, this);
+        
+    //     this._reset();
+
+    //     return this;
+    // }
 
 });

@@ -17,7 +17,7 @@ vispro.view.Code = Backbone.View.extend({
             .appendTo(root);
 
         workspace
-            .bind('restate', this.restate, this);
+            .bind('remode', this.remode, this);
 
         this.workspace = workspace;
         this.code = code;
@@ -38,9 +38,9 @@ vispro.view.Code = Backbone.View.extend({
         return this;
     },
 
-    restate: function (state) {
+    remode: function (mode) {
         
-        if (state === 'code') {
+        if (mode === 'code') {
             this.show();
         }
         else {

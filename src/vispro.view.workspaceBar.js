@@ -18,7 +18,7 @@ vispro.view.WorkspaceBar = Backbone.View.extend({
         
         element.appendTo(root);
 
-        workspace.bind('restate', this.changeState, this);
+        workspace.bind('remode', this.changeState, this);
 
         this.element = element;
         this.root = root;
@@ -51,7 +51,7 @@ vispro.view.WorkspaceBar = Backbone.View.extend({
         var target = $(event.target),
             state = target.attr('data-state');
 
-        this.workspace.restate(state);
+        this.workspace.remode(mode);
     },
 
     events: {

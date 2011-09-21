@@ -4,14 +4,26 @@ vispro.model.Workspace = Backbone.Model.extend({
         
         this.type = 'workspace';
         this.name = 'Workspace';
+        this.ids = {};
         this.dimensions = { width: 800, height: 450 };
         this.grid = 15;
-        this.snap = true;
+        this.snap = false;
         this.zIndex = 0;
         this.widgetList = new vispro.model.WidgetList();
         this.descriptorList = new vispro.model.DescriptorList();
         
         return this;
+    },
+
+    guid: function (type) {
+        
+        if (typeof this.ids[type] == 'undefined') {
+            this.ids[type] = 0;
+        }
+
+        var id = this.ids[type] += 1;
+
+        return type + '_' + id;
     },
     
     createWidget: function (descriptor) {
@@ -113,44 +125,78 @@ vispro.model.Workspace = Backbone.Model.extend({
         return test;
     },
 
-    setTemplate: function (template) {
+    load: function (descriptor, state) {
+        
+        this.descriptorList.addAll(descriptor.descriptorList);
+        this.template = descriptor.template;
 
-        this.template = template;
+        if (state) {
+            this.restore(state);
+        }
+
+        return this;
+    },
+
+    unload: function () {
+
+        var wl = this.widgetList,
+            dl = this.descriptorList;
+
+        wl.remove(_.extend([], wl.models));
+        dl.remove(_.extend([], dl.models));
 
         return this;
     },
 
     save: function () {
 
-        var state = {};
+        var that = this,
+            state = {
+                workspace: {},
+                widgetList: null
+            },
+            widgetList = state.widgetList,
+            workspace = state.workspace,
+            state_properties = ['dimensions', 'grid', 'ids', 'snap'];
+
+        _(state_properties)
+            .each(function(property) {
+                workspace[property] = that[property] ;
+            }, this);
 
         state.widgetList = this.widgetList.save();
-        state.descriptorList = this.descriptorList.save();
-
+        
         return state;
     },
 
     restore: function (state) {
-        
-        _(state.descriptor).each(function (value, property) {
-            this[property] = value;
-        }, this);
 
-        this.descriptorList.addAll(state.descriptorList);
+        var workspace = state.workspace,
+            descriptorList = this.descriptorList,
+            descriptor;
 
-        _(state.widgetList).each(function (widget_state) {
-            this.restoreWidget(widget_state);
-        }, this);
+        this.ids = {};
+        this.snap = false;
+
+        _(state.widgetList)
+            .each(function (widget_state) {
+                descriptor = descriptorList.getByName(widget_state.name);
+                this.restoreWidget(widget_state, descriptor[0]);
+            }, this);
+
+        this.ids = workspace.ids
+        this.resize(workspace.dimensions);
+        this.regrid(workspace.grid);
+        this.resnap(workspace.snap);
+
+        this.select();
 
         return this;
     },
     
     restoreWidget: function (widget_state, descriptor) {
 
-        var widget = this.createWidget(descriptor), 
-            widgetList = this.widgetList,
-            resDependencies = resWidget.dependencies,
-            dependencies = [];
+        var widget = this.createWidget(descriptor);
 
         this.addWidget(widget);
         
@@ -185,14 +231,14 @@ vispro.model.Workspace = Backbone.Model.extend({
         return source;
     },
     
-    restate: function (state) {
+    remode: function (mode) {
         
-        if (this.state === state) {
+        if (this.mode === mode) {
             return;
         }
 
-        this.state = state;
-        this.trigger('restate', state, this);
+        this.mode = mode;
+        this.trigger('remode', mode, this);
 
         return this;
     }

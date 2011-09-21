@@ -130,7 +130,7 @@ vispro.view.Inspector = Backbone.View.extend({
     },
 
     remove: function () {
-        
+
         this.element.remove();
 
         return this;

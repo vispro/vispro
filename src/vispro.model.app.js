@@ -8,14 +8,16 @@ vispro.model.App = Backbone.Model.extend({
         return this;
     },
 
-    create: function (url) {
+    create: function (url, state) {
         
         var parser = this.parser;
 
+        this.url = url;
+
         function onSuccess (xml) {
             
-            parser.parse(xml, function (state) {
-                this.restore(state);
+            parser.parse(xml, function (descriptor) {
+                this.load(descriptor, state);
             }, this);
         }
 
@@ -35,27 +37,60 @@ vispro.model.App = Backbone.Model.extend({
         return this;
     },
 
-    restate: function (state) {
+    remode: function (mode) {
         
-        this.workspace.restate(state);
+        this.workspace.remode(mode);
 
         return this;
     },
 
+    restore_from_string: function (state_str) {
+        var state;
+
+        try {
+            state = $.secureEvalJSON(state_str);
+        } catch (error) {
+            alert("Stato non valido.");
+            throw error;
+        }
+
+        this.restore(state);
+
+        return this;
+    },
+
+    save_to_string: function () {
+        return $.toJSON(this.save());  
+    },
+
     restore: function (state) {
-        
-        this.workspace.restore(state);
+
+        this.unload();
+        this.create(state.url, state.app);
 
         return this;
     },
 
     save: function () {
         
-        var state;
+        var state = {};
 
-        state = this.workspace.save();
+        state.app = this.workspace.save();
+        state.url = this.url;
 
         return state;
+    },
+
+    load: function (descriptor, state) {
+        
+        this.workspace.load(descriptor, state);
+
+        return this;
+    },
+
+    unload: function () {
+
+        this.workspace.unload();  
     },
 
     close: function () {
