@@ -247,10 +247,24 @@ body {
  * PANEL CODE
  */
 
-#code>pre {
-	position: relative;
-	padding: 15px;
-	font-family: courier;
+.panel-workspace-code {
+	overflow: hidden;
+}
+
+.panel-workspace-state {
+	overflow: hidden;
+}
+
+.output-code {
+	margin: 15px;
+	height: 100%;
+	overflow: scroll;
+}
+
+.output-state {
+	margin: 15px;
+	height: 100%;
+	overflow: scroll;
 }
 
 /*

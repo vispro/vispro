@@ -2,8 +2,12 @@ vispro.view.Code = Backbone.View.extend({
 
     el: $(
         '<div class="workspace-code">' +
-        '   <div class="output-code ui-layout-center"></div>' +
-        '   <div class="output-state ui-layout-south"></div>' +
+        '    <div class="ui-layout-north panel-workspace-code">' + 
+        '        <div class="output-code"></div>' +
+        '    </div>' +
+        '    <div class="ui-layout-center panel-workspace-state">' +
+        '        <div class="output-state"></div>' +
+        '    </div>' +
         '</div>'
     ),
 
@@ -18,7 +22,6 @@ vispro.view.Code = Backbone.View.extend({
             workspace = options.model,
             output_code,
             output_state;
-
         
         element
             .appendTo(root)
@@ -28,10 +31,10 @@ vispro.view.Code = Backbone.View.extend({
                 height: '100%'
             })
             .layout({
-                center__size: .75,
-                south__size:.25,
-                south__closable: false,
-                south__resizable: false
+                north__size: .7,
+                north__closable: false,
+                north__resizable: false,
+                north__spacing_open: 1
             });
 
 
@@ -56,11 +59,10 @@ vispro.view.Code = Backbone.View.extend({
             output_code = $(this.output_code),
             output_state = $(this.output_state),
             workspace = this.workspace,
-            code,
-            state,
-            source;
-
-
+            code = $('<code>'),
+            state = $('<code>'),
+            source = '';
+        
         if (workspace.isValid()) {
             source = workspace.compile();
         }
@@ -69,24 +71,21 @@ vispro.view.Code = Backbone.View.extend({
         }
 
         output_code.empty();
-        code = $('<code>');
+
         code
             .addClass('JScript')
-            .appendTo(output_code)
             .text(source)
+            .appendTo(output_code)
             .beautifyCode('javascript');
-
-
-
+        
         output_state.empty();
-        state = $('<code>');
+
         state
-            .appendTo(output_state)
             .addClass('boc-no-gutter')
             .text(app.save_to_string())
+            .appendTo(output_state)
             .beautifyCode('plain');
-
-
+        
         return this;
     },
 

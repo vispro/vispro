@@ -63,7 +63,7 @@ vispro.view.App = Backbone.View.extend({
             north__size: .4,
             north__closable: false, 
             north__resizable: false,
-            center__spacing_open: 1
+            north__spacing_open: 1
         });
         
         panel_center.layout({
