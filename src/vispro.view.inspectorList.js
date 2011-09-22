@@ -30,6 +30,9 @@ vispro.view.InspectorList = Backbone.View.extend({
                 
         widgetList
             .bind('add', this.add, this);
+        
+        model
+            .bind('remode', this.remode, this);
 
         this.model = model;
         this.element = element;
@@ -66,15 +69,26 @@ vispro.view.InspectorList = Backbone.View.extend({
 
     enable: function () {
                 
-        this.element.cover('disable');
+        this.viewList.cover('disable');
         
         return this;
     },
 
     disable: function () {
         
-        this.element.cover('enable');
+        this.viewList.cover('enable');
         
+        return this;
+    },
+
+    remode: function (mode) {
+        
+        if (mode === 'view') {
+            this.enable();
+        } else {
+            this.disable();
+        }
+
         return this;
     }
 

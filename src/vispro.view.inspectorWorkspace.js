@@ -42,6 +42,8 @@ vispro.view.InspectorWorkspace = Backbone.View.extend({
         this.root = root;
         this.inputs = inputs;
 
+        this.hide();
+
         return this;
     },
         

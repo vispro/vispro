@@ -59,16 +59,4 @@ vispro.model.DescriptorList = Backbone.Collection.extend({
         this.addAll(state);
     }
 
-    // reset: function () {
-        
-    //     // this
-    //     //     .each(function (descriptor) {
-    //     //         this.remove(descriptor);
-    //     //     }, this);
-        
-    //     this._reset();
-
-    //     return this;
-    // }
-
 });

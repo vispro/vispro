@@ -10,7 +10,13 @@ vispro.view.Workspace = Backbone.View.extend({
             root = $(options.root),
             model = options.model,
             dimensions = model.dimensions,
-            widgetList = model.widgetList;
+            widgetList = model.widgetList,
+            resize_helper = $('<div>'),
+            resize_handler = $('<div>'),
+            resize_handler_dimensions = {
+                width: 0,
+                height: 0
+            };;
 
         element
             .attr({
@@ -21,9 +27,36 @@ vispro.view.Workspace = Backbone.View.extend({
                 width: dimensions.width + 'px',
                 height: dimensions.height + 'px'
             })
-            .resizable({ autoHide: true })
             .droppable({ accept: '.descriptor' })
             .appendTo(root);
+
+        resize_handler_dimensions.width = 18;
+        resize_handler_dimensions.height = 18;
+        
+        resize_handler
+            .addClass('resizing-anchor')
+            .css({
+                'background-image': 'url("css/images/resize.png")',
+                'border': '1px solid lightgray',
+                'background-color': 'rgba(192,192,192,0.5)',
+                '-o-background-size': 'contain',
+                '-moz-background-size': 'contain',
+                '-webkit-background-size': 'contain', 
+                'background-size': 'contain',
+                'cursor': 'se-resize',
+                'position': 'absolute',
+                'width': resize_handler_dimensions.width + 'px',
+                'height': resize_handler_dimensions.height + 'px',
+                'bottom': '0px',
+                'right': '0px',
+            })
+            .draggable({
+                cursor: 'se-resize',
+                helper: function () {
+                    return resize_helper;
+                }
+            })
+            .appendTo(element);
 
         model
             .bind('selected', this.select, this)
@@ -38,6 +71,8 @@ vispro.view.Workspace = Backbone.View.extend({
         this.model = model;
         this.element = element;
         this.root = root;
+        this.resize_handler = resize_handler;
+        this.resize_handler_dimensions = resize_handler_dimensions;
 
         return this;
     },
@@ -45,8 +80,7 @@ vispro.view.Workspace = Backbone.View.extend({
     enable: function () {
 
         this.element
-            .cover('disable')
-            .resizable('enable');
+            .cover('disable');
         
         _(this.widgetList)
             .each(function (widget) {
@@ -59,8 +93,7 @@ vispro.view.Workspace = Backbone.View.extend({
     disable: function () {
 
         this.element
-            .cover('enable')
-            .resizable('disable');
+            .cover('enable');
         
         _(this.widgetList)
             .each(function (widget) {
@@ -113,15 +146,9 @@ vispro.view.Workspace = Backbone.View.extend({
         return this;
     },
 
-    resize: function () {
+    resize: function (dimensions) {
         
-        var element = this.element;
-        
-        if (element.hasClass('ui-resizable-resizing')) {
-            return;
-        }
-
-        element.animate(this.model.dimensions, 'fast');
+        this.element.css(dimensions);
 
         return this;
     },
@@ -138,15 +165,18 @@ vispro.view.Workspace = Backbone.View.extend({
         element.addClass(classToAdd);
     },
 
-    remode: function (mode) {
-        
+    remode: function (mode) {        
+
         if (mode === 'view') {
             this.show();
-        }
-        else {
+            this.enable();
+        } else if (mode === 'link') {
+            this.show();
+            this.disable();
+        } else {
             this.hide();
         }
-        
+
         return this;
     },
 
@@ -157,16 +187,17 @@ vispro.view.Workspace = Backbone.View.extend({
         this.model.select();
     },
 
-    onResizeStart: function (event, ui) {
-        
-        event.stopPropagation();
-    },
-
     onResize: function (event, ui) {
         
+        var resize_handler_dimensions = this.resize_handler_dimensions,
+            dimensions = {
+              width: ui.position.left + resize_handler_dimensions.width,
+              height: ui.position.top + resize_handler_dimensions.height
+            };
+
         event.stopPropagation();
 
-        this.model.resize(ui.size);
+        this.model.resize(dimensions);
     },
 
     onDrop: function (event, ui) {
@@ -191,10 +222,27 @@ vispro.view.Workspace = Backbone.View.extend({
             .move(position);
     },
 
+    onMouseenter: function (event) {
+
+        // event.stopPropagation();
+
+        this.element.addClass('over');
+        this.resize_handler.addClass('display-resize-anchor-over');
+    },
+
+    onMouseleave: function (event) {
+    
+        // event.stopPropagation();
+
+        this.element.removeClass('over');
+        this.resize_handler.removeClass('display-resize-anchor-over');
+    },
+
     events: {
         mousedown: 'onClick',
-        resizestart: 'onResizeStart',
-        resize: 'onResize',
+        mouseenter: 'onMouseenter',
+        mouseleave: 'onMouseleave',
+        'drag div.resizing-anchor': 'onResize',
         drop: 'onDrop'
     }
 

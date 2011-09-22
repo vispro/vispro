@@ -100,12 +100,23 @@ vispro.model.Workspace = Backbone.Model.extend({
 
     resize: function (dimensions) {
         
-        this.dimensions = {
-            width: dimensions.width,
-            height: dimensions.height
-        };
+        var grid = this.grid,
+            snap = this.snap,
+            widget_dimensions = this.dimensions,
+            width = dimensions.width || 0,
+            height = dimensions.height || 0,
+            halfGrid = Math.floor(grid / 2),
+            preSnappedWidth = width + halfGrid,
+            preSnappedHeight = height + halfGrid,
+            modWidth = preSnappedWidth % grid,
+            modHeight = preSnappedHeight % grid,
+            snappedWidth = preSnappedWidth - modWidth,
+            snappedHeight = preSnappedHeight - modHeight;
 
-        this.trigger('resize', dimensions);
+        this.dimensions.width = snap ? snappedWidth : (width || widget_dimensions.width);
+        this.dimensions.height = snap ? snappedHeight : (height || widget_dimensions.height);
+
+        this.trigger('resize', this.dimensions);
 
         return this;
     },

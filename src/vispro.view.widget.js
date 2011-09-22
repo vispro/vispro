@@ -60,7 +60,7 @@ vispro.view.Widget = Backbone.View.extend({
                 .css({
                     'background-image': 'url("css/images/resize.png")',
                     'border': '1px solid lightgray',
-                    'background-color': 'rgba(128,128,128,0.5)',
+                    'background-color': 'rgba(192,192,192,0.5)',
                     '-o-background-size': 'contain',
                     '-moz-background-size': 'contain',
                     '-webkit-background-size': 'contain', 
@@ -180,7 +180,7 @@ vispro.view.Widget = Backbone.View.extend({
         this.model.select();
     },
 
-     onResize: function (event, ui) {
+    onResize: function (event, ui) {
         
         var resize_handler_dimensions = this.resize_handler_dimensions,
             dimensions = {
