@@ -9,8 +9,6 @@ vispro.view.Browser = Backbone.View.extend({
         var model = options.model,
             root = options.root,
             element = $(this.el);
-        
-        console.log(model.id);
 
         element
             .text(model.id)

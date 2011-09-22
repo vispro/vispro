@@ -24,9 +24,12 @@ vispro.view.DescriptorList = Backbone.View.extend({
                 north__spacing_open: 0
             });
         
-        collection.bind('add', this.add, this);
+        collection
+            .bind('add', this.add, this);
 
-        workspace.bind('change_state', this.setState, this);
+        workspace
+            .bind('change_state', this.setState, this)
+            .bind('remode', this.remode, this);
         
         this.collection = collection;
         this.workspace = workspace;
@@ -81,15 +84,26 @@ vispro.view.DescriptorList = Backbone.View.extend({
 
     enable: function () {
         
-        this.element.cover('disable');
+        this.viewList.cover('disable');
         
         return this;
     },
 
     disable: function () {
         
-        this.element.cover('enable');
+        this.viewList.cover('enable');
         
+        return this;
+    },
+
+    remode: function (mode) {
+        
+        if (mode === 'view') {
+            this.enable();
+        } else {
+            this.disable();
+        }
+
         return this;
     }
     

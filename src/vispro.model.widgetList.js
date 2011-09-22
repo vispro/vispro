@@ -95,25 +95,6 @@ vispro.model.WidgetList = Backbone.Collection.extend({
         });
 
         return states;
-    },
-
-    restore: function (widgetList_list) {
-        
-        // _(state).each(function (widget_state) {
-        //     var widget = this.add({});
-        //     widget.restore(widget_state);
-        // });
     }
-
-    // reset: function () {
-        
-    //     this.each(function (widget) {
-    //         this.remove(widget);
-    //     }, this);
-        
-    //     this._reset();
-
-    //     return this;
-    // }
     
 });
