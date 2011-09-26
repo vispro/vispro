@@ -63,7 +63,7 @@ vispro.view.App = Backbone.View.extend({
         });
 
         views.appBar = new vispro.view.AppBar({}, {
-            model: workspace,
+            workspace: workspace,
             root: panel_north
         });
 

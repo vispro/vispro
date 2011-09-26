@@ -45,12 +45,20 @@ vispro.view.AppBar = Backbone.View.extend({
 
     onClickNew: function (event) {
         
-        console.log('click');
+        var exit = window.confirm("Le modifiche non salvate andranno perdute.\n Creare un nuovo progetto comunque?")
+        
+        console.log(this);
+
+        if (exit) {
+            window.location.reload();
+        } else {
+            this.workspace.remode('code');
+        }
     },
 
     onClickSave: function (event) {
         
-        console.log('click');
+        this.workspace.remode('code');
     },
 
     onClickLoad: function (event) {
