@@ -2,17 +2,20 @@ vispro.view.AppBar = Backbone.View.extend({
 
     el: $(
         '<div class="appbar">' +
-        '    <ul class="appbar-list">' +
-        '        <li class="appbar-item" data-action="new">' + 
-        '            <a class="appbar-item-label" href="#new">New</a>' +
-        '        </li>' +
-        '        <li class="appbar-item" data-action="save">' + 
-        '            <a class="appbar-item-label" href="#save">Save</a>' +
-        '        </li>' +
-        '        <li class="appbar-item" data-action="load">' + 
-        '            <a class="appbar-item-label" href="#load" data-action="load">Load</a>' + 
-        '        </li>' +
-        '    </ul>' +
+        '   <div class= "appbar-inner">' +
+        '       <a class="appbar-brand">VisPro</a>' +
+        '       <ul class="appbar-list">' +
+        '           <li class="appbar-item" data-action="new">' + 
+        '               <a class="appbar-item-label" href="#new">New</a>' +
+        '            </li>' +
+        '            <li class="appbar-item" data-action="save">' + 
+        '               <a class="appbar-item-label" href="#save">Save</a>' +
+        '            </li>' +
+        '            <li class="appbar-item" data-action="load">' + 
+        '               <a class="appbar-item-label" href="#load" data-action="load">Load</a>' + 
+        '            </li>' +
+        '       </ul>' +
+        '   </div>' +
         '</div>'
     ),
 

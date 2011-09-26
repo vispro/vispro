@@ -52,6 +52,7 @@ var <%= id %> = geopoi.sdk.zoom("<%= id %>", {
             </code>
         </widget>
 
+
         <!-- Widget 2 -->
         <widget type="zoom" name="zoom_v_s">
             <label>Vertical Scroll Zoom</label>
@@ -92,6 +93,7 @@ var <%= id %> = geopoi.sdk.zoom("<%= id %>", {
             </code>
         </widget>
 
+
         <!-- Widget 3 -->
         <widget type="map" name="map_plain">
             <label>Mappa semplice</label>
@@ -119,6 +121,7 @@ var <%= id %> = geopoi.sdk.map("<%= id %>");
                 </insert>
             </code>
         </widget>
+
 
         <!-- Widget 4 -->
         <widget type="info" name="info_plain">
@@ -158,6 +161,7 @@ var <%= id %> = geopoi.sdk.infoDiv("<%= id %>", {
                 </insert>
             </code>
         </widget>
+
 
         <!-- Widget 5 -->
         <widget type="search" name="search_plain">
@@ -201,6 +205,7 @@ var <%= id %> = geopoi.sdk.infoDiv("<%= id %>", {
             </code>
         </widget>
 
+
         <!-- Widget 6 -->
         <widget type="search" name="search_opt">
             <label>Ricerca Strade con opzioni</label>
@@ -243,6 +248,7 @@ var <%= id %> = geopoi.sdk.infoDiv("<%= id %>", {
             </code>
         </widget>
 
+
         <!-- Widget 7 -->
         <widget type="pan" name="panotto">
             <label>Pan a 8 direzioni</label>
@@ -281,8 +287,280 @@ var <%= id %> = geopoi.sdk.pan("<%= id %>", {
             </code>
         </widget>
 
+
+        <!-- Widget 8 -->
+        <widget type="computation" name="star_of_distance">
+            <label>Star of Distances</label>
+            <description>Calcolo della stella delle distanze</description>
+            <images>
+                <icon url="images/star.jpg" />
+                <image url="images/star.jpg" />
+            </images>
+            <dimensions>
+                <width value="15" resizable="false"/>
+                <height value="17" resizable="false"/>
+            </dimensions>
+            <dependencies>
+                <dependency name="request_map" required="true" type="map" label="Mappa">
+                    <description>La mappa su cui viene effettuato il calcolo della stella</description>
+                </dependency>
+            </dependencies>
+            <properties>
+                <bool name="tooltip" label="Tooltip property" default="true"/>
+            </properties>
+            <code>
+                <insert match="html">
+<![CDATA[
+<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+]]>
+                </insert>
+                <insert match="js">
+<![CDATA[
+var <%= id %> = geopoi.sdk.starOfDistance("<%= id %>", { 
+        map: <%= request_map %>, 
+        tooltip: <%= tooltip %>
+    });
+]]>
+                </insert>
+            </code>
+        </widget>
+
+
+        <!-- Widget 9 -->
+        <widget type="computation" name="convex_hull">
+            <label>Convex Hull</label>
+            <description>Calcola il Covex Hull</description>
+            <images>
+                <icon url="images/convex_hull.jpg" />
+                <image url="images/convex_hull.jpg" />
+            </images>
+            <dimensions>
+                <width value="15" resizable="false"/>
+                <height value="17" resizable="false"/>
+            </dimensions>
+            <dependencies>
+                <dependency name="request_map" required="true" type="map" label="Mappa">
+                    <description>La mappa su cui viene effettualto il calcolo</description>
+                </dependency>
+            </dependencies>
+            <properties>
+                <bool name="tooltip" label="Tooltip property" default="true"/>
+            </properties>
+            <code>
+                <insert match="html">
+<![CDATA[
+<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+]]>
+                </insert>
+                <insert match="js">
+<![CDATA[
+var <%= id %> = geopoi.sdk.convexhull("<%= id %>", { 
+        map: <%= request_map %>, 
+        tooltip: <%= tooltip %>
+    });
+]]>
+                </insert>
+            </code>
+        </widget>
+
+
+        <!-- Widget 10 -->
+        <widget type="switch" name="switch_raster">
+            <label>Switch Raster</label>
+            <description>Pulsante di commutazione tra le viste raster e vettoriale</description>
+            <images>
+                <icon url="images/switch_raster.jpg" />
+                <image url="images/switch_raster.jpg" />
+            </images>
+            <dimensions>
+                <width value="16" resizable="false"/>
+                <height value="16" resizable="false"/>
+            </dimensions>
+            <dependencies>
+                <dependency name="request_map" required="true" type="map" label="Mappa">
+                    <description>La mappa su cui agisce lo switch</description>
+                </dependency>
+            </dependencies>
+            <properties>
+                <bool name="tooltip" label="Tooltip property" default="true"/>
+            </properties>
+            <code>
+                <insert match="html">
+<![CDATA[
+<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+]]>
+                </insert>
+                <insert match="js">
+<![CDATA[
+var <%= id %> = geopoi.sdk.switchRaster("<%= id %>", { 
+        map: <%= request_map %>, 
+        tooltip: <%= tooltip %>
+    });
+]]>
+                </insert>
+            </code>
+        </widget>
+
+
+        <!-- Widget 11 -->
+        <widget type="converter" name="coord_converter">
+            <label>Code Converter</label>
+            <description>Convertitore di coordinate</description>
+            <images>
+                <icon url="images/coord_converter.jpg" />
+                <image url="images/coord_converter.jpg" />
+            </images>
+            <dimensions>
+                <width value="208" resizable="false"/>
+                <height value="184" resizable="false"/>
+            </dimensions>
+            <dependencies>
+                <dependency name="request_map" required="true" type="map" label="Mappa">
+                    <description>La mappa su cui agisce il convertitore</description>
+                </dependency>
+            </dependencies>
+            <properties>
+                <bool name="tooltip" label="Tooltip property" default="true"/>
+            </properties>
+            <code>
+                <insert match="html">
+<![CDATA[
+<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+]]>
+                </insert>
+                <insert match="js">
+<![CDATA[
+var <%= id %> = geopoi.sdk.coordconv("<%= id %>", { 
+        map: <%= request_map %>, 
+        tooltip: <%= tooltip %>
+    });
+]]>
+                </insert>
+            </code>
+        </widget>
+
+
+        <!-- Widget 12 -->
+        <widget type="mouse_coord" name="mouse_coord">
+            <label>Mouse Cord</label>
+            <description>Visualizzatore delle coordinate del mouse</description>
+            <images>
+                <icon url="images/mouse_coord.jpg" />
+                <image url="images/mouse_coord.jpg" />
+            </images>
+            <dimensions>
+                <width value="122" resizable="false"/>
+                <height value="14" resizable="false"/>
+            </dimensions>
+            <dependencies>
+                <dependency name="request_map" required="true" type="map" label="Mappa">
+                    <description>La mappa su cui della quale sono visualizzate le coordinate</description>
+                </dependency>
+            </dependencies>
+            <properties>
+                <bool name="tooltip" label="Tooltip property" default="true"/>
+            </properties>
+            <code>
+                <insert match="html">
+<![CDATA[
+<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+]]>
+                </insert>
+                <insert match="js">
+<![CDATA[
+var <%= id %> = geopoi.sdk.mousecoord("<%= id %>", { 
+        map: <%= request_map %>, 
+        tooltip: <%= tooltip %>
+    });
+]]>
+                </insert>
+            </code>
+        </widget>
+
+
+        <!-- Widget 13 -->
+        <widget type="poi_size" name="poi_size_plain">
+            <label>Poi Size</label>
+            <description>Visualizzatore delle dimensioni del PoI</description>
+            <images>
+                <icon url="images/poi_size.jpg" />
+                <image url="images/poi_size.jpg" />
+            </images>
+            <dimensions>
+                <width value="53" resizable="false"/>
+                <height value="21" resizable="false"/>
+            </dimensions>
+            <dependencies>
+                <dependency name="request_map" required="true" type="map" label="Mappa">
+                    <description>La mappa sulla quale agisce il visualizzatore</description>
+                </dependency>
+            </dependencies>
+            <properties>
+                <bool name="tooltip" label="Tooltip property" default="true"/>
+            </properties>
+            <code>
+                <insert match="html">
+<![CDATA[
+<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+]]>
+                </insert>
+                <insert match="js">
+<![CDATA[
+var <%= id %> = geopoi.sdk.poisize("<%= id %>", { 
+        map: <%= request_map %>, 
+        tooltip: <%= tooltip %>,
+        full: flase
+    });
+]]>
+                </insert>
+            </code>
+        </widget>
+
+
+        <!-- Widget 14 -->
+        <widget type="poi_size" name="poi_size_full">
+            <label>Poi Size Full</label>
+            <description>Visualizzatore delle dimensioni del PoI</description>
+            <images>
+                <icon url="images/poi_size_full.jpg" />
+                <image url="images/poi_size_full.jpg" />
+            </images>
+            <dimensions>
+                <width value="96" resizable="false"/>
+                <height value="21" resizable="false"/>
+            </dimensions>
+            <dependencies>
+                <dependency name="request_map" required="true" type="map" label="Mappa">
+                    <description>La mappa sulla quale agisce il visualizzatore</description>
+                </dependency>
+            </dependencies>
+            <properties>
+                <bool name="tooltip" label="Tooltip property" default="true"/>
+            </properties>
+            <code>
+                <insert match="html">
+<![CDATA[
+<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+]]>
+                </insert>
+                <insert match="js">
+<![CDATA[
+var <%= id %> = geopoi.sdk.poisize("<%= id %>", { 
+        map: <%= request_map %>, 
+        tooltip: <%= tooltip %>,
+        full: true
+    });
+]]>
+                </insert>
+            </code>
+        </widget>
+
     <!-- End of components -->
     </widgets>
+
+
+
+
     
     <!-- HTML Source Code -->
     <source>

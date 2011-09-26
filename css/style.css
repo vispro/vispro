@@ -63,9 +63,15 @@ body {
 	top: 0px;
 	left: 0px;
 	width: 100%;
-	height: 24px;
+	height: 36px;
 	background-color: #2d2d2d;
 	border-bottom: 1px solid #000000;
+}
+
+.brand {
+	float: left;
+	padding-top: 5px;
+	padding-left: 10px;
 }
 
 .appbar-item {
@@ -212,15 +218,27 @@ body {
 }
 
 .widget.over {
-	outline: 3px solid green;
-}
-
-.widget.selected {
 	outline: 3px solid #4d90f0;
 }
 
+.widget.selected {
+	outline: 3px solid rgb(68,142,18);
+}
+
+.widget.selected.dragging {
+	outline: 3px dashed rgb(68,142,18);
+}
+
 .widget.overlapped {
-	outline: 3px solid #dd4b39;
+	outline: 3px double #dd4b39;
+}
+
+.widget.selected.overlapped {
+	outline: 3px solid #dd4b39
+}
+
+.widget.selected.overlapped.dragging {
+	outline: 3px dashed #dd4b39
 }
 
 .widget.ui-covered {
@@ -292,12 +310,13 @@ body {
 }
 
 .widget-browser.over {
-	background-color: #fbfbfb;
+	background-color: #f1f1f1;
 }
 
 .widget-browser.selected {
 	border-left: 1px solid #4d90f0;
-	background-color: #f1f1f1;
+	background-color: rgba(68,142,18,0.6);
+	
 }
 
 /*

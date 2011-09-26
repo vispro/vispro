@@ -206,6 +206,36 @@ vispro.view.Widget = Backbone.View.extend({
         this.model.move(ui.position);
     },
 
+    onDragstart: function (event, ui) {
+
+        console.log('STARTDRAGGING');
+
+        var target = $(event.target);
+             
+        if (target.hasClass('resizing-anchor')) {
+            return;
+        }
+            
+        event.stopPropagation();
+
+        this.element.addClass('dragging');
+    },
+
+    onDragstop: function (event, ui) {
+
+        console.log('STOPDRAGGING');
+
+        var target = $(event.target);
+             
+        if (target.hasClass('resizing-anchor')) {
+            return;
+        }
+            
+        event.stopPropagation();
+
+        this.element.removeClass('dragging');
+    },
+
     onMouseenter: function (event) {
 
         // event.stopPropagation();
@@ -231,7 +261,9 @@ vispro.view.Widget = Backbone.View.extend({
         mouseenter: 'onMouseenter',
         mouseleave: 'onMouseleave',
         resize: 'onResize',
-        'drag': 'onDrag',
+        drag: 'onDrag',
+        dragstart: 'onDragstart',
+        dragstop: 'onDragstop',
         'drag div.resizing-anchor': 'onResize'
     }
     

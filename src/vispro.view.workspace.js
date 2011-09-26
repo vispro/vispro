@@ -173,8 +173,10 @@ vispro.view.Workspace = Backbone.View.extend({
         } else if (mode === 'link') {
             this.show();
             this.disable();
+            this.model.select();
         } else {
             this.hide();
+            this.model.select();
         }
 
         return this;

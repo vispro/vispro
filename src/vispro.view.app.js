@@ -54,6 +54,7 @@ vispro.view.App = Backbone.View.extend({
         panel_east_center = element.find('#panel-east-center');
         
         panel_north.layout({
+            north__size: 40,
             north__closable: false, 
             north__resizable: false,
             north__spacing_open: 0
