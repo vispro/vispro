@@ -11,6 +11,7 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
         var element = this.el,
             root = $(options.root),
             model = options.model,
+            linkerList= [],
             layerLinks = Raphael(element[0], 0, 0),
             layerLinkers = element.find('#workspace-layer-linker'),
             canvas = $(layerLinks.canvas);
@@ -29,6 +30,7 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
             });
         
         this.model = model;
+        this.linkerList = linkerList;
         this.layerLinks = layerLinks;
         this.layerLinkers = layerLinkers;
         this.tempLink = layerLinks.path('');
@@ -100,6 +102,7 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
     createLinker: function (widget) {
         
         var layerLinks = this.layerLinks,
+            linkerList = this.linkerList,
             layerLinkers = this.layerLinkers,
             linker = new vispro.view.WidgetLinker({}, {
                 container: this,
@@ -107,6 +110,8 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
                 //root: layerLinkers
             });
         
+        linkerList.push(linker);
+
         linker
             .render();
 
@@ -246,7 +251,7 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
         return {x: mx, y: my, r: 15};
     },
 
-    getXPath: function(overlay_info) {
+    getXPath: function (overlay_info) {
         var x = overlay_info.x,
             y = overlay_info.y,
             r = overlay_info.r - 5,
@@ -271,5 +276,21 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
            " L" + nn_x + "," + nn_y +
            " M" + pn_x + "," + pn_y + 
            " L" + np_x + "," + np_y;
+    },
+
+    startLink: function (types) {
+        
+        _(this.linkerList)
+            .each(function (linker) {
+                linker.highlight(types);
+                }, this);
+    },
+
+    stopLink: function () {
+        
+        _(this.linkerList)
+            .each(function (linker) {
+                linker.unhighlight();
+            }, this);
     }
 });

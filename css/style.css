@@ -239,6 +239,7 @@ body {
 	border: 1px solid #2d2d2d;
 	top: 15px;
 	left: 15px;
+	overflow: hidden;
 }
 
 .widget {
@@ -288,6 +289,11 @@ body {
 	border: 1px solid #2d2d2d;
 	border-radius: 10px 10px;
 	background-color: #d2d2d2;
+}
+
+.linker.linker-highlight {
+	border: 1px solid #2d2d2d;
+	background-color: rgb(143,187,113);
 }
 
 /*
