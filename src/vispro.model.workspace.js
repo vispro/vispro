@@ -211,6 +211,7 @@
         this.resize(workspace.dimensions);
         this.regrid(workspace.grid);
         this.resnap(workspace.snap);
+        this.remode('view');
 
         this.select();
 
