@@ -120,6 +120,6 @@ vispro.view.App = Backbone.View.extend({
         this.model = model;
 
         return this;
-    }
+    },
 
 });
