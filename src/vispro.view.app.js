@@ -26,18 +26,11 @@ vispro.view.App = Backbone.View.extend({
             template = this.template,
             model = options.model,
             workspace = model.workspace,
-            views = {};
-
+            views = {},
+            layouts = {};
+        
         element
-            .html(template())
-            .layout({ 
-                north__size: 70,
-                north__closable: false, 
-                north__resizable: false,
-                north__spacing_open: 0,
-                west__spacing_open: 0,
-                east__spacing_open: 0
-            });
+            .html(template());
         
         panel_north = element.find('#panel-north');
         panel_west = element.find('#panel-west');
@@ -48,19 +41,46 @@ vispro.view.App = Backbone.View.extend({
         panel_east_north = element.find('#panel-east-north');
         panel_east_center = element.find('#panel-east-center');
 
-        panel_east.layout({
-            north__size: .4,
-            north__closable: false, 
-            north__resizable: false,
-            north__spacing_open: 1
+        layouts.app = element.layout({ 
+                north__size: 70,
+                north__closable: false, 
+                north__resizable: false,
+                north__spacing_open: 5,
+                west__resizable: false,
+                west__spacing_open: 5,
+                west__spacing_closed: 0,
+                west__togglerLength_open: 0,
+                west__togglerLength_close: 0,
+                east__resizable: false,
+                east__spacing_open: 5,
+                east__spacing_closed: 0,
+                east__togglerLength_open: 0,
+                east__togglerLength_close: 0,
+                fxSpeed: 1
+            });
+
+        layouts.east = panel_east.layout({
+                north__size: .4,
+                north__resizable: false,
+                north__closable: false, 
+                north__spacing_open: 0,
+                north__spacing_closed: 0,
+                north__togglerLength_open: 0,
+                north__togglerLength_close: 0,
+                fxSpeed: 1
         });
         
-        panel_center.layout({
-            north__size: 35,
-            north__closable: false, 
-            north__resizable: false,
-            north__spacing_open: 0
-        });
+        layouts.center = panel_center.layout({
+                north__size: 35,
+                north__resizable: false,
+                north__spacing_open: 0,
+                north__spacing_closed: 0,
+                north__togglerLength_open: 0,
+                north__togglerLength_close: 0,
+                fxSpeed: 1
+            });
+        
+        $.fx.off = true;
 
         views.appBar = new vispro.view.AppBar({}, {
             workspace: workspace,
@@ -116,10 +136,56 @@ vispro.view.App = Backbone.View.extend({
             brushes: ['Xml', 'JScript', 'Plain', 'Css']
         });
 
+        workspace
+            .bind('remode', this.remode, this);
+
         this.views = views;
+        this.layouts = layouts;
         this.model = model;
 
         return this;
+    },
+
+    remode: function (mode) {
+        
+        var layouts = this.layouts,
+            views = this.views;
+
+        if (mode === 'view') {
+            
+            views.workspace.show().enable();
+            views.code.hide();
+
+            layouts.app.open('west');
+            layouts.app.open('east');
+            layouts.center.open('north');
+
+            return;
+        }
+
+        if (mode === 'link') {
+
+            views.workspace.show().disable();
+            views.code.hide();
+
+            layouts.app.open('west');
+            layouts.app.open('east');
+            layouts.center.open('north');
+            
+            return;
+        }
+
+        if (mode === 'code') {
+
+            views.workspace.hide();
+            views.code.show();
+
+            layouts.app.close('west');
+            layouts.app.close('east');
+            layouts.center.close('north');
+
+            return;
+        }
     }
 
 });
