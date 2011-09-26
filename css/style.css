@@ -286,14 +286,21 @@ body {
 }
 
 .linker {
-	border: 1px solid #2d2d2d;
+	border: 2px solid #2d2d2d;
 	border-radius: 10px 10px;
-	background-color: #d2d2d2;
+	background-color: #4d90f0;
 }
 
-.linker.linker-highlight {
-	border: 1px solid #2d2d2d;
+.linker.linker-enabled {
 	background-color: rgb(143,187,113);
+}
+
+.linker.linker-disabled {
+	background-color: #b2b2b2;
+}
+
+.linker.linker-linking {
+	background-color: #4d90f0;
 }
 
 /*

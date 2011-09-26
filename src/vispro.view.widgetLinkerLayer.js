@@ -282,15 +282,19 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
         
         _(this.linkerList)
             .each(function (linker) {
-                linker.highlight(types);
+                linker.enable(types);
                 }, this);
+
+        return this;
     },
 
     stopLink: function () {
         
         _(this.linkerList)
             .each(function (linker) {
-                linker.unhighlight();
+                linker.disable();
             }, this);
+
+        return this;
     }
 });
