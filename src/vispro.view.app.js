@@ -5,10 +5,7 @@ vispro.view.App = Backbone.View.extend({
     ),
 
     template: _.template(
-        '<div id="panel-north" class="ui-layout-north"> \n' +
-        '    <div id="panel-north-north" class="ui-layout-north"></div> \n' + 
-        '    <div id="panel-north-center" class="ui-layout-center"></div> \n' +
-        '</div> \n' +
+        '<div id="panel-north" class="ui-layout-north"></div> \n' +
 
         '<div id="panel-west" class="panel ui-layout-west"></div> \n' + 
 
@@ -34,7 +31,7 @@ vispro.view.App = Backbone.View.extend({
         element
             .html(template())
             .layout({ 
-                north__size: 75,
+                north__size: 70,
                 north__closable: false, 
                 north__resizable: false,
                 north__spacing_open: 0,
@@ -43,8 +40,6 @@ vispro.view.App = Backbone.View.extend({
             });
         
         panel_north = element.find('#panel-north');
-        panel_north_north = element.find('#panel-north-north');
-        panel_north_center = element.find('#panel-north-center');
         panel_west = element.find('#panel-west');
         panel_center = element.find('#panel-center');
         panel_center_north = element.find('#panel-center-north');
@@ -52,14 +47,7 @@ vispro.view.App = Backbone.View.extend({
         panel_east = element.find('#panel-east');
         panel_east_north = element.find('#panel-east-north');
         panel_east_center = element.find('#panel-east-center');
-        
-        panel_north.layout({
-            north__size: 40,
-            north__closable: false, 
-            north__resizable: false,
-            north__spacing_open: 0
-        });
-        
+
         panel_east.layout({
             north__size: .4,
             north__closable: false, 
@@ -76,7 +64,7 @@ vispro.view.App = Backbone.View.extend({
 
         views.appBar = new vispro.view.AppBar({}, {
             model: workspace,
-            root: panel_north_north
+            root: panel_north
         });
 
         views.descriptorList = new vispro.view.DescriptorList({}, { 
@@ -86,7 +74,7 @@ vispro.view.App = Backbone.View.extend({
         
         views.perspectiveBar = new vispro.view.PerspectiveBar({}, { 
             model: workspace,
-            root: panel_north_center
+            root: panel_north
         });
 
         views.workspaceBar = new vispro.view.WorkspaceBar({}, {
@@ -111,7 +99,7 @@ vispro.view.App = Backbone.View.extend({
         
         views.code = new vispro.view.Code({}, { 
             model: workspace,
-            root: panel_center_center
+            root: panel_center
         });
 
         views.browserList = new vispro.view.BrowserList({}, { 

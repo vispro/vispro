@@ -15,6 +15,10 @@ body {
 	height: 60px;
 }
 
+#panel-north-center {
+	border-bottom: 3px solid black;
+}
+
 #panel-west {
 	width: 174px;
 	border-right: 1px solid #ebebeb;
@@ -63,21 +67,30 @@ body {
 	top: 0px;
 	left: 0px;
 	width: 100%;
-	height: 36px;
+	height: 34px;
 	background-color: #2d2d2d;
 	border-bottom: 1px solid #000000;
 }
 
-.brand {
-	float: left;
-	padding-top: 5px;
-	padding-left: 10px;
+.appbar-list {
+	float: right;
 }
 
 .appbar-item {
 	float: left;
-	padding-top: 5px;
+	width: 35px;
+	height: 24px;
+	padding-top: 10px;
 	padding-left: 10px;
+	padding-right: 10px;
+	background-color: black;
+	text-align: center;
+	cursor: pointer;
+}
+
+.appbar-item:hover {
+	background-color: blue;
+	cursor: pointer;
 }
 
 .appbar-item-label {
@@ -91,25 +104,41 @@ body {
 
 .viewbar {
 	position: absolute;
-	top: 40px;
-	left: 199px;
+	float: left;
+	top: 35px;
+	left: 0px;
+	width: 100%;
 	height: 34px;
+	background-color: red;
+	border-bottom: 1px solid blue;
+}
+
+.viewbar-list {
+	position: absolute;
+	left: 199px;
 }
 
 .viewbar-item {
 	float: left;
-	height: 33px;
+	width: 35px;
+	height: 24px;
+	padding-top: 10px;
 	padding-left: 10px;
 	padding-right: 10px;
-	margin-right: 1px;
-	border-top: 1px solid #000000;
-	border-left: 1px solid #000000;
-	border-right: 1px solid #000000;
+	background-color: red;
+	text-align: center;
+	cursor: pointer;
 }
 
-.viewbar-item-label {
-	text-decoration: none;
-	padding-top: 10px;
+.viewbar-item.selected {
+	background-color: black;
+	color: white;
+}
+
+.viewbar-item:hover {
+	background-color: blue;
+	color: white;
+	cursor: pointer;
 }
 
 /*

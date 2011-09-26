@@ -208,8 +208,6 @@ vispro.view.Widget = Backbone.View.extend({
 
     onDragstart: function (event, ui) {
 
-        console.log('STARTDRAGGING');
-
         var target = $(event.target);
              
         if (target.hasClass('resizing-anchor')) {
@@ -222,8 +220,6 @@ vispro.view.Widget = Backbone.View.extend({
     },
 
     onDragstop: function (event, ui) {
-
-        console.log('STOPDRAGGING');
 
         var target = $(event.target);
              
