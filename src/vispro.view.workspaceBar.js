@@ -2,26 +2,28 @@ vispro.view.WorkspaceBar = Backbone.View.extend({
 
     el: $(
         '<div class="workspacebar">' + 
-        '    <div class="workspacebar-item">' + 
-        '        <span class="workspacebar-item-label">grid</span>' +
-        '        <select class="workspacebar-item-input" data-name="grid">' + 
-        '            <option value="15"> 15px </option>' +
-        '            <option value="16"> 16px </option>' +
-        '            <option value="17"> 17px </option>' +
-        '            <option value="18"> 18px </option>' +
-        '            <option value="19"> 19px </option>' +
-        '            <option value="20"> 20px </option>' +
-        '            <option value="21"> 21px </option>' +
-        '            <option value="22"> 22px </option>' +
-        '            <option value="23"> 23px </option>' +
-        '            <option value="24"> 24px </option>' +
-        '            <option value="25"> 25px </option>' +
-        '        </select>' +
-        '    </div>' +
-        '    <div class="workspacebar-item">' +
-        '        <span class="workspacebar-item-label">snap</span>' +
-        '        <input type="checkbox" class="workspacebar-item-input" data-name="snap" />' +
-        '    </div>' +
+        '    <ul>' + 
+        '        <li class="workspacebar-item">' + 
+        '            <span class="workspacebar-item-label">grid</span>' +
+        '            <select class="workspacebar-item-input" data-name="grid">' + 
+        '                <option value="15">15 px</option>' +
+        '                <option value="16">16 px</option>' +
+        '                <option value="17">17 px</option>' +
+        '                <option value="18">18 px</option>' +
+        '                <option value="19">19 px</option>' +
+        '                <option value="20">20 px</option>' +
+        '                <option value="21">21 px</option>' +
+        '                <option value="22">22 px</option>' +
+        '                <option value="23">23 px</option>' +
+        '                <option value="24">24 px</option>' +
+        '                <option value="25">25 px</option>' +
+        '            </select>' +
+        '        </li>' +
+        '        <li class="workspacebar-item">' +
+        '            <span class="workspacebar-item-label">snap</span>' +
+        '            <input type="checkbox" class="workspacebar-item-input" data-name="snap" />' +
+        '        </li>' +
+        '    </ul>' +
         '</div>'
     ),
 

@@ -1,4 +1,4 @@
-vispro.model.Workspace = Backbone.Model.extend({
+ vispro.model.Workspace = Backbone.Model.extend({
     
     initialize: function (attributes, options) {
         
@@ -11,7 +11,8 @@ vispro.model.Workspace = Backbone.Model.extend({
         this.zIndex = 0;
         this.widgetList = new vispro.model.WidgetList();
         this.descriptorList = new vispro.model.DescriptorList();
-        
+        this.modes = ['view', 'link', 'code'];
+
         return this;
     },
 
@@ -258,6 +259,12 @@ vispro.model.Workspace = Backbone.Model.extend({
         if (this.mode === mode) {
             return;
         }
+
+        if (_(this.modes).indexOf(mode) < 0) {
+            return;
+        }
+
+        console.log(mode);
 
         this.mode = mode;
         this.trigger('remode', mode, this);
