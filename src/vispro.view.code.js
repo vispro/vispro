@@ -37,12 +37,8 @@ vispro.view.Code = Backbone.View.extend({
                 north__spacing_open: 1
             });
 
-
         output_code = $(element.find('.output-code'));
         output_state = $(element.find('.output-state'));
-
-        workspace
-            .bind('remode', this.remode, this);
 
         this.workspace = workspace;
         this.element = element;
@@ -85,26 +81,6 @@ vispro.view.Code = Backbone.View.extend({
             .text(app.save_to_string())
             .appendTo(output_state)
             .beautifyCode('plain');
-        
-        return this;
-    },
-
-    render_code: function () {
-        
-    },
-
-    render_state: function () {
-        
-    },
-
-    remode: function (mode) {
-        
-        if (mode === 'code') {
-            this.show();
-        }
-        else {
-            this.hide();
-        }
         
         return this;
     },

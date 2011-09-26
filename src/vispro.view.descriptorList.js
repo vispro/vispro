@@ -28,7 +28,6 @@ vispro.view.DescriptorList = Backbone.View.extend({
             .bind('add', this.add, this);
 
         workspace
-            .bind('change_state', this.setState, this)
             .bind('remode', this.remode, this);
         
         this.collection = collection;

@@ -5,21 +5,23 @@ vispro.view.WidgetBar = Backbone.View.extend({
     className: 'widgetbar',
 
     template: _.template(
-        '<div class="widgetbar-button" data-action="send-back">' +
-        '    <span class="toolbar-button-label">--</span>' + 
-        '</div>' +
-        '<div class="widgetbar-button" data-action="send-backward">' + 
-        '    <span class="toolbar-button-label">-</span>' + 
-        '</div>' +
-        '<div class="widgetbar-button" data-action="bring-forward">' + 
-        '    <span class="toolbar-button-label">+</span>' + 
-        '</div>' +
-        '<div class="widgetbar-button" data-action="bring-front">' + 
-        '    <span class="toolbar-button-label">++</span>' + 
-        '</div>' +
-        '<div class="widgetbar-button" data-action="delete">' + 
-        '    <span class="toolbar-button-label">x</span>' + 
-        '</div>'
+        '<ul>' + 
+        '    <li class="widgetbar-button" data-action="send-back">' +
+        '        <img src="css/images/widget_move_back.png" alt="move back" />' + 
+        '    </li>' +
+        '    <li class="widgetbar-button" data-action="send-backward">' + 
+        '        <img src="css/images/widget_move_backward.png" alt="move backward" />' + 
+        '    </li>' +
+        '    <li class="widgetbar-button" data-action="bring-forward">' + 
+        '        <img src="css/images/widget_move_forward.png" alt="move forward" />' + 
+        '    </li>' +
+        '    <li class="widgetbar-button" data-action="bring-front">' + 
+        '        <img src="css/images/widget_move_front.png" alt="move front" />' + 
+        '    </li>' +
+        '    <li class="widgetbar-button" data-action="delete">' + 
+        '        <img src="css/images/widget_delete.png" alt="delete" />' + 
+        '    </li>' + 
+        '</ul>'
     ),
 
     initialize: function (attributes, options) {
