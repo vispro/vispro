@@ -27,19 +27,20 @@ vispro.view.App = Backbone.View.extend({
             model = options.model,
             workspace = model.workspace,
             views = {},
-            layouts = {};
+            layouts = {},
+            panels = {};
         
         element
             .html(template());
         
-        panel_north = element.find('#panel-north');
-        panel_west = element.find('#panel-west');
-        panel_center = element.find('#panel-center');
-        panel_center_north = element.find('#panel-center-north');
-        panel_center_center = element.find('#panel-center-center');
-        panel_east = element.find('#panel-east');
-        panel_east_north = element.find('#panel-east-north');
-        panel_east_center = element.find('#panel-east-center');
+        panels.north = element.find('#panel-north');
+        panels.west = element.find('#panel-west');
+        panels.center = element.find('#panel-center');
+        panels.center_north = element.find('#panel-center-north');
+        panels.center_center = element.find('#panel-center-center');
+        panels.east = element.find('#panel-east');
+        panels.east_north = element.find('#panel-east-north');
+        panels.east_center = element.find('#panel-east-center');
 
         layouts.app = element.layout({ 
                 north__size: 70,
@@ -59,7 +60,7 @@ vispro.view.App = Backbone.View.extend({
                 fxSpeed: 1
             });
 
-        layouts.east = panel_east.layout({
+        layouts.east = panels.east.layout({
                 north__size: .4,
                 north__resizable: false,
                 north__closable: false, 
@@ -70,7 +71,7 @@ vispro.view.App = Backbone.View.extend({
                 fxSpeed: 1
         });
         
-        layouts.center = panel_center.layout({
+        layouts.center = panels.center.layout({
                 north__size: 35,
                 north__resizable: false,
                 north__spacing_open: 0,
@@ -84,52 +85,52 @@ vispro.view.App = Backbone.View.extend({
 
         views.appBar = new vispro.view.AppBar({}, {
             workspace: workspace,
-            root: panel_north
+            root: panels.north
         });
 
         views.descriptorList = new vispro.view.DescriptorList({}, { 
             model: workspace,
-            root: panel_west
+            root: panels.west
         });
         
         views.perspectiveBar = new vispro.view.PerspectiveBar({}, { 
             model: workspace,
-            root: panel_north
+            root: panels.north
         });
 
         views.workspaceBar = new vispro.view.WorkspaceBar({}, {
             model: workspace,
-            root: panel_center_north
+            root: panels.center_north
         });
 
         views.widgetBarList = new vispro.view.WidgetBarList({}, {
             model: workspace,
-            root: panel_center_north
+            root: panels.center_north
         });
 
         views.workspace = new vispro.view.Workspace({}, { 
             model: workspace,
-            root: panel_center_center
+            root: panels.center_center
         });
 
         views.linkerLayer = new vispro.view.WidgetLinkerLayer({}, { 
             model: workspace,
-            root: panel_center_center
+            root: panels.center_center
         });
         
         views.code = new vispro.view.Code({}, { 
             model: workspace,
-            root: panel_center
+            root: panels.center
         });
 
         views.browserList = new vispro.view.BrowserList({}, { 
             model: workspace,
-            root: panel_east_north
+            root: panels.east_north
         });
 
         views.inspectorList = new vispro.view.InspectorList({}, { 
             model: workspace,
-            root: panel_east_center
+            root: panels.east_center
         });
 
         $.beautyOfCode.init({
@@ -141,6 +142,7 @@ vispro.view.App = Backbone.View.extend({
 
         this.views = views;
         this.layouts = layouts;
+        this.panels = panels;
         this.model = model;
 
         return this;
