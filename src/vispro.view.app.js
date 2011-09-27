@@ -152,6 +152,7 @@ vispro.view.App = Backbone.View.extend({
             
             views.workspace.show().enable();
             views.descriptorList.enable();
+            views.toolbar.enable();
             views.code.hide();
 
             layouts.app.open('west');
@@ -165,6 +166,7 @@ vispro.view.App = Backbone.View.extend({
 
             views.workspace.show().disable();
             views.descriptorList.disable();
+            views.toolbar.disable();
             views.code.hide();
 
             layouts.app.open('west');

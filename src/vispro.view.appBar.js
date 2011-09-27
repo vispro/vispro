@@ -1,19 +1,22 @@
 vispro.view.AppBar = Backbone.View.extend({
 
-    tagName: 'ul',
+    tagName: 'div',
 
-    className: 'appbar-list',
+    className: 'appbar',
 
     template: _.template(
-        '<li class="appbar-item" data-action="new">' + 
-        '   <a class="appbar-item-label" href="#new">New</a>' +
-        '</li>' +
-        '<li class="appbar-item" data-action="save">' + 
-        '   <a class="appbar-item-label" href="#save">Save</a>' +
-        '</li>' +
-        '<li class="appbar-item" data-action="load">' + 
-        '   <a class="appbar-item-label" href="#load" data-action="load">Load</a>' + 
-        '</li>'
+        '<span class="brand">VisPro</span>' +
+        '<ul class="appbar-list">' + 
+        '    <li class="appbar-item" data-action="new">' + 
+        '        <a class="appbar-item-label" href="#new">New</a>' +
+        '    </li>' +
+        '    <li class="appbar-item" data-action="save">' + 
+        '        <a class="appbar-item-label" href="#save">Save</a>' +
+        '    </li>' +
+        '    <li class="appbar-item" data-action="load">' + 
+        '        <a class="appbar-item-label" href="#load" data-action="load">Load</a>' + 
+        '    </li>' +
+        '</ul>'
     ),
 
     initialize: function (attributes, options) {

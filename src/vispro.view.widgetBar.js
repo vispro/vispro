@@ -6,23 +6,30 @@ vispro.view.WidgetBar = Backbone.View.extend({
 
     template: _.template(
         '<ul>' + 
-        '    <li class="widgetbar-button" data-action="send-back">' +
-        '        <img src="css/images/widget_move_back.png" alt="move back" />' + 
+        '    <li>' +
+        '        <a class="widgetbar-button" data-action="send-back" ' +
+        '           style="background-image: url(css/images/widget_move_back.png);"/></a>' + 
         '    </li>' +
-        '    <li class="widgetbar-button" data-action="send-backward">' + 
-        '        <img src="css/images/widget_move_backward.png" alt="move backward" />' + 
+        '    <li>' + 
+        '        <a class="widgetbar-button" data-action="send-backward" ' +
+        '           style="background-image: url(css/images/widget_move_backward.png);"/></a>' +
         '    </li>' +
-        '    <li class="widgetbar-button" data-action="bring-forward">' + 
-        '        <img src="css/images/widget_move_forward.png" alt="move forward" />' + 
+        '    <li>' + 
+        '        <a class="widgetbar-button" data-action="bring-forward" ' +
+        '           style="background-image: url(css/images/widget_move_forward.png);"/></a>' +
         '    </li>' +
-        '    <li class="widgetbar-button" data-action="bring-front">' + 
-        '        <img src="css/images/widget_move_front.png" alt="move front" />' + 
+        '    <li>' + 
+        '        <a class="widgetbar-button" data-action="bring-front" ' +
+        '           style="background-image: url(css/images/widget_move_front.png);"/></a>' +
         '    </li>' +
-        '    <li class="widgetbar-button" data-action="delete">' + 
-        '        <img src="css/images/widget_delete.png" alt="delete" />' + 
+        '    <li>' + 
+        '        <a class="widgetbar-button" data-action="delete" ' +
+        '           style="background-image: url(css/images/widget_delete.png);"/></a>' +
         '    </li>' + 
         '</ul>'
     ),
+
+
 
     initialize: function (attributes, options) {
 
@@ -35,6 +42,15 @@ vispro.view.WidgetBar = Backbone.View.extend({
             .html(template())
             .appendTo(root);
         
+        $($.find('.widgetbar-button'))
+            .css({
+                'display': 'block',
+                'width': '16px',
+                'height': '16px',
+                'background-repeat': 'no-repeat',
+                'background-position': 'center center'
+            });
+
         model
             .bind('selected', this.select, this)
             .bind('remove', this.remove, this);
