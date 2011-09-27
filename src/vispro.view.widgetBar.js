@@ -5,38 +5,26 @@ vispro.view.WidgetBar = Backbone.View.extend({
     className: 'widgetbar',
 
     template: _.template(
-        // '<ul>' + 
-        // '    <li class="widgetbar-button" data-action="send-back">' +
-        // '        <img src="css/images/widget_move_back.png" alt="move back" />' + 
-        // '    </li>' +
-        // '    <li class="widgetbar-button" data-action="send-backward">' + 
-        // '        <img src="css/images/widget_move_backward.png" alt="move backward" />' + 
-        // '    </li>' +
-        // '    <li class="widgetbar-button" data-action="bring-forward">' + 
-        // '        <img src="css/images/widget_move_forward.png" alt="move forward" />' + 
-        // '    </li>' +
-        // '    <li class="widgetbar-button" data-action="bring-front">' + 
-        // '        <img src="css/images/widget_move_front.png" alt="move front" />' + 
-        // '    </li>' +
-        // '    <li class="widgetbar-button" data-action="delete">' + 
-        // '        <img src="css/images/widget_delete.png" alt="delete" />' + 
-        // '    </li>' + 
-        // '</ul>'
-                '<ul>' + 
+        '<ul>' + 
         '    <li>' +
-        '        <a class="widgetbar-button" data-action="send-back" style="background-image: url(css/images/widget_move_back.png);"/></a>' + 
+        '        <a class="widgetbar-button" data-action="send-back" ' +
+        '           style="background-image: url(css/images/widget_move_back.png);"/></a>' + 
         '    </li>' +
         '    <li>' + 
-        '        <a class="widgetbar-button" data-action="send-backward" style="background-image: url(css/images/widget_move_backward.png);"/></a>' +
+        '        <a class="widgetbar-button" data-action="send-backward" ' +
+        '           style="background-image: url(css/images/widget_move_backward.png);"/></a>' +
         '    </li>' +
         '    <li>' + 
-        '        <a class="widgetbar-button" data-action="bring-forward" style="background-image: url(css/images/widget_move_forward.png);"/></a>' +
+        '        <a class="widgetbar-button" data-action="bring-forward" ' +
+        '           style="background-image: url(css/images/widget_move_forward.png);"/></a>' +
         '    </li>' +
         '    <li>' + 
-        '        <img class="widgetbar-button" data-action="bring-front" style="background-image: url(css/images/widget_move_front.png);"/></a>' +
+        '        <a class="widgetbar-button" data-action="bring-front" ' +
+        '           style="background-image: url(css/images/widget_move_front.png);"/></a>' +
         '    </li>' +
         '    <li>' + 
-        '        <img class="widgetbar-button" data-action="delete" style="background-image: url(css/images/widget_delete.png);"/></a>' +
+        '        <a class="widgetbar-button" data-action="delete" ' +
+        '           style="background-image: url(css/images/widget_delete.png);"/></a>' +
         '    </li>' + 
         '</ul>'
     ),
