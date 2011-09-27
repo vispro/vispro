@@ -226,26 +226,21 @@ body {
     padding-top: 10px;
     padding-bottom: 7px;
     cursor: pointer;
-    /*border: 2px solid rgba(0,0,0,0);*/
+    border: none;
  }
 
 .widgetbar-button:hover {
     border-radius: 1px 1px;
-    /*border: 2px solid #d2d2d2;*/
-    background-image: -khtml-gradient(linear, left top, left bottom, from(#c9c9c9), to(#ebebeb));
-    background-image: -moz-linear-gradient(top, #c9c9c9, #ebebeb);
-    background-image: -ms-linear-gradient(top, #c9c9c9, #ebebeb);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #c9c9c9), color-stop(100%, #ebebeb));
-    background-image: -webkit-linear-gradient(top, #c9c9c9, #ebebeb);
-    background-image: -o-linear-gradient(top, #c9c9c9, #ebebeb);
-    background-image: linear-gradient(top, #c9c9c9, #ebebeb);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ebebeb', endColorstr='#ebebeb', GradientType=0);
+    
+    -webkit-box-shadow: 0px 0px 8px 5px rgba(241,241,241,.25) inset; 
+    -moz-box-shadow: 0px 0px 8px 5px rgba(241,241,241,.25) inset; 
+    box-shadow: 0px 0px 8px 5px rgba(241,241,241,.25) inset;
 }
 
-.widget-button:active {
-    -webkit-box-shadow: 0px 0px 2px 1px rgba(0,0,0,.25) inset; 
-    -moz-box-shadow: 0px 0px 2px 1px rgba(0,0,0,.25) inset; 
-    box-shadow: 0px 0px 2px 1px rgba(0,0,0,.25) inset;
+.widgetbar-button:active {
+    -webkit-box-shadow: 0px 0px 4px 4px rgba(0,0,0,.25) inset; 
+    -moz-box-shadow: 0px 0px 4px 4px rgba(0,0,0,.25) inset; 
+    box-shadow: 0px 0px 4px 4px rgba(0,0,0,.25) inset;
 }
 
 /* 
