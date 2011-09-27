@@ -2,8 +2,8 @@ vispro.view.InspectorList = Backbone.View.extend({
 
     el: $(
         '<div class="panel inspector">' +
-        '   <div class="panel-label inspector ui-layout-north">Inspector</div>' +
-        '   <div class="panel-list inspector ui-layout-center"></div>' +
+            '<div class="panel-label inspector ui-layout-north">Inspector</div>' +
+            '<div class="panel-list inspector ui-layout-center"></div>' +
         '</div>'
     ),
 

@@ -338,8 +338,8 @@ vispro.model.Widget = Backbone.Model.extend({
                     || collection.getByCid(dependency.value) === undefined)) {
                         
                 log +=
-                    "widget " + this.type + " " + this.id + " " + 
-                    "must have a link " + dependency.name + "!" + '\n';
+                    'Create a link from ' + this.type + ' "' + this.id + '"' + 
+                    ' to a ' + type + '!' + '\n';
 
                 test = false;
             }

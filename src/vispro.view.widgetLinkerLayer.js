@@ -2,7 +2,7 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
 
     el: $(
         '<div id="workspace-link">' + 
-        '    <div id="workspace-layer-linker" style="position:absolute"></div>' + 
+            '<div id="workspace-layer-linker" style="position:absolute"></div>' + 
         '</div>'
     ),
 

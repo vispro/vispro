@@ -5,18 +5,18 @@ vispro.view.App = Backbone.View.extend({
     ),
 
     template: _.template(
-        '<div id="panel-north" class="ui-layout-north"></div> \n' +
+        '<div id="panel-north" class="ui-layout-north gradient-black"></div>' +
 
-        '<div id="panel-west" class="panel ui-layout-west"></div> \n' + 
+        '<div id="panel-west" class="panel ui-layout-west"></div>' + 
 
-        '<div id="panel-center" class="ui-layout-center"> \n' +
-        '    <div id="panel-center-north" class="ui-layout-north"></div> \n' +
-        '    <div id="panel-center-center" class="ui-layout-center"></div> \n' +
-        '</div> \n' +
+        '<div id="panel-center" class="ui-layout-center">' +
+            '<div id="panel-center-north" class="ui-layout-north gradient-black"></div>' +
+            '<div id="panel-center-center" class="ui-layout-center"></div>' +
+        '</div>' +
 
-        '<div id="panel-east" class="ui-layout-east"> \n' + 
-        '    <div id="panel-east-north" class="panel ui-layout-north"></div> \n' + 
-        '    <div id="panel-east-center" class="panel ui-layout-center"></div> \n' +
+        '<div id="panel-east" class="ui-layout-east">' + 
+            '<div id="panel-east-north" class="panel ui-layout-north"></div>' + 
+            '<div id="panel-east-center" class="panel ui-layout-center"></div>' +
         '</div>'
     ),
 
@@ -43,7 +43,7 @@ vispro.view.App = Backbone.View.extend({
         panels.east_center = element.find('#panel-east-center');
 
         layouts.app = element.layout({ 
-                north__size: 70,
+                north__size: 35,
                 north__closable: false, 
                 north__resizable: false,
                 north__spacing_open: 5,
@@ -64,7 +64,7 @@ vispro.view.App = Backbone.View.extend({
                 north__size: .4,
                 north__resizable: false,
                 north__closable: false, 
-                north__spacing_open: 0,
+                north__spacing_open: 5,
                 north__spacing_closed: 0,
                 north__togglerLength_open: 0,
                 north__togglerLength_close: 0,
@@ -157,6 +157,8 @@ vispro.view.App = Backbone.View.extend({
             
             views.workspace.show()
             views.code.hide();
+            views.workspaceBar.show();
+            views.widgetBarList.show();
 
             views.workspace.enable();
             views.descriptorList.enable();
@@ -169,11 +171,13 @@ vispro.view.App = Backbone.View.extend({
 
             views.workspace.show();
             views.code.hide();
+            views.workspaceBar.hide();
+            views.widgetBarList.hide();
 
             views.workspace.disable();
             views.descriptorList.disable();
             views.inspectorList.disable();
-            
+
             return;
         }
 
@@ -181,6 +185,8 @@ vispro.view.App = Backbone.View.extend({
 
             views.workspace.hide();
             views.code.show();
+            views.workspaceBar.hide();
+            views.widgetBarList.hide();
 
             views.workspace.disable();
             views.descriptorList.disable();

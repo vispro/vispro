@@ -64,9 +64,7 @@ vispro.view.PerspectiveBar = Backbone.View.extend({
         
         var target = $(event.target),
             mode = target.attr('data-mode');
-
-        console.log(mode);
-
+        
         this.workspace.remode(mode);
     },
 
