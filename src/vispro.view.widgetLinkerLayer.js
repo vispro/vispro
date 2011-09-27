@@ -77,6 +77,7 @@ vispro.view.WidgetLinkerLayer = Backbone.View.extend({
         
         if (mode === 'link') {
             this.show();
+            this.model.select();
         }
         else {
             this.hide();
