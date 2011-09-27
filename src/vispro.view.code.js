@@ -1,13 +1,13 @@
 vispro.view.Code = Backbone.View.extend({
 
     el: $(
-        '<div class="workspace-code">' +
-        '    <div class="ui-layout-north panel-code">' + 
-        '        <div id="paper-code-output" class="paper-code"></div>' + 
-        '    </div>' +
-        '    <div class="ui-layout-center panel-code">' + 
-        '        <div id="paper-code-state" class="paper-code"></div>' +
-        '    </div>' +
+        '<div class="panel code">' +
+            '<div class="ui-layout-north panel-list code">' + 
+                '<div id="paper-code-output" class="paper code shadow"></div>' + 
+            '</div>' +
+            '<div class="ui-layout-center panel-list code">' + 
+                '<div id="paper-code-state" class="paper code shadow"></div>' +
+            '</div>' +
         '</div>'
     ),
         
@@ -16,8 +16,7 @@ vispro.view.Code = Backbone.View.extend({
         var element = this.el,
             root = $(options.root),
             workspace = options.model,
-            papers = {},
-            panels = $(element.find('.panel-code'));
+            papers = {};
 
         element
             .appendTo(root)
@@ -30,11 +29,6 @@ vispro.view.Code = Backbone.View.extend({
                 north__togglerLength_open: 0,
                 north__togglerLength_close: 0,
                 fxSpeed: 1
-            });
-
-        panels
-            .css({ 
-                width: '100%' 
             });
 
         papers.output = $(element.find('#paper-code-output'));

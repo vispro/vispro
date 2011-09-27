@@ -2,28 +2,28 @@ vispro.view.WorkspaceBar = Backbone.View.extend({
 
     tagName: 'ul',
 
-    className: 'workspacebar',
+    className: 'toolbar workspace',
 
     template: _.template(
-        '<li class="workspacebar-item">' + 
-        '    <span class="workspacebar-item-label">grid</span>' +
-        '    <select class="workspacebar-item-input" data-name="grid">' + 
-        '        <option value="15">15 px</option>' +
-        '        <option value="16">16 px</option>' +
-        '        <option value="17">17 px</option>' +
-        '        <option value="18">18 px</option>' +
-        '        <option value="19">19 px</option>' +
-        '        <option value="20">20 px</option>' +
-        '        <option value="21">21 px</option>' +
-        '        <option value="22">22 px</option>' +
-        '        <option value="23">23 px</option>' +
-        '        <option value="24">24 px</option>' +
-        '        <option value="25">25 px</option>' +
-        '    </select>' +
+        '<li class="toolbar-item workspace">' + 
+            '<span class="toolbar-item-label workspace">grid</span>' +
+            '<select class="toolbar-item-input workspace" data-name="grid">' + 
+                '<option value="15">15 px</option>' +
+                '<option value="16">16 px</option>' +
+                '<option value="17">17 px</option>' +
+                '<option value="18">18 px</option>' +
+                '<option value="19">19 px</option>' +
+                '<option value="20">20 px</option>' +
+                '<option value="21">21 px</option>' +
+                '<option value="22">22 px</option>' +
+                '<option value="23">23 px</option>' +
+                '<option value="24">24 px</option>' +
+                '<option value="25">25 px</option>' +
+            '</select>' +
         '</li>' +
-        '<li class="workspacebar-item">' +
-        '    <span class="workspacebar-item-label">snap</span>' +
-        '    <input type="checkbox" class="workspacebar-item-input" data-name="snap" />' +
+        '<li class="toolbar-item workspace">' +
+            '<span class="toolbar-item-label workspace">snap</span>' +
+            '<input type="checkbox" class="toolbar-item-input workspace" data-name="snap" />' +
         '</li>'
     ),
 
@@ -54,6 +54,20 @@ vispro.view.WorkspaceBar = Backbone.View.extend({
 
     render: function () {
         
+        return this;
+    },
+
+    show: function () {
+        
+        this.render().element.show();
+
+        return this;
+    },
+
+    hide: function () {
+        
+        this.element.hide();
+
         return this;
     },
 
@@ -88,8 +102,8 @@ vispro.view.WorkspaceBar = Backbone.View.extend({
 
     events: {
         'click a': 'onClick',
-        'change select[data-name="grid"]': 'onGrid',
-        'change input[data-name="snap"]': 'onSnap'
+        'change .toolbar-item-input[data-name="grid"]': 'onGrid',
+        'change .toolbar-item-input[data-name="snap"]': 'onSnap'
     }
     
 });

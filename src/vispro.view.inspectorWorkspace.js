@@ -2,19 +2,19 @@ vispro.view.InspectorWorkspace = Backbone.View.extend({
 
     el: $(
         '<div class="workspace-inspector">' +
-        '    <span class="inspector-label">Workspace</span>' + 
+            '<span class="inspector-label">Workspace</span>' + 
         
-        '    <div class="inspector-properties dimensions">' + 
-        '        <span class="inspector-properties-label">Dimensions</span>' + 
-        '        <div class="inspector-property">' +
-        '            <span class="inspector-property-label">width</span>' +
-        '            <input type="number" class="inspector-input" data-name="width" />' +
-        '        </div>' +
-        '        <div class="inspector-property">' +
-        '            <span class="inspector-property-label">height</span>' +
-        '            <input type="number" class="inspector-input" data-name="height" />' +
-        '        </div>' +
-        '    </div>' +
+            '<div class="inspector-properties dimensions">' + 
+                '<span class="inspector-properties-label">Dimensions</span>' + 
+                '<div class="inspector-property">' +
+                    '<span class="inspector-property-label">width</span>' +
+                    '<input type="number" class="inspector-input" data-name="width" />' +
+                '</div>' +
+                '<div class="inspector-property">' +
+                    '<span class="inspector-property-label">height</span>' +
+                    '<input type="number" class="inspector-input" data-name="height" />' +
+                '</div>' +
+            '</div>' +
         '</div>'
     ),
     

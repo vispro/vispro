@@ -1,8 +1,8 @@
 vispro.view.WidgetBarList = Backbone.View.extend({
 
-    tagName: 'div',
+    tagName: 'span',
 
-    className: 'widgetbar-list',
+    className: 'toolbar-list widget',
 
     initialize: function (attributes, options) {
 

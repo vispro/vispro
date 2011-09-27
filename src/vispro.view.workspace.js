@@ -2,7 +2,7 @@ vispro.view.Workspace = Backbone.View.extend({
 
     tagName: 'div',
 
-    className: 'workspace',
+    className: 'workspace shadow',
 
     initialize: function (attributes, options) {
         
