@@ -63,14 +63,14 @@ vispro.view.BrowserList = Backbone.View.extend({
 
     enable: function () {
                 
-        this.viewList.cover('disable');
+        this.element.cover('disable');
 
         return this;
     },
 
     disable: function () {
         
-        this.viewList.cover('enable');
+        this.element.cover('enable');
 
         return this;
     },
