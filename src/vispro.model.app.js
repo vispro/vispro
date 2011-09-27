@@ -45,6 +45,7 @@ vispro.model.App = Backbone.Model.extend({
     },
 
     restore_from_string: function (state_str) {
+        
         var state;
 
         try {
@@ -60,6 +61,7 @@ vispro.model.App = Backbone.Model.extend({
     },
 
     save_to_string: function () {
+
         return $.toJSON(this.save());  
     },
 

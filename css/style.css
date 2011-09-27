@@ -373,24 +373,31 @@ body {
  * PANEL CODE
  */
 
-.panel-workspace-code {
-    overflow: hidden;
+.workspace-code {
+	position: absolute;
+	width: 100%;
+	height: 100%;
 }
 
-.panel-workspace-state {
-    overflow: hidden;
+.panel-code {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	overflow: scroll;
+
+	-webkit-box-shadow: 0px 0px 1px 1px rgba(0,0,0,.25) inset; 
+    -moz-box-shadow: 0px 0px 1px 1px rgba(0,0,0,.25) inset; 
+    box-shadow: 0px 0px 1px 1px rgba(0,0,0,.25) inset;
 }
 
-.output-code {
-    margin: 15px;
-    height: 100%;
-    overflow: scroll;
-}
+.paper-code {
+	margin: 20px;
+	padding: 10px;
+	border: 1px solid #2d2d2d;
 
-.output-state {
-    margin: 15px;
-    height: 100%;
-    overflow: scroll;
+	-webkit-box-shadow: 2px 2px 1px 1px rgba(0,0,0,.25); 
+    -moz-box-shadow: 2px 2px 1px 1px rgba(0,0,0,.25); 
+    box-shadow: 2px 2px 1px 1px rgba(0,0,0,.25);
 }
 
 /*
