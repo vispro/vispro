@@ -2,6 +2,7 @@ vispro.view.AppBar = Backbone.View.extend({
 
     el: $(
         '<div class="appbar">' +
+        '   <div class="brand">VisPro</div>' +
         '    <ul class="appbar-list">' +
         '        <li class="appbar-item" data-action="new">' + 
         '            <a class="appbar-item-label" href="#new">New</a>' +

@@ -24,7 +24,7 @@ vispro.view.Code = Backbone.View.extend({
                 north__size: .7,
                 north__closable: false,
                 north__resizable: false,
-                north__spacing_open: 0,
+                north__spacing_open: 5,
                 north__spacing_close: 0,
                 north__togglerLength_open: 0,
                 north__togglerLength_close: 0,
@@ -44,7 +44,8 @@ vispro.view.Code = Backbone.View.extend({
     
     render: function () {
         
-        var workspace = this.workspace,
+        var element = this.element,
+            workspace = this.workspace,
             papers = this.papers,
             paper_output = papers.output,
             paper_state = papers.state,
