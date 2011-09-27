@@ -95,10 +95,15 @@ vispro.view.App = Backbone.View.extend({
         
         views.perspectiveBar = new vispro.view.PerspectiveBar({}, { 
             model: workspace,
-            root: panels.north
+            root: panels.center_north
         });
 
-        views.toolbar = new vispro.view.ToolBar({}, {
+        views.workspaceBar = new vispro.view.WorkspaceBar({}, {
+            model: workspace,
+            root: panels.center_north
+        });
+
+        views.widgetBarList = new vispro.view.WidgetBarList({}, {
             model: workspace,
             root: panels.center_north
         });
@@ -115,7 +120,7 @@ vispro.view.App = Backbone.View.extend({
         
         views.code = new vispro.view.Code({}, { 
             model: workspace,
-            root: panels.center
+            root: panels.center_center
         });
 
         views.browserList = new vispro.view.BrowserList({}, { 
@@ -150,28 +155,24 @@ vispro.view.App = Backbone.View.extend({
 
         if (mode === 'view') {
             
-            views.workspace.show().enable();
-            views.descriptorList.enable();
-            views.toolbar.enable();
+            views.workspace.show()
             views.code.hide();
 
-            layouts.app.open('west');
-            layouts.app.open('east');
-            layouts.center.open('north');
+            views.workspace.enable();
+            views.descriptorList.enable();
+            views.inspectorList.enable();
 
             return;
         }
 
         if (mode === 'link') {
 
-            views.workspace.show().disable();
-            views.descriptorList.disable();
-            views.toolbar.disable();
+            views.workspace.show();
             views.code.hide();
 
-            layouts.app.open('west');
-            layouts.app.open('east');
-            layouts.center.open('north');
+            views.workspace.disable();
+            views.descriptorList.disable();
+            views.inspectorList.disable();
             
             return;
         }
@@ -181,9 +182,9 @@ vispro.view.App = Backbone.View.extend({
             views.workspace.hide();
             views.code.show();
 
-            layouts.app.close('west');
-            layouts.app.close('east');
-            layouts.center.close('north');
+            views.workspace.disable();
+            views.descriptorList.disable();
+            views.inspectorList.disable();
 
             return;
         }

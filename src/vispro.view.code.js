@@ -1,7 +1,7 @@
 vispro.view.Code = Backbone.View.extend({
 
     el: $(
-        '<div class="workspace-code">' +
+        '<div class="panel code">' +
         '    <div class="ui-layout-north panel-code">' + 
         '        <div id="paper-code-output" class="paper-code"></div>' + 
         '    </div>' +
@@ -30,11 +30,6 @@ vispro.view.Code = Backbone.View.extend({
                 north__togglerLength_open: 0,
                 north__togglerLength_close: 0,
                 fxSpeed: 1
-            });
-
-        panels
-            .css({ 
-                width: '100%' 
             });
 
         papers.output = $(element.find('#paper-code-output'));

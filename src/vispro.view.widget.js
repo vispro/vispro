@@ -2,7 +2,7 @@ vispro.view.Widget = Backbone.View.extend({
 
     tagName: 'div',
 
-    className: 'widget',
+    className: 'paper widget',
     
     initialize: function (attributes, options) {
         

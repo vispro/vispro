@@ -1,17 +1,19 @@
 vispro.view.PerspectiveBar = Backbone.View.extend({
 
-    tagName: 'div',
+    tagName: 'ul',
 
-    className: 'viewbar',
+    className: 'toolbar perspective',
 
     template: _.template(
-        '<div class="viewbar-list">' + 
-
         '<% _.each(modes, function (mode) { %>' + 
-        '    <div class="viewbar-item" data-mode="<%= mode %>"><%= mode %></div>' +
-        '<% }); %>' +
 
-        '</div>'
+            '<li class="toolbar-item perspective">' + 
+                '<div class="toolbar-item-button perspective" data-mode="<%= mode %>">' + 
+                    '<%= mode %>' +
+                '</div>' +
+            '</li>' +
+        
+        '<% }); %>'
     ),
 
     initialize: function (attributes, options) {
@@ -49,10 +51,8 @@ vispro.view.PerspectiveBar = Backbone.View.extend({
     remode: function (mode) {
         
         var element = this.element,
-            items = $(element.find('.viewbar-item')),
-            item = $(element.find('.viewbar-item[data-mode="' + mode + '"]'));
-
-        console.log(mode, items, item);
+            items = $(element.find('.toolbar-item')),
+            item = $(element.find('.toolbar-item[data-mode="' + mode + '"]'));
 
         items.removeClass('selected');
         item.addClass('selected');
@@ -64,6 +64,8 @@ vispro.view.PerspectiveBar = Backbone.View.extend({
         
         var target = $(event.target),
             mode = target.attr('data-mode');
+
+        console.log(mode);
 
         this.workspace.remode(mode);
     },
@@ -83,9 +85,9 @@ vispro.view.PerspectiveBar = Backbone.View.extend({
     },
 
     events: {
-        'click .viewbar-item': 'onClick',
-        'mouseenter .viewbar-item': 'onMouseenter',
-        'mouseout .viewbar-item': 'onMouseout'
+        'click .toolbar-item-button': 'onClick',
+        'mouseenter .toolbar-item': 'onMouseenter',
+        'mouseout .toolbar-item': 'onMouseout'
     }
     
 });
