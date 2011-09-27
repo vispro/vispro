@@ -26,10 +26,7 @@ vispro.view.DescriptorList = Backbone.View.extend({
         
         collection
             .bind('add', this.add, this);
-
-        workspace
-            .bind('remode', this.remode, this);
-        
+                
         this.collection = collection;
         this.workspace = workspace;
         this.element = element;
@@ -92,17 +89,6 @@ vispro.view.DescriptorList = Backbone.View.extend({
         
         this.element.cover('enable');
         
-        return this;
-    },
-
-    remode: function (mode) {
-        
-        if (mode === 'view') {
-            this.enable();
-        } else {
-            this.disable();
-        }
-
         return this;
     }
     
