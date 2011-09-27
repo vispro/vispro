@@ -118,13 +118,21 @@ body {
 }
 
 .appbar-item:hover {
-    background-color: rgb(241,241,241);
     width: 35px;
+    height: 28px;
     margin-top: 0px;
     padding-top: 10px;
     cursor: pointer;
     color: #222222;
-    border: 1px solid rgb(241,241,241);
+    
+    background-image: -khtml-gradient(linear, left top, left bottom, from(#f1f1f1), to(#ebebeb));
+    background-image: -moz-linear-gradient(top, #f1f1f1, #ebebeb);
+    background-image: -ms-linear-gradient(top, #f1f1f1, #ebebeb);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f1f1f1), color-stop(100%, #ebebeb));
+    background-image: -webkit-linear-gradient(top, #f1f1f1, #ebebeb);
+    background-image: -o-linear-gradient(top, #f1f1f1, #ebebeb);
+    background-image: linear-gradient(top, #f1f1f1, #ebebeb);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f1f1f1', endColorstr='#ebebeb', GradientType=0);
 }
 
 .appbar-item-label {
