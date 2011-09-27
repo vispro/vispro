@@ -16,7 +16,8 @@ vispro.view.Code = Backbone.View.extend({
         var element = this.el,
             root = $(options.root),
             workspace = options.model,
-            papers = {};
+            papers = {},
+            panels = $(element.find('.panel-code'));
 
         element
             .appendTo(root)
@@ -29,6 +30,11 @@ vispro.view.Code = Backbone.View.extend({
                 north__togglerLength_open: 0,
                 north__togglerLength_close: 0,
                 fxSpeed: 1
+            });
+
+        panels
+            .css({ 
+                width: '100%' 
             });
 
         papers.output = $(element.find('#paper-code-output'));
