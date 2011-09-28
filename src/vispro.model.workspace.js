@@ -7,7 +7,7 @@
         this.ids = {};
         this.dimensions = { width: 800, height: 450 };
         this.grid = 15;
-        this.snap = false;
+        this.snap = true;
         this.zIndex = 0;
         this.widgetList = new vispro.model.WidgetList();
         this.descriptorList = new vispro.model.DescriptorList();

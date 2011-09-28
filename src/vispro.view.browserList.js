@@ -2,7 +2,7 @@ vispro.view.BrowserList = Backbone.View.extend({
 
     el: $(
         '<div class="panel browser">' + 
-            '<div class="panel-label browser ui-layout-north">Browser</div>' +
+            '<div class="panel-label browser ui-layout-north gradient-silver">Browser</div>' +
             '<div class="panel-list browser ui-layout-center"></div>' +
         '</div>'
     ),

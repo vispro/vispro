@@ -51,8 +51,8 @@ vispro.view.PerspectiveBar = Backbone.View.extend({
     remode: function (mode) {
         
         var element = this.element,
-            items = $(element.find('.toolbar-item')),
-            item = $(element.find('.toolbar-item[data-mode="' + mode + '"]'));
+            items = $(element.find('.toolbar-item-button')),
+            item = $(element.find('.toolbar-item-button[data-mode="' + mode + '"]'));
 
         items.removeClass('selected');
         item.addClass('selected');
@@ -84,8 +84,8 @@ vispro.view.PerspectiveBar = Backbone.View.extend({
 
     events: {
         'click .toolbar-item-button': 'onClick',
-        'mouseenter .toolbar-item': 'onMouseenter',
-        'mouseout .toolbar-item': 'onMouseout'
+        'mouseenter .toolbar-item-button': 'onMouseenter',
+        'mouseout .toolbar-item-button': 'onMouseout'
     }
     
 });

@@ -6,7 +6,7 @@ vispro.view.WorkspaceBar = Backbone.View.extend({
 
     template: _.template(
         '<li class="toolbar-item workspace">' + 
-            '<span class="toolbar-item-label workspace">grid</span>' +
+            '<div class="toolbar-item-label workspace">grid</div>' +
             '<select class="toolbar-item-input workspace" data-name="grid">' + 
                 '<option value="15">15 px</option>' +
                 '<option value="16">16 px</option>' +
@@ -22,8 +22,9 @@ vispro.view.WorkspaceBar = Backbone.View.extend({
             '</select>' +
         '</li>' +
         '<li class="toolbar-item workspace">' +
-            '<span class="toolbar-item-label workspace">snap</span>' +
-            '<input type="checkbox" class="toolbar-item-input workspace" data-name="snap" />' +
+            '<div class="toolbar-item-label workspace">snap</div>' +
+            '<input type="checkbox" class="toolbar-item-input workspace" data-name="snap" ' +
+            '   <%= (snap ? "checked" : "") %> />' +
         '</li>'
     ),
 
@@ -35,7 +36,7 @@ vispro.view.WorkspaceBar = Backbone.View.extend({
             root = options.root;
         
         element
-            .html(template())
+            .html(template(workspace))
             .appendTo(root);
 
         this.element = element;

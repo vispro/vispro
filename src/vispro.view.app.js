@@ -10,7 +10,7 @@ vispro.view.App = Backbone.View.extend({
         '<div id="panel-west" class="panel ui-layout-west"></div>' + 
 
         '<div id="panel-center" class="ui-layout-center">' +
-            '<div id="panel-center-north" class="ui-layout-north gradient-black"></div>' +
+            '<div id="panel-center-north" class="ui-layout-north gradient-silver"></div>' +
             '<div id="panel-center-center" class="ui-layout-center"></div>' +
         '</div>' +
 
