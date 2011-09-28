@@ -2,7 +2,7 @@ vispro.view.DescriptorList = Backbone.View.extend({
 
     el: $(
         '<div class="panel descriptor">' + 
-            '<div class="panel-label descriptor ui-layout-north">Widgets</div>' + 
+            '<div class="panel-label descriptor ui-layout-north gradient-silver">Widgets</div>' + 
             '<div class="panel-list descriptor ui-layout-center"></div>' + 
         '</div>'
     ),

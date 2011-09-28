@@ -7,28 +7,23 @@ vispro.view.WidgetBar = Backbone.View.extend({
     template: _.template(
         '<li class="toolbar-item widget">' +
             '<div class="toolbar-item-button widget" data-action="send-back" ' +
-                'style="background-image: url(css/images/widget_move_back.png); ' + 
-                    'background-repeat:no-repeat;"></div>' + 
+                'style="background-image: url(css/images/widget_move_back.png);"></div>' + 
         '</li>' +
         '<li class="toolbar-item widget">' + 
             '<div class="toolbar-item-button widget" data-action="send-backward" ' +
-                'style="background-image: url(css/images/widget_move_backward.png);' + 
-                    'background-repeat:no-repeat;"></div>' +
+                'style="background-image: url(css/images/widget_move_backward.png);"></div>' +
         '</li>' +
         '<li class="toolbar-item widget">' + 
             '<div class="toolbar-item-button widget" data-action="bring-forward" ' +
-                'style="background-image: url(css/images/widget_move_forward.png);' + 
-                    'background-repeat:no-repeat;"></div>' +
+                'style="background-image: url(css/images/widget_move_forward.png);"></div>' +
         '</li>' +
         '<li class="toolbar-item widget">' + 
             '<div class="toolbar-item-button widget" data-action="bring-front" ' +
-                'style="background-image: url(css/images/widget_move_front.png);' + 
-                    'background-repeat:no-repeat;"></div>' +
+                'style="background-image: url(css/images/widget_move_front.png);"></div>' +
         '</li>' +
         '<li class="toolbar-item widget">' + 
             '<div class="toolbar-item-button widget" data-action="delete" ' +
-                'style="background-image: url(css/images/widget_delete.png);' + 
-                    'background-repeat:no-repeat;"></div>' +
+                'style="background-image: url(css/images/widget_delete.png);"></div>' +
         '</li>'
     ),
 
@@ -122,12 +117,28 @@ vispro.view.WidgetBar = Backbone.View.extend({
             model.destroy({});
         }
     },
+
+    onMouseenter: function (event) {
+        
+        var target = $(event.target);
+        
+        target.addClass('over');
+    },
+
+    onMouseout: function (event) {
+        
+        var target = $(event.target);
+
+        target.removeClass('over');
+    },
     
     events: {
         'click .toolbar-item-button[data-action="send-back"]': 'onClickSendBack',
         'click .toolbar-item-button[data-action="send-backward"]': 'onClickSendBackward',
         'click .toolbar-item-button[data-action="bring-forward"]': 'onClickBringForward',
         'click .toolbar-item-button[data-action="bring-front"]': 'onClickBringFront',
-        'click .toolbar-item-button[data-action="delete"]': 'onClickDelete'
+        'click .toolbar-item-button[data-action="delete"]': 'onClickDelete',
+        'mouseenter .toolbar-item-button': 'onMouseenter',
+        'mouseout .toolbar-item-button': 'onMouseout'
     }
 });
