@@ -5,8 +5,9 @@ vispro.view.App = Backbone.View.extend({
     ),
 
     template: _.template(
-        '<div id="panel-north" class="ui-layout-north gradient-black"></div>' +
-
+        '<div id="panel-north" class="ui-layout-north gradient-black">' +
+        '   <div class="logo">VisProWG</div>' +
+        '</div>' +
         '<div id="panel-west" class="panel ui-layout-west"></div>' + 
 
         '<div id="panel-center" class="ui-layout-center">' +
@@ -48,15 +49,15 @@ vispro.view.App = Backbone.View.extend({
                 north__resizable: false,
                 north__spacing_open: 5,
                 west__resizable: false,
-                west__spacing_open: 5,
-                west__spacing_closed: 0,
-                west__togglerLength_open: 0,
-                west__togglerLength_close: 0,
+                // west__spacing_open: 5,
+                // west__spacing_closed: 5,
+                // west__togglerLength_open: 30,
+                // west__togglerLength_close: 30,
                 east__resizable: false,
-                east__spacing_open: 5,
-                east__spacing_closed: 0,
-                east__togglerLength_open: 0,
-                east__togglerLength_close: 0,
+                // east__spacing_open: 5,
+                // east__spacing_closed: 5,
+                // east__togglerLength_open: 30,
+                // east__togglerLength_close: 30,
                 fxSpeed: 1
             });
 

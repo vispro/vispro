@@ -7,7 +7,7 @@ vispro.view.PerspectiveBar = Backbone.View.extend({
     template: _.template(
         '<% _.each(modes, function (mode) { %>' + 
 
-            '<li class="toolbar-item perspective">' + 
+            '<li class="toolbar-item">' + 
                 '<div class="toolbar-item-button perspective" data-mode="<%= mode %>">' + 
                     '<%= mode %>' +
                 '</div>' +

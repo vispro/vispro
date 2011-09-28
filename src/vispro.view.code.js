@@ -34,6 +34,11 @@ vispro.view.Code = Backbone.View.extend({
         papers.output = $(element.find('#paper-code-output'));
         papers.state = $(element.find('#paper-code-state'));
 
+        $(element.find('.panel-list'))
+            .css({
+                width: '100%'
+            });
+
         this.workspace = workspace;
         this.element = element;
         this.root = root;
