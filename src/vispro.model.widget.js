@@ -61,8 +61,9 @@ vispro.model.Widget = Backbone.Model.extend({
 
     setId: function (id) {
         
-        this.set({id: id});
-        this.trigger('change_id', id);
+        var new_id = id.match(/^[a-zA-Z$_]\w+$/) ? id : this.get('id');
+        this.set({id: new_id});
+        this.trigger('change_id', new_id);
 
         return this;
     },
