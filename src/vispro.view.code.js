@@ -60,7 +60,7 @@ vispro.view.Code = Backbone.View.extend({
         else {
             output = workspace.getLog();
         }
-        state = app.save_to_string();
+        state = $.toJSON(workspace.save());
 
         paper_output
             .empty()

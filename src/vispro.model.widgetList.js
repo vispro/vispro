@@ -4,6 +4,13 @@ vispro.model.WidgetList = Backbone.Collection.extend({
     
     model: vispro.model.Widget,
 
+    empty: function () {
+        
+        this.remove(_.extend([], this.models));
+
+        return this;
+    },
+
     getByCid: function (cid) {
         
         var result;

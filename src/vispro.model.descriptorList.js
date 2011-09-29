@@ -10,6 +10,13 @@ vispro.model.DescriptorList = Backbone.Collection.extend({
 
         return this;
     },
+
+    empty: function () {
+        
+        this.remove(_.extend([], this.models));
+
+        return this;
+    },
     
     addAll: function (descriptorList) {
         

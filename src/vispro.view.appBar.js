@@ -61,22 +61,36 @@ vispro.view.AppBar = Backbone.View.extend({
                 'Le modifiche non salvate andranno perdute.\n' +
                 'Creare un nuovo progetto comunque?'
             )) {
-                $('body').cover();
-                return window.location.reload();
+                
+                $('body').cover('enable');
+                window.location.reload();
+                return;
             }
 
-            return workspace.remode('code');
+            workspace.remode('code');
         }
 
         function save () {
             
-            return workspace.remode('code');;
+            workspace.remode('code');;
         }
 
         function load () {
 
-            var state = window.prompt('Paste your saved state here');
-            app.restore_from_string(state);
+            var state_string = window.prompt('Paste your saved state here');
+            
+            $('body').cover('enable');
+
+            try {
+                state = $.secureEvalJSON(state_string);
+            } catch (error) {
+                alert("Stato non valido.");
+                throw error;
+            }
+            
+            workspace.load(state);
+
+            $('body').cover('disable');
         }
 
         if (action === 'new') {
