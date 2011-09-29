@@ -216,6 +216,10 @@ body {
     float: right;
 }
 
+.toolbar-item-button.app:hover {
+    color: white;
+}
+
 .toolbar.perspective {
     padding-right: 10px;
 }
