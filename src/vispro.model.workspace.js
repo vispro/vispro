@@ -23,9 +23,22 @@
             this.ids[type] = 0;
         }
 
-        var id = this.ids[type] += 1;
+        var id_seq = this.ids[type] += 1,
+            id = type + '_' + id_seq;
 
-        return type + '_' + id;
+        while ( ! this.validateId(id)) {
+            id_seq = this.ids[type] += 1;
+            id = type + '_' + id_seq;
+        }
+
+        return id;
+    },
+
+    validateId: function (id) {
+        
+        return ! this.widgetList.any(function (widget) { 
+                return widget.id == id;
+            });
     },
     
     createWidget: function (descriptor) {

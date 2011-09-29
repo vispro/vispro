@@ -139,8 +139,8 @@ var <%= id %> = geopoi.sdk.zoom("<%= id %>", {
                 <image url="images/zoom_h_s.jpg" />
             </images>
             <dimensions>
-                <width value="168" min="10" max="500" resizable="true"/>
-                <height value="26" resizable="false"/>
+                <width value="162" min="10" max="500" resizable="true"/>
+                <height value="23" resizable="false"/>
             </dimensions>
             <dependencies>
                 <dependency name="request_map" required="true" type="map">
@@ -179,8 +179,8 @@ var <%= id %> = geopoi.sdk.zoom("<%= id %>", {
                 <image url="images/zoom_v_s.jpg" />
             </images>
             <dimensions>
-                <width value="26" resizable="false"/>
-                <height value="168" min="10" max="500" resizable="true"/>
+                <width value="23" resizable="false"/>
+                <height value="162" min="10" max="500" resizable="true"/>
             </dimensions>
             <dependencies>
                 <dependency name="request_map" required="true" type="map" label="Map">
