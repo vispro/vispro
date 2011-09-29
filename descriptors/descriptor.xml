@@ -11,9 +11,9 @@
         <type name="pan" />
         <type name="button" />
         <type name="converter" />
-        <type name="mouse_coord" />
+        <type name="coord" />
         <type name="poi_size" />
-        <type name="serach" />
+        <type name="search" />
         <type name="macro" />
         <type name="layers" />
     </types>
@@ -334,7 +334,7 @@ var <%= id %> = geopoi.sdk.search("<%= id %>", {
         </widget>
 
         <!-- Widget 9 -->
-        <widget type="pan" name="pan_eight">
+        <widget type="pan" name="pan_four">
             <label>Pan - 4 arrows</label>
             <description></description>
             <images>
@@ -633,7 +633,7 @@ var <%= id %> = geopoi.sdk.coordconv("<%= id %>", {
         </widget>
 
         <!-- Widget 17 -->
-        <widget type="mouse_coord" name="mouse_coord">
+        <widget type="coord" name="mouse_coord">
             <label>Mouse Cord</label>
             <description></description>
             <images>
@@ -816,7 +816,7 @@ var <%= id %> = geopoi.sdk.macronavtab("<%= id %>", {
         </widget>
 
         <!-- Widget 22 -->
-        <widget type="layers" name="layers">
+        <widget type="layers" name="layers_plain">
             <label>Layers Window</label>
             <description></description>
             <images>

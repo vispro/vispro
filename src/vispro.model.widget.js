@@ -518,7 +518,7 @@ vispro.model.Widget = Backbone.Model.extend({
                     value = properties[parameter];
                 }
                 else if (parameter in links) {
-                    value = links[parameter];
+                    value = links[parameter].id;
                 }
                 else if (parameter in position) {
                     value = position[parameter];

@@ -29,7 +29,7 @@
         <xs:element ref="label"/>
         <xs:element ref="description"/>
         <xs:element ref="images"/>
-        <xs:element ref="dimension"/>
+        <xs:element ref="dimensions"/>
         <xs:element ref="dependencies"/>
         <xs:element ref="properties"/>
         <xs:element ref="code"/>
@@ -57,7 +57,7 @@
       <xs:attribute name="url" use="required"/>
     </xs:complexType>
   </xs:element>
-  <xs:element name="dimension">
+  <xs:element name="dimensions">
     <xs:complexType>
       <xs:sequence>
         <xs:element ref="width"/>
@@ -114,6 +114,7 @@
     <xs:complexType>
       <xs:attribute name="label" use="required"/>
       <xs:attribute name="name" use="required" type="xs:NCName"/>
+      <xs:attribute name="default" type="xs:boolean"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="code">
