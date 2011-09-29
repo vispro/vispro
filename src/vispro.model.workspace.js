@@ -152,6 +152,11 @@
         return test;
     },
 
+    overlap: function () {
+        
+        this.widgetList.overlap();
+    },
+
     getLog: function () {
         var log = '';
 

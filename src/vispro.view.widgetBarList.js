@@ -38,6 +38,7 @@ vispro.view.WidgetBarList = Backbone.View.extend({
         
         var view = new vispro.view.WidgetBar({}, {
             model: widget,
+            workspace: this.workspace,
             root: this.element
         });
 

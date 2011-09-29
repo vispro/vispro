@@ -31,6 +31,7 @@ vispro.view.WidgetBar = Backbone.View.extend({
 
         var model = options.model,
             root = options.root,
+            workspace = options.workspace,
             element = $(this.el),
             template = this.template;
         
@@ -44,6 +45,7 @@ vispro.view.WidgetBar = Backbone.View.extend({
 
         this.element = element;
         this.model = model;
+        this.workspace = workspace;
 
         return this;
     },
@@ -111,10 +113,12 @@ vispro.view.WidgetBar = Backbone.View.extend({
 
     onClickDelete: function (event) {
         
-        var model = this.model;
+        var model = this.model,
+            workspace = this.workspace;
 
         if (window.confirm('Eliminare ' + model.label + ' ' + model.id + '?')) {
             model.destroy({});
+            workspace.overlap();
         }
     },
 
