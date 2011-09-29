@@ -30,6 +30,11 @@ vispro.view.AppBar = Backbone.View.extend({
             .html(template())
             .appendTo(root);
 
+        $('body')[0]
+            .onbeforeunload = function () {
+                return 'Unsaved changes will be lost.'    
+            };
+
         this.element = element;
         this.root = root;
         this.workspace = workspace;
@@ -58,8 +63,8 @@ vispro.view.AppBar = Backbone.View.extend({
         function reset () {
         
             if (window.confirm(
-                'Le modifiche non salvate andranno perdute.\n' +
-                'Creare un nuovo progetto comunque?'
+                'Unsaved changes will be lost.\n' +
+                'Continue anyway?'
             )) {
                 
                 $('body').cover('enable');
