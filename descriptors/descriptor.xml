@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- Start XML configuration -->
-<vispro xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<visprowg xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xsi:noNamespaceSchemaLocation="descriptor.xsd">
     <types>
         <type name="map" />

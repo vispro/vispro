@@ -77,19 +77,24 @@ vispro.view.AppBar = Backbone.View.extend({
 
         function load () {
 
-            var state_string = window.prompt('Paste your saved state here');
+            var state_string,
+                state;
+
+            state_string = window.prompt('Paste your saved state here');
             
-            $('body').cover('enable');
+            if (state_string === null) {
+                return;
+            }
 
             try {
                 state = $.secureEvalJSON(state_string);
             } catch (error) {
-                alert("Stato non valido.");
-                throw error;
+                alert('Unvalid state');
+                return;
             }
-            
-            workspace.load(state);
 
+            $('body').cover('enable');            
+            workspace.load(state);
             $('body').cover('disable');
         }
 
