@@ -30,8 +30,8 @@ vispro.view.WidgetLinker = Backbone.View.extend({
             .data('linker', this)
             .css({
                 position: 'absolute',
-                top: y - radius - 2,
-                left: x - radius - 2,
+                top: y - radius - 1,
+                left: x - radius - 1,
                 width: 2 * radius,
                 height: 2 * radius,
                 'z-index': '1000000'
@@ -73,8 +73,8 @@ vispro.view.WidgetLinker = Backbone.View.extend({
             highlighted_radius = this.highlighted_radius;
 
             element.css({
-                left: position.left - highlighted_radius - 2,
-                top: position.top - highlighted_radius - 2,
+                left: position.left - highlighted_radius - 1,
+                top: position.top - highlighted_radius - 1,
                 width: 2 * highlighted_radius,
                 height: 2 * highlighted_radius
             });
@@ -95,8 +95,8 @@ vispro.view.WidgetLinker = Backbone.View.extend({
 
         element
             .css({
-                left: position.left - radius - 2,
-                top: position.top - radius - 2,
+                left: position.left - radius - 1,
+                top: position.top - radius - 1,
                 width: 2 * radius,
                 height: 2 * radius
             })
