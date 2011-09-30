@@ -44,7 +44,7 @@
                 </insert>
                 <insert match="js">
 <![CDATA[
-var <%= id %> = geopoi.sdk.map("<%= id %>");
+var <%= id %> = new geopoi.maps.Map("<%= id %>");
 ]]>
                 </insert>
             </code>
@@ -861,7 +861,7 @@ var <%= id %> = geopoi.sdk.layer("<%= id %>", {
 <html>
 
 <head>
-<title>VisProWG</title>
+<title>VisProGW</title>
 <script src="../php/geopoiAPI.php?&key=506a222c-54ab-0b71-a398-b935cbc92943&sdk=true"></script>
 <link rel="stylesheet" href="../MobilityManager/css/redmond/jquery-ui-1.8.12.custom.css" />
 <link rel="stylesheet" href="../MobilityManager/css/geopoi.sdk.navigation.css" />
