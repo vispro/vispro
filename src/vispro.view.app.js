@@ -6,7 +6,7 @@ vispro.view.App = Backbone.View.extend({
 
     template: _.template(
         '<div id="panel-north" class="ui-layout-north gradient-black">' +
-        '   <div class="logo">VisProWG</div>' +
+        '   <div class="logo">VisProGW</div>' +
         '</div>' +
         '<div id="panel-west" class="panel ui-layout-west"></div>' + 
 

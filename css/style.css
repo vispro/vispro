@@ -382,6 +382,7 @@ ul.perspective li:last-child div {
 
 .paper.widget.overlapped {
     outline: 3px double #dd4b39;
+    opacity: .75;
 }
 
 .paper.widget.selected.overlapped {

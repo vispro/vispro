@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- Start XML configuration -->
-<visprowg xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<visprogw xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xsi:noNamespaceSchemaLocation="descriptor.xsd">
     <types>
         <type name="map" />
@@ -879,4 +879,4 @@ var <%= id %> = geopoi.sdk.layer("<%= id %>", {
 </html>
 ]]>
     </source>
-</visprowg>
+</visprogw>
