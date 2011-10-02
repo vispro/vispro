@@ -117,6 +117,12 @@ vispro.view.AppBar = Backbone.View.extend({
             
             return load();
         }
+
+        if (action === 'help') {
+            
+            window.open('./docs/docs.html');
+            return false
+        }
     },
 
     events: {

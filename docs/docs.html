@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="AsciiDoc 8.6.5">
+<title></title>
+<style type="text/css">
+/*
+ * AsciiDoc 'flask' theme for xhtml11 and html5 backends. A shameless knock-off
+ * of the Flask website styling (http://flask.pocoo.org/docs/).
+ *
+ * The implementation is straight-forward, consisting of the asciidoc.css file
+ * followed by theme specific overrides.
+ *
+ * */
+
+
+/* Shared CSS for AsciiDoc xhtml11 and html5 backends */
+
+/* Default font. */
+body {
+  font-family: Georgia,serif;
+}
+
+/* Title font. */
+h1, h2, h3, h4, h5, h6,
+div.title, caption.title,
+thead, p.table.header,
+#toctitle,
+#author, #revnumber, #revdate, #revremark,
+#footer {
+  font-family: Arial,Helvetica,sans-serif;
+}
+
+body {
+  margin: 1em 5% 1em 5%;
+}
+
+a {
+  color: blue;
+  text-decoration: underline;
+}
+a:visited {
+  color: fuchsia;
+}
+
+em {
+  font-style: italic;
+  color: navy;
+}
+
+strong {
+  font-weight: bold;
+  color: #083194;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #527bbd;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+h1, h2, h3 {
+  border-bottom: 2px solid silver;
+}
+h2 {
+  padding-top: 0.5em;
+}
+h3 {
+  float: left;
+}
+h3 + * {
+  clear: left;
+}
+h5 {
+  font-size: 1.0em;
+}
+
+div.sectionbody {
+  margin-left: 0;
+}
+
+hr {
+  border: 1px solid silver;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+ul > li     { color: #aaa; }
+ul > li > * { color: black; }
+
+pre {
+  padding: 0;
+  margin: 0;
+}
+
+#author {
+  color: #527bbd;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+#email {
+}
+#revnumber, #revdate, #revremark {
+}
+
+#footer {
+  font-size: small;
+  border-top: 2px solid silver;
+  padding-top: 0.5em;
+  margin-top: 4.0em;
+}
+#footer-text {
+  float: left;
+  padding-bottom: 0.5em;
+}
+#footer-badges {
+  float: right;
+  padding-bottom: 0.5em;
+}
+
+#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.0em;
+  margin-bottom: 2.0em;
+  margin-right: 10%;
+  color: #606060;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: #527bbd;
+  font-weight: bold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: #ffffee;
+  border: 1px solid #dddddd;
+  border-left: 4px solid #f0f0f0;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: 1px solid #dddddd;
+  border-left: 5px solid #f0f0f0;
+  background: #f8f8f8;
+  padding: 0.5em;
+}
+
+div.quoteblock, div.verseblock {
+  padding-left: 1.0em;
+  margin-left: 1.0em;
+  margin-right: 10%;
+  border-left: 5px solid #f0f0f0;
+  color: #777777;
+}
+
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock > pre.content {
+  font-family: inherit;
+  font-size: inherit;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-decoration: underline;
+  color: #527bbd;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 3px solid #dddddd;
+}
+
+div.exampleblock > div.content {
+  border-left: 3px solid #dddddd;
+  padding-left: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; }
+a.image:visited { color: white; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: navy;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+
+ul, ol {
+    list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+tfoot {
+  font-weight: bold;
+}
+td > div.verse {
+  white-space: pre;
+}
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: bold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: navy;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+.footnote, .footnoteref {
+  font-size: 0.8em;
+}
+
+span.footnote, span.footnoteref {
+  vertical-align: super;
+}
+
+#footnotes {
+  margin: 20px 0 20px 0;
+  padding: 7px 0 0 0;
+}
+
+#footnotes div.footnote {
+  margin: 0 0 5px 0;
+}
+
+#footnotes hr {
+  border: none;
+  border-top: 1px solid silver;
+  height: 1px;
+  text-align: left;
+  margin-left: 0;
+  width: 20%;
+  min-width: 100px;
+}
+
+div.colist td {
+  padding-right: 0.5em;
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+div.colist td img {
+  margin-top: 0.3em;
+}
+
+@media print {
+  #footer-badges { display: none; }
+}
+
+#toc {
+  margin-bottom: 2.5em;
+}
+
+#toctitle {
+  color: #527bbd;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: 0.9em;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: 0.9em;
+}
+
+span.aqua { color: aqua; }
+span.black { color: black; }
+span.blue { color: blue; }
+span.fuchsia { color: fuchsia; }
+span.gray { color: gray; }
+span.green { color: green; }
+span.lime { color: lime; }
+span.maroon { color: maroon; }
+span.navy { color: navy; }
+span.olive { color: olive; }
+span.purple { color: purple; }
+span.red { color: red; }
+span.silver { color: silver; }
+span.teal { color: teal; }
+span.white { color: white; }
+span.yellow { color: yellow; }
+
+span.aqua-background { background: aqua; }
+span.black-background { background: black; }
+span.blue-background { background: blue; }
+span.fuchsia-background { background: fuchsia; }
+span.gray-background { background: gray; }
+span.green-background { background: green; }
+span.lime-background { background: lime; }
+span.maroon-background { background: maroon; }
+span.navy-background { background: navy; }
+span.olive-background { background: olive; }
+span.purple-background { background: purple; }
+span.red-background { background: red; }
+span.silver-background { background: silver; }
+span.teal-background { background: teal; }
+span.white-background { background: white; }
+span.yellow-background { background: yellow; }
+
+span.big { font-size: 2em; }
+span.small { font-size: 0.6em; }
+
+span.underline { text-decoration: underline; }
+span.overline { text-decoration: overline; }
+span.line-through { text-decoration: line-through; }
+
+
+/*
+ * xhtml11 specific
+ *
+ * */
+
+tt {
+  font-family: monospace;
+  font-size: inherit;
+  color: navy;
+}
+
+div.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.tableblock > table {
+  border: 3px solid #527bbd;
+}
+thead, p.table.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+/*
+ * html5 specific
+ *
+ * */
+
+.monospaced {
+  font-family: monospace;
+  font-size: inherit;
+  color: navy;
+}
+
+table.tableblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+thead, p.tableblock.header {
+  font-weight: bold;
+  color: #527bbd;
+}
+p.tableblock {
+  margin-top: 0;
+}
+table.tableblock {
+  border-width: 3px;
+  border-spacing: 0px;
+  border-style: solid;
+  border-color: #527bbd;
+  border-collapse: collapse;
+}
+th.tableblock, td.tableblock {
+  border-width: 1px;
+  padding: 4px;
+  border-style: solid;
+  border-color: #527bbd;
+}
+
+table.tableblock.frame-topbot {
+  border-left-style: hidden;
+  border-right-style: hidden;
+}
+table.tableblock.frame-sides {
+  border-top-style: hidden;
+  border-bottom-style: hidden;
+}
+table.tableblock.frame-none {
+  border-style: hidden;
+}
+
+th.tableblock.halign-left, td.tableblock.halign-left {
+  text-align: left;
+}
+th.tableblock.halign-center, td.tableblock.halign-center {
+  text-align: center;
+}
+th.tableblock.halign-right, td.tableblock.halign-right {
+  text-align: right;
+}
+
+th.tableblock.valign-top, td.tableblock.valign-top {
+  vertical-align: top;
+}
+th.tableblock.valign-middle, td.tableblock.valign-middle {
+  vertical-align: middle;
+}
+th.tableblock.valign-bottom, td.tableblock.valign-bottom {
+  vertical-align: bottom;
+}
+
+
+/*
+ * Theme specific overrides of the preceding (asciidoc.css) CSS.
+ *
+ */
+body {
+  font-family: Garamond, Georgia, serif;
+  font-size: 17px;
+  color: #3E4349;
+  line-height: 1.3em;
+}
+h1, h2, h3, h4, h5, h6,
+div.title, caption.title,
+thead, p.table.header,
+#toctitle,
+#author, #revnumber, #revdate, #revremark,
+#footer {
+  font-family: Garmond, Georgia, serif;
+  font-weight: normal;
+  border-bottom-width: 0;
+  color: #3E4349;
+}
+div.title, caption.title { color: #596673; font-weight: bold; }
+h1 { font-size: 240%; }
+h2 { font-size: 180%; }
+h3 { font-size: 150%; }
+h4 { font-size: 130%; }
+h5 { font-size: 100%; }
+h6 { font-size: 100%; }
+#header h1 { margin-top: 0; }
+#toc {
+  color: #444444;
+  line-height: 1.5;
+  padding-top: 1.5em;
+}
+#toctitle {
+  font-size: 20px;
+}
+#toc a {
+    border-bottom: 1px dotted #999999;
+    color: #444444 !important;
+    text-decoration: none !important;
+}
+#toc a:hover {
+    border-bottom: 1px solid #6D4100;
+    color: #6D4100 !important;
+    text-decoration: none !important;
+}
+div.toclevel1 { margin-top: 0.2em; font-size: 16px; }
+div.toclevel2 { margin-top: 0.15em; font-size: 14px; }
+em, dt, td.hdlist1 { color: black; }
+strong { color: #3E4349; }
+a { color: #004B6B; text-decoration: none; border-bottom: 1px dotted #004B6B; }
+a:visited { color: #615FA0; border-bottom: 1px dotted #615FA0; }
+a:hover { color: #6D4100; border-bottom: 1px solid #6D4100; }
+div.tableblock > table, table.tableblock { border: 3px solid #E8E8E8; }
+th.tableblock, td.tableblock { border: 1px solid #E8E8E8; }
+ul > li > * { color: #3E4349; }
+pre, tt, .monospaced { font-family: Consolas,Menlo,'Deja Vu Sans Mono','Bitstream Vera Sans Mono',monospace; }
+tt, .monospaced { font-size: 0.9em; color: black;
+}
+div.exampleblock > div.content, div.sidebarblock > div.content, div.listingblock > div.content { border-width: 0 0 0 3px; border-color: #E8E8E8; }
+div.verseblock { border-left-width: 0; margin-left: 3em; }
+div.quoteblock { border-left-width: 3px; margin-left: 0; margin-right: 0;}
+div.admonitionblock td.content { border-left: 3px solid #E8E8E8; }
+@media screen {
+  body {
+    max-width: 50em; /* approximately 80 characters wide */
+    margin-left: 16em;
+  }
+
+  #toc {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 13em;
+    padding: 0.5em;
+    padding-bottom: 1.5em;
+    margin: 0;
+    overflow: auto;
+    border-right: 3px solid #f8f8f8;
+  }
+
+  #toc .toclevel1 {
+    margin-top: 0.5em;
+  }
+
+  #toc .toclevel2 {
+    margin-top: 0.25em;
+    display: list-item;
+    color: #aaaaaa;
+  }
+
+  #toctitle {
+    margin-top: 0.5em;
+  }
+}
+</style>
+<script type="text/javascript">
+/*<![CDATA[*/
+var asciidoc = {  // Namespace.
+
+/////////////////////////////////////////////////////////////////////
+// Table Of Contents generator
+/////////////////////////////////////////////////////////////////////
+
+/* Author: Mihai Bazon, September 2002
+ * http://students.infoiasi.ro/~mishoo
+ *
+ * Table Of Content generator
+ * Version: 0.4
+ *
+ * Feel free to use this script under the terms of the GNU General Public
+ * License, as long as you do not remove or alter this notice.
+ */
+
+ /* modified by Troy D. Hanson, September 2006. License: GPL */
+ /* modified by Stuart Rackham, 2006, 2009. License: GPL */
+
+// toclevels = 1..4.
+toc: function (toclevels) {
+
+  function getText(el) {
+    var text = "";
+    for (var i = el.firstChild; i != null; i = i.nextSibling) {
+      if (i.nodeType == 3 /* Node.TEXT_NODE */) // IE doesn't speak constants.
+        text += i.data;
+      else if (i.firstChild != null)
+        text += getText(i);
+    }
+    return text;
+  }
+
+  function TocEntry(el, text, toclevel) {
+    this.element = el;
+    this.text = text;
+    this.toclevel = toclevel;
+  }
+
+  function tocEntries(el, toclevels) {
+    var result = new Array;
+    var re = new RegExp('[hH]([2-'+(toclevels+1)+'])');
+    // Function that scans the DOM tree for header elements (the DOM2
+    // nodeIterator API would be a better technique but not supported by all
+    // browsers).
+    var iterate = function (el) {
+      for (var i = el.firstChild; i != null; i = i.nextSibling) {
+        if (i.nodeType == 1 /* Node.ELEMENT_NODE */) {
+          var mo = re.exec(i.tagName);
+          if (mo && (i.getAttribute("class") || i.getAttribute("className")) != "float") {
+            result[result.length] = new TocEntry(i, getText(i), mo[1]-1);
+          }
+          iterate(i);
+        }
+      }
+    }
+    iterate(el);
+    return result;
+  }
+
+  var toc = document.getElementById("toc");
+  if (!toc) {
+    return;
+  }
+
+  // Delete existing TOC entries in case we're reloading the TOC.
+  var tocEntriesToRemove = [];
+  var i;
+  for (i = 0; i < toc.childNodes.length; i++) {
+    var entry = toc.childNodes[i];
+    if (entry.nodeName == 'DIV'
+     && entry.getAttribute("class")
+     && entry.getAttribute("class").match(/^toclevel/))
+      tocEntriesToRemove.push(entry);
+  }
+  for (i = 0; i < tocEntriesToRemove.length; i++) {
+    toc.removeChild(tocEntriesToRemove[i]);
+  }
+
+  // Rebuild TOC entries.
+  var entries = tocEntries(document.getElementById("content"), toclevels);
+  for (var i = 0; i < entries.length; ++i) {
+    var entry = entries[i];
+    if (entry.element.id == "")
+      entry.element.id = "_toc_" + i;
+    var a = document.createElement("a");
+    a.href = "#" + entry.element.id;
+    a.appendChild(document.createTextNode(entry.text));
+    var div = document.createElement("div");
+    div.appendChild(a);
+    div.className = "toclevel" + entry.toclevel;
+    toc.appendChild(div);
+  }
+  if (entries.length == 0)
+    toc.parentNode.removeChild(toc);
+},
+
+
+/////////////////////////////////////////////////////////////////////
+// Footnotes generator
+/////////////////////////////////////////////////////////////////////
+
+/* Based on footnote generation code from:
+ * http://www.brandspankingnew.net/archive/2005/07/format_footnote.html
+ */
+
+footnotes: function () {
+  // Delete existing footnote entries in case we're reloading the footnodes.
+  var i;
+  var noteholder = document.getElementById("footnotes");
+  if (!noteholder) {
+    return;
+  }
+  var entriesToRemove = [];
+  for (i = 0; i < noteholder.childNodes.length; i++) {
+    var entry = noteholder.childNodes[i];
+    if (entry.nodeName == 'DIV' && entry.getAttribute("class") == "footnote")
+      entriesToRemove.push(entry);
+  }
+  for (i = 0; i < entriesToRemove.length; i++) {
+    noteholder.removeChild(entriesToRemove[i]);
+  }
+
+  // Rebuild footnote entries.
+  var cont = document.getElementById("content");
+  var spans = cont.getElementsByTagName("span");
+  var refs = {};
+  var n = 0;
+  for (i=0; i<spans.length; i++) {
+    if (spans[i].className == "footnote") {
+      n++;
+      var note = spans[i].getAttribute("data-note");
+      if (!note) {
+        // Use [\s\S] in place of . so multi-line matches work.
+        // Because JavaScript has no s (dotall) regex flag.
+        note = spans[i].innerHTML.match(/\s*\[([\s\S]*)]\s*/)[1];
+        spans[i].innerHTML =
+          "[<a id='_footnoteref_" + n + "' href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+        spans[i].setAttribute("data-note", note);
+      }
+      noteholder.innerHTML +=
+        "<div class='footnote' id='_footnote_" + n + "'>" +
+        "<a href='#_footnoteref_" + n + "' title='Return to text'>" +
+        n + "</a>. " + note + "</div>";
+      var id =spans[i].getAttribute("id");
+      if (id != null) refs["#"+id] = n;
+    }
+  }
+  if (n == 0)
+    noteholder.parentNode.removeChild(noteholder);
+  else {
+    // Process footnoterefs.
+    for (i=0; i<spans.length; i++) {
+      if (spans[i].className == "footnoteref") {
+        var href = spans[i].getElementsByTagName("a")[0].getAttribute("href");
+        href = href.match(/#.*/)[0];  // Because IE return full URL.
+        n = refs[href];
+        spans[i].innerHTML =
+          "[<a href='#_footnote_" + n +
+          "' title='View footnote' class='footnote'>" + n + "</a>]";
+      }
+    }
+  }
+},
+
+install: function(toclevels) {
+  var timerId;
+
+  function reinstall() {
+    asciidoc.footnotes();
+    if (toclevels) {
+      asciidoc.toc(toclevels);
+    }
+  }
+
+  function reinstallAndRemoveTimer() {
+    clearInterval(timerId);
+    reinstall();
+  }
+
+  timerId = setInterval(reinstall, 500);
+  if (document.addEventListener)
+    document.addEventListener("DOMContentLoaded", reinstallAndRemoveTimer, false);
+  else
+    window.onload = reinstallAndRemoveTimer;
+}
+
+}
+asciidoc.install(2);
+/*]]>*/
+</script>
+</head>
+<body class="article">
+<div id="header">
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div id="content">
+<div class="sect1">
+<h2 id="anchor-sec_VisProWG">VisProWG: composizione visuale di applicazioni</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>L&#8217;elemento base all&#8217;interno di VisProWG è il <strong>widget</strong>:</p></div>
+<div class="sidebarblock">
+<div class="content">
+<div class="title">Widegt:</div>
+<div class="paragraph"><p>Componente in generale dotato di interfaccia grafica, che arrangiato insieme ad altri widget compone una applicazione VisProWG.</p></div>
+<div class="paragraph"><p>Una applicazione VisProWG è composta da uno o più widget.</p></div>
+<div class="paragraph"><p>Ogni widget appartiene ad un determinato <strong>tipo</strong>.</p></div>
+</div></div>
+<div class="paragraph"><p>Ogni widget in VisProWG è caratterizzato da:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+un nome univoco;
+</p>
+</li>
+<li>
+<p>
+alcune proprietà geometriche che ne descrivono la presentazione grafica;
+</p>
+</li>
+<li>
+<p>
+un insieme, anche vuoto, di proprietà generiche;
+</p>
+</li>
+<li>
+<p>
+un insieme, anche vuoto, di dipendenze funzionali.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>L&#8217;attività dell&#8217;utente che indende creare una applicazione con VisProWG si articola in tre step fondamentali:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+selezionare quali widget inserire nell&#8217;applicazione;
+</p>
+</li>
+<li>
+<p>
+definire le interdipendenze tre le widget introdotte;
+</p>
+</li>
+<li>
+<p>
+generare il codice relativo all&#8217;applicazione.
+</p>
+</li>
+</ul></div>
+<div class="sect2">
+<h3 id="_stack_tecnologico">Stack tecnologico</h3>
+<div class="paragraph"><p>Lo stack tecnologico utilizzato in VisProWG è descritto nella immagine seguente.</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="images/stack.png" alt="Stack tecnologico" width="360">
+</span></p></div>
+<div class="paragraph"><p>In particolare per schermare l&#8217;applicazione dalle differenze comportamentali che sussistono tra i vari browser si è provveduto ad introdurre un robusto strato di framework JavaScript:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>JQuery</strong>: main JavaScriptFramework;
+</p>
+</li>
+<li>
+<p>
+<strong>JQuery UI</strong>: gestione del&#8217;interfaccia grafica;
+</p>
+</li>
+<li>
+<p>
+<strong>Raphael.js</strong>: gestione del disegno vettoriale;
+</p>
+</li>
+<li>
+<p>
+<strong>Backbone.js</strong>: supporto al pattern architetturale MVC.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Inoltre sono stati utilizzati i seguenti plugin JQuery:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<strong>layout.js</strong>: supporto per il layout operativo;
+</p>
+</li>
+<li>
+<p>
+<strong>beautifyOfCode</strong>: presentazione del codice generato;
+</p>
+</li>
+<li>
+<p>
+<strong>getattributes.js</strong>: parsing file XML;
+</p>
+</li>
+<li>
+<p>
+<strong>json.js</strong>: supporto al formato JSON.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="anchor-sec_layout">Layout area di lavoro</h2>
+<div class="sectionbody">
+<div class="paragraph"><p><span class="image">
+<img src="images/screenshots/01_num.png" alt="L&#8217;area di lavoro di VisProWG" width="800">
+</span></p></div>
+<div class="paragraph"><p>L&#8217;area di lavoro di VisProWG è suddivisa in diverse zone:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Toolbar Applicazione [1]
+</p>
+</li>
+<li>
+<p>
+Toolbars:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+Toolbar Perspettiva [2]
+</p>
+</li>
+<li>
+<p>
+Toolbar Workspace [3]
+</p>
+</li>
+<li>
+<p>
+Toolbar Widget [4]
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+Workspace [5]
+</p>
+</li>
+<li>
+<p>
+Widget Library [6]
+</p>
+</li>
+<li>
+<p>
+Browser [7]
+</p>
+</li>
+<li>
+<p>
+Inspector [8]
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Ognuna delle zone è deputata ad un preciso compito.</p></div>
+<div class="sect2">
+<h3 id="achor-sec3_toolbar_applicazione">Toolbar Applicazione</h3>
+<div class="paragraph"><p>La Toolbar Applicazione [1] è situata nella parte più in alto dell&#8217;interfaccia di VisProWG.
+Nella Toolbar applicazione l&#8217;utente trova i comandi per:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+creare un nuovo progetto;
+</p>
+</li>
+<li>
+<p>
+salvare e ripristinare il progetto in lavorazione (<em>Save</em> - <em>Restore</em>);
+</p>
+</li>
+<li>
+<p>
+accedere alla documentazione (<em>Help</em>);
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2">
+<h3 id="achor-sec3_toolbars">Toolbars</h3>
+<div class="sect3">
+<h4 id="anchor-sec4-toolbar_prospettiva">Toolbar Prospettiva</h4>
+<div class="paragraph"><p>La Toolbar Prospettiva permette di selezionare in quale <a href="#anchor-sec4_prospettive">modalità</a> (o prospettiva) utilizzare il workspace.</p></div>
+</div>
+<div class="sect3">
+<h4 id="anchor-sec4-toolbar_workspace">Toolbar Workspace</h4>
+<div class="paragraph"><p>La Toolbar Workspace permette all&#8217;utente di modificare le proprietà del workspace:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+modificare il passo della griglia;
+</p>
+</li>
+<li>
+<p>
+attivare/disattivare lo snap alla griglia.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3">
+<h4 id="anchor-sec4-toolbar_widget">Toolbar Widget</h4>
+<div class="paragraph"><p>La Toolbar Widget permette all&#8217;utente di modificare alcune proprietà relative ad una widget, nell&#8217;ordine da sinistra verso destra:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+portare una widget dietro a tutte le altre;
+</p>
+</li>
+<li>
+<p>
+portare una widget dietro alla widget immediatamente sottostante;
+</p>
+</li>
+<li>
+<p>
+portare una widget davanti ad una widget immediatamente soprastante;
+</p>
+</li>
+<li>
+<p>
+portare una widget davanti a tutte le altre widget;
+</p>
+</li>
+<li>
+<p>
+eliminare una widget.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="achor-sec3_workspace">Workspace</h3>
+<div class="paragraph"><p>Il Wokspace, l&#8217;area di maggiore operatività dell&#8217;utente occupa la parte centrale dell&#8217;interfaccia.</p></div>
+<div class="paragraph"><p>È in questa area che l&#8217;utente compone la propria applicazione, definisce le relazioni di dipendenza tra le widget e preleva il codice.</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="images/screenshots/03.png" alt="Chiusura pannelli laterali" width="800">
+</span></p></div>
+<div class="paragraph"><p>Per avere il massimo spazio dedicato al Workspace, l&#8217;utente può chiudere i pannelli laterali, agendo sui pulsanti indicati in figura.</p></div>
+<div class="sect3">
+<h4 id="anchor-sec4_prospettive">Prospettive</h4>
+<div class="paragraph"><p>Le modalità in cui l&#8217;utente può operare con VisProWG sono di tre tipi:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+view;
+</p>
+</li>
+<li>
+<p>
+link;
+</p>
+</li>
+<li>
+<p>
+code.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Ogni modalità operativa è accessibile con il corrispettivo bottone nella <a href="#anchor-sec4-toolbar_prospettiva">Toolbar prospettiva</a>.</p></div>
+<div class="paragraph"><div class="title">View</div><p>In questa modalità operativa l&#8217;utente può definire l&#8217;interfaccia grafica della propria applicazione.</p></div>
+<div class="paragraph"><div class="title">Link</div><p>In questa modalità operativa l&#8217;utente può definire come devono essere soddisfatte le dipendenze delle diverse widget.</p></div>
+<div class="paragraph"><div class="title">Code</div><p>In questa modalità operativa l&#8217;utente può prelevare il codice relativo all&#8217;aplicazione disegnata.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="achor-sec3_widget_library">Widget Library</h3>
+<div class="paragraph"><p>La Widget Library presenta una anteprima delle widget che è possibile introdurre nel progetto.
+La specifica di tali widget avviene in un file <a href="./schema.html">descrittore</a>, che permette la parametrizzazione dell&#8217;ambiente rispetto alle widget utilizzabili e al linguaggio di output.</p></div>
+</div>
+<div class="sect2">
+<h3 id="achor-sec3_Browser">Browser</h3>
+<div class="paragraph"><p>In questa area di lavoro l&#8217;utente può avere una evidenza di tutte le componenti correntemente instanziate all&#8217;interno del progetto, oltre a poterne selezionare una tra quelle elencate.</p></div>
+</div>
+<div class="sect2">
+<h3 id="achor-sec3_Inspector">Inspector</h3>
+<div class="paragraph"><p>L&#8217;ispector, riporta puntualmente tutte le caratteristiche della widget attualmente selezionata. Tali caratteristiche sono raggrupate in:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+dimensioni: per la visualizzazione e la modifica delle dimensioni di un widget;
+</p>
+</li>
+<li>
+<p>
+posizione: per la visualizzazione e la modifica della posizione di un widget;
+</p>
+</li>
+<li>
+<p>
+proprietà: per la visualizzazione e la modifica delle proprietà intrinseche di un widget;
+</p>
+</li>
+<li>
+<p>
+dipendenze: per la visualizzazione e la modifica dei vincoli di dipendenza di un widget.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Una proprietà rilevante è l&#8217;id del widget che ne identifica la particolare istanza all&#8217;interno del progetto.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="anchor-sec_workflow">Workflow operativo</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Di seguito si descrive una sessione operativa tipo di VisProWG, focalizzando sulle possibilità offerte all&#8217;utente dall&#8217;ambiente di visual programming.</p></div>
+<div class="sect2">
+<h3 id="anchor-sec3_costruzione_ui">Costruzione della UI</h3>
+<div class="paragraph"><p>Operando nella modalità <strong>view</strong> l&#8217;utente compone l&#8217;interfaccia grafica della propria applicazione agendo direttamente con un approccio visuale sulle componenti introdotte nel progetto.</p></div>
+<div class="paragraph"><p>Le operazioni utente fondamentali eseguibili direttamente sulle componenti o attraverso l&#8217;Inspector (al fine di ottenere una maggiore precisione), consistono in:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+inserimento di una widget;
+</p>
+</li>
+<li>
+<p>
+selezione di una widget;
+</p>
+</li>
+<li>
+<p>
+modifica di una widget o delle proprietà del workspace:
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+riposizionamento;
+</p>
+</li>
+<li>
+<p>
+ridimensionamento;
+</p>
+</li>
+<li>
+<p>
+z-ordering;
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+eliminazione di una widget;
+</p>
+</li>
+<li>
+<p>
+z-ordering.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Il sistema effettua verifiche sullo stato del progetto: in particolare controlla la condizione di sovrapposizione di due componenti.</p></div>
+<div class="sect3">
+<h4 id="_inserimento">Inserimento</h4>
+<div class="paragraph"><p>L&#8217;operazione di inserimento di un nuovo componente inizia selezionando dalla Widget Library il componente prescelto.</p></div>
+<div class="paragraph"><p>Sul componente selezionato nella Library può essere eseguita una operazione di Drag&amp;Drop nell&#8217;area Workspace.</p></div>
+<div class="paragraph"><p>Il componente viene quindi istanziato e posizionato nel punto di rilascio.</p></div>
+<div class="paragraph"><p>Il componente appena istanziato viene di default selezionato (bordo verde).</p></div>
+<div class="paragraph"><p>L&#8217;operazione di inserimento può essere eseguita più volte per introdurre tutte le componenti necessarie.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_selezione">Selezione</h4>
+<div class="paragraph"><p>La selezione di una widget può avvenire in due modalità:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+eseguendo un click sulla componente stessa nel Workspace;
+</p>
+</li>
+<li>
+<p>
+eseguendo un click sulla corrispondente voce del Browser.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Il widget selezionato viene evidenziato con un bordo verde nel Workspace, e il corrispettivo id viene reso con un carattere grassetto nel Browser.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_modifica">Modifica</h4>
+<div class="paragraph"><p>La modifica delle caratteristiche di un widget istanziato nel progetto può avvenire nell&#8217;Inspector o agendo direttamente nel Workspace per modificare proprietà grafiche (posizione, dimensione, z-order).</p></div>
+<div class="paragraph"><div class="title">Posizionamento</div><p><span class="image">
+<img src="images/screenshots/12.png" alt="Posizionamento di un widget" width="800">
+</span></p></div>
+<div class="paragraph"><p>Il posizionamento di un widget può essere eseguito agendo nel Workspace direttamente con una operazione di Drag&amp;Drop sul widget stesso, o via Inspector, agendo sulle proprietà <em>top</em> e <em>left</em> .</p></div>
+<div class="paragraph"><div class="title">Ridimensionamento</div><p><span class="image">
+<img src="images/screenshots/11_resize_anchor.png" alt="Ridimensionamento di un widget" width="800">
+</span></p></div>
+<div class="paragraph"><p>Il ridimensionamento di un widget può essere eseguito agendo nel Workspace direttamente con una operazione di Drag&amp;Drop sull&#8217;ancora di ridimensionamento (angolo in basso a sinistra del widget stesso) o via Inspector agendo sulle proprietà <em>width</em> e <em>height</em> .</p></div>
+<div class="paragraph"><p>Non tutti i widget sono ridimensionabili: un widget non ridimensionabile non è provvisto dell&#8217;ancora di ridimensionamento</p></div>
+<div class="paragraph"><p>È possibile eseguire l&#8217;operazione di ridimensionamento anche sul Workspace, che, come mostrato in figura, è infatti provvisto di ancora di ridimensionamento.</p></div>
+<div class="paragraph"><div class="title">Ridimensionamento con vincoli</div><p><span class="image">
+<img src="images/screenshots/12_resize_one_dim.png" alt="ridimensionamento con vincoli" width="800">
+</span></p></div>
+<div class="paragraph"><p>Taluni widget possono presentare un ridimensionamento vincolato ad una sola delle due dimensioni.</p></div>
+<div class="paragraph"><p>In tal caso il relativo campo nell&#8217;Inspector risulterà inattiva, quindi non utilizzabili per operare la modifica.</p></div>
+<div class="paragraph"><div class="title">Posizionamento e ridimensionamento con snap a griglia</div><p><span class="image">
+<img src="images/screenshots/18.png" alt="posizionamento e ridimensionamento con snap a griglia" width="800">
+</span></p></div>
+<div class="paragraph"><p>Agendo sul bottone <em>snap</em> nella <a href="#anchor-sec4-toolbar_workspace">Toolbar Workspace</a> è possibile attivare o disattivare il posizionamento e il ridimensionamento vincolato alla griglia.</p></div>
+<div class="paragraph"><p>Il passo della griglia è modificabile sempre nella Toolbar Workspace, come mostrato in figura.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_eliminazione_widget">Eliminazione widget</h4>
+<div class="paragraph"><p><span class="image">
+<img src="images/screenshots/16.png" alt="Elminazione widget" width="800">
+</span></p></div>
+<div class="paragraph"><p>Ogni componente inserito può essere eliminato previa selezione agendo sul bottone <em>Trash</em> presente nella <a href="#anchor-sec4-toolbar_widget">Toolbar Widget</a>.</p></div>
+<div class="paragraph"><p>L&#8217;eliminazione del componente avviene solo successivamente ad un esplicita conferma dell&#8217;utente.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_z_ordering">Z-ordering</h4>
+<div class="paragraph"><p><span class="image">
+<img src="images/screenshots/15.png" alt="z-ordering" width="800">
+</span></p></div>
+<div class="paragraph"><p>Lo z-order relativo delle componenti presenti all&#8217;interno del workspace può essere modificato selezionando un componente ed agendo sui bottoni <em>bottom</em>, <em>down</em>, <em>up</em>, <em>top</em> situati nella <a href="#anchor-sec4-toolbar_widget">Toolbar Widget</a>.</p></div>
+<div class="paragraph"><p>Il bottone <em>bottom</em> porta la componente selezionata dietro a tutte le altre istanziate nel progetto.</p></div>
+<div class="paragraph"><p>Il bottone <em>down</em> porta la componente selezionata dietro alla componente ad essa immediatamente retrostante.</p></div>
+<div class="paragraph"><p>Il bottone <em>up</em> porta la componente selezionata davanti alla componente ad essa immediatamente antistante.</p></div>
+<div class="paragraph"><p>Il bottone <em>top</em> porta la componente selezionata dietro a tutte le altre istanziate nel progetto.</p></div>
+<div class="paragraph"><div class="title">Controllo di sovrapposizione</div><p>VisProWG esegue un controllo costante sulle posizioni delle componenti: la condizione di sovrapposizione di due widget è immediatamente notificata (figure precedenti) con un bordo rosso.</p></div>
+<div class="paragraph"><p>Una leggera trasparenza viene applicata i widget sovrapposti per consentire di individuarne di eventualmente nascosti.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="anchor-sec3_definizione_dip">Definizione delle dipendenze</h3>
+<div class="paragraph"><p>Ogni widget presenta zero o più dipendenze funzionali verso altre widget di un certo tipo.</p></div>
+<div class="paragraph"><p>L&#8217;utente può definire in quale modo soddisfare una dipendenza utilizzando la modalità operativa <strong>link</strong> o agendo sull&#8217;inspector nel gruppo <em>dipendenze</em>.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<img src="./images/icons/warning.png" alt="Warning">
+</td>
+<td class="content">
+<div class="paragraph"><p>Ognuna delle dipendenze funzionali di una widget può essere opzionale o mandatoria.</p></div>
+<div class="paragraph"><p>In caso di dipendenza funzionale mandatoria non soddisfatta, VisProWG non genera il codice dell&#8217;applicazione ma avverte l&#8217;utente delle mancate relazioni.</p></div>
+</td>
+</tr></table>
+</div>
+<div class="paragraph"><div class="title">Grafo delle dipendenze</div><p>Nella modalità operativa <strong>link</strong> l&#8217;utente definisce come soddisfare le dipendenze funzionali, andando a specificare un DAG (grafo diretto aciclico) delle dipendenze.</p></div>
+<div class="paragraph"><p>In tale grafo le widget instanziate sono rappresentate da nodi, mentre gli archi orientati, ovvero coppie ordinate di nodi (i,j), rappresentano che la dipendenza del widget i è soddisfatta dal widget j.</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="images/screenshots/05.png" alt="Linker" width="800">
+</span></p></div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph"><div class="title">Link:</div><p>Un arco o <em>link</em> specifica quindi la risoluzione di una dipendenza funzionale di un componente verso un&#8217;altro.</p></div>
+</div></div>
+<div class="paragraph"><p><span class="image">
+<img src="images/screenshots/02.png" alt="Link" width="800">
+</span></p></div>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph"><div class="title">Linker:</div><p>Un nodo o <em>linker</em> è un elemento attivo su cui l&#8217;utente può agire al fine di creare un link tra due widget.</p></div>
+</div></div>
+<div class="sect3">
+<h4 id="_creazione_link">Creazione link</h4>
+<div class="paragraph"><p><span class="image">
+<img src="images/screenshots/07.png" alt="Creazione di un link" width="800">
+</span></p></div>
+<div class="paragraph"><p>L&#8217;utente può introdurre un link tra due widget agendo tramite Drag&amp;Drop sul linker del widget origine. Il linker del widget destinazione del link sarà quindi l&#8217;area su cui effettuare il Drop.</p></div>
+<div class="paragraph"><p>Durante il trascinamento, i linker dei widget che possono accettare il link danno riscontro di tale possibilità diventando verdi e più grandi. Al contrario, i linker dei widget che non possono accettare il link si disattivano, diventando grigi.</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="images/screenshots/05.png" alt="Verso del link" width="800">
+</span></p></div>
+<div class="paragraph"><p>Una volta effettettuato una freccia nel mezzo del link indicherà il verso dello stesso.</p></div>
+<div class="paragraph"><div class="title">Creazione link dall&#8217;Inspector</div><p><span class="image">
+<img src="images/screenshots/06.png" alt="Creazione di un link dall&#8217;Inspector" width="800">
+</span></p></div>
+<div class="paragraph"><p>L&#8217;utente può generare un link anche senza passare alla modalità operativa <strong>link</strong> ma agendo direttamente dall&#8217;Inspector sulle <em>dipendences</em>, selezionando dal menu a tendina l&#8217;id del widget verso cui si vuole creare il link.</p></div>
+<div class="paragraph"><div class="title">Creazione link multipli</div><p>Ogni widget può avere multipli archi entranti, ovvero link multipli. Tale circostanza viene a significare che tale widget soddisfa la dipendenza funzionale di molteplici widget.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_eliminazione_link">Eliminazione link</h4>
+<div class="paragraph"><p><span class="image">
+<img src="images/screenshots/08.png" alt="Feedback visivo eliminazione link" width="800">
+</span></p></div>
+<div class="paragraph"><p>Per eliminare un link l&#8217;utente porta il mouse sulla freccia che indica la direzione del link da eliminare.</p></div>
+<div class="paragraph"><p>La freccia che indica il verso del link diventa una <em>X</em>.</p></div>
+<div class="paragraph"><p>Un click del mouse su tale <em>X</em> elimina il link.</p></div>
+<div class="paragraph"><div class="title">Eliminazione link dall&#8217;Inspector</div><p>L&#8217;eliminazione, così come la creazione di un link può avvenire direttamente dall&#8217;Inspector, nell&#8217;area <em>dipendences</em>.</p></div>
+<div class="paragraph"><p>In tal caso l&#8217;utente deve selezionare la voce nulla dal menu a tendina.</p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="anchor-generazione_codice">Generazione codice</h3>
+<div class="paragraph"><p>Ultimata la composizione dell&#8217;applicazione, l&#8217;utente può passate alla modalità operativa <strong>code</strong> nella quale viene presentato il codice relativo all&#8217;applicazione da esso creata.</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="images/screenshots/04.png" alt="Generazione del codice" width="800">
+</span></p></div>
+<div class="paragraph"><p>La vista presentata all&#8217;utente è divisa in due parti:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+prelevamento del codice [1];
+</p>
+</li>
+<li>
+<p>
+<a href="#achor-sec4_salvataggio_stato">salvataggio dello stato</a> (descritto in seguito).
+</p>
+</li>
+</ul></div>
+<div class="sect3">
+<h4 id="_validazione">Validazione</h4>
+<div class="paragraph"><p>Prima di presentare il codice generato, VisProWG provvede ad effettuare un controllo di consistenza circa il soddisfacimento di tutte le dipendenze funzionali mandatorie.</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="images/screenshots/04_log.png" alt="Log" width="800">
+</span></p></div>
+<div class="paragraph"><p>Qualora non fosse soddisfatta la totalità di quest&#8217;ultime, invece di presentare il codice, VIsProGW fornisce una indicazione circa quali dipendenze soddisfare per arrivare ad avere uno stato valido.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_esportazione_del_codice">Esportazione del codice</h4>
+<div class="paragraph"><p>Il codice presentato può essere comodamente copiato negli appunti mediante l&#8217;apposito bottone.</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="images/screenshots/09.png" alt="Copy code to clipboard (1)" width="800">
+</span></p></div>
+<div class="paragraph"><p>Una finestra di alert notifica all&#8217;utente il successo dell;operazione di copia.</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="images/screenshots/10.png" alt="Copy code to clipboard (2)" width="800">
+</span></p></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_gestione_dello_stato_di_un_progetto">Gestione dello stato di un progetto</h3>
+<div class="paragraph"><p>Lo stato del progetto è gestito dalla <a href="#achor-sec3_toolbar_applicazione">Toolbar Appliczione</a>.</p></div>
+<div class="sect3">
+<h4 id="_nuovo_progetto">Nuovo progetto</h4>
+<div class="paragraph"><p><span class="image">
+<img src="images/screenshots/19.png" alt="New" width="800">
+</span></p></div>
+<div class="paragraph"><p>L&#8217;apertura di un nuovo prgetto vuoto avviene agendo sul pulsante <em>New</em>.</p></div>
+<div class="paragraph"><p>Un alert ricorda all&#8217;utente che tutte le modifiche non ancora salvate andranno perse.</p></div>
+</div>
+<div class="sect3">
+<h4 id="achor-sec4_salvataggio_stato">Salvataggio dello stato</h4>
+<div class="paragraph"><p><span class="image">
+<img src="images/screenshots/09_save.png" alt="Save" width="800">
+</span></p></div>
+<div class="paragraph"><p>Lo stato corrente del progetto può essere salvato in ogni momento agendo sul bottone <em>Save</em>.</p></div>
+<div class="paragraph"><p>La stringa rappresentante lo stato corrente del progetto viene presentata subito sotto alla schermata per il prelevamento del codice e allo stesso modo può essere copiata negli appunti, agendo li dove indicato in figura.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_ripristino_dello_stato">Ripristino dello stato</h4>
+<div class="paragraph"><p><span class="image">
+<img src="images/screenshots/20.png" alt="Load" width="800">
+</span></p></div>
+<div class="paragraph"><p>Lo stato di un progetto può esssere ripristinato in qualunque momento agendo sul bottone <em>Load</em>.</p></div>
+<div class="paragraph"><p>Viene presentata una finestra nella quale si richiede all&#8217;utente di inserire la stringa che descrive lo stato salvato.</p></div>
+<div class="paragraph"><p>Effettuato il ripristino dello stato l&#8217;utente può continuare a lavorare normalmente sul progetto.</p></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr></div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2011-10-02 15:58:58 CEST
+</div>
+</div>
+</body>
+</html>
