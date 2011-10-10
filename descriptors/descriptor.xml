@@ -73,7 +73,7 @@ var <%= id %> = new geopoi.maps.Map("<%= id %>");
             <code>
                 <insert match="html">
 <![CDATA[
-<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>" ></div>
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
@@ -113,7 +113,7 @@ var <%= id %> = geopoi.sdk.zoom("<%= id %>", {
             <code>
                 <insert match="html">
 <![CDATA[
-<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
@@ -153,7 +153,7 @@ var <%= id %> = geopoi.sdk.zoom("<%= id %>", {
             <code>
                 <insert match="html">
 <![CDATA[
-<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>" ></div>
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
@@ -193,7 +193,7 @@ var <%= id %> = geopoi.sdk.zoom("<%= id %>", {
             <code>
                 <insert match="html">
 <![CDATA[
-<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
@@ -233,7 +233,7 @@ var <%= id %> = geopoi.sdk.zoom("<%= id %>", {
             <code>
                 <insert match="html">
 <![CDATA[
-<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; z-index: <%= zIndex %>"></div>
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
@@ -275,7 +275,7 @@ var <%= id %> = geopoi.sdk.infoDiv("<%= id %>", {
             <code>
                 <insert match="html">
 <![CDATA[
-<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; z-index: <%= zIndex %>"></div>
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
@@ -317,7 +317,7 @@ var <%= id %> = geopoi.sdk.search("<%= id %>", {
             <code>
                 <insert match="html">
 <![CDATA[
-<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; z-index: <%= zIndex %>"></div>
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
@@ -355,8 +355,8 @@ var <%= id %> = geopoi.sdk.search("<%= id %>", {
             </properties>
             <code>
                 <insert match="html">
-<![CDATA[ 
-    <div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
+<![CDATA[
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
@@ -394,8 +394,8 @@ var <%= id %> = geopoi.sdk.pan("<%= id %>", {
             </properties>
             <code>
                 <insert match="html">
-<![CDATA[ 
-    <div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
+<![CDATA[
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
@@ -433,7 +433,7 @@ var <%= id %> = geopoi.sdk.pan("<%= id %>", {
             <code>
                 <insert match="html">
 <![CDATA[
-<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
@@ -470,7 +470,7 @@ var <%= id %> = geopoi.sdk.starOfDistance("<%= id %>", {
             <code>
                 <insert match="html">
 <![CDATA[
-<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
@@ -507,7 +507,7 @@ var <%= id %> = geopoi.sdk.center("<%= id %>", {
             <code>
                 <insert match="html">
 <![CDATA[
-<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
@@ -544,7 +544,7 @@ var <%= id %> = geopoi.sdk.zoomint("<%= id %>", {
             <code>
                 <insert match="html">
 <![CDATA[
-<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
@@ -581,7 +581,7 @@ var <%= id %> = geopoi.sdk.convexhull("<%= id %>", {
             <code>
                 <insert match="html">
 <![CDATA[
-<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
@@ -618,7 +618,7 @@ var <%= id %> = geopoi.sdk.switchRaster("<%= id %>", {
             <code>
                 <insert match="html">
 <![CDATA[
-<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
@@ -655,7 +655,7 @@ var <%= id %> = geopoi.sdk.coordconv("<%= id %>", {
             <code>
                 <insert match="html">
 <![CDATA[
-<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
@@ -692,7 +692,7 @@ var <%= id %> = geopoi.sdk.mousecoord("<%= id %>", {
             <code>
                 <insert match="html">
 <![CDATA[
-<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
@@ -730,7 +730,7 @@ var <%= id %> = geopoi.sdk.poisize("<%= id %>", {
             <code>
                 <insert match="html">
 <![CDATA[
-<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
@@ -767,7 +767,7 @@ var <%= id %> = geopoi.sdk.poisize("<%= id %>", {
             <code>
                 <insert match="html">
 <![CDATA[
-<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
@@ -802,7 +802,7 @@ var <%= id %> = geopoi.sdk.searchPath("<%= id %>", {
             <code>
                 <insert match="html">
 <![CDATA[
-<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
@@ -837,7 +837,7 @@ var <%= id %> = geopoi.sdk.macronavtab("<%= id %>", {
             <code>
                 <insert match="html">
 <![CDATA[
-<div id="<%= id %>" style="position:absolute; top:<%= top %>px; left:<%= left %>px; z-index: <%= zIndex %>"></div>
+<div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
                 <insert match="js">
