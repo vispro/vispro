@@ -282,7 +282,7 @@ var <%= id %> = geopoi.sdk.infoDiv("<%= id %>", {
 <![CDATA[
 var <%= id %> = geopoi.sdk.search("<%= id %>", {
         map: <%= request_map %>,
-        tooltip: <%= tooltip %>
+        tooltip: <%= tooltip %>,
         opt: false,
         infoDiv: <%= req_info %>
     });
@@ -324,7 +324,7 @@ var <%= id %> = geopoi.sdk.search("<%= id %>", {
 <![CDATA[
 var <%= id %> = geopoi.sdk.search("<%= id %>", {
         map: <%= request_map %>,
-        tooltip: <%= tooltip %>
+        tooltip: <%= tooltip %>,
         opt: true,
         infoDiv: <%= req_info %>
     });
