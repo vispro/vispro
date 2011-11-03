@@ -35,11 +35,7 @@
                 <height value="300" min="10" max="600" resizable="true"/>
             </dimensions>
             <dependencies></dependencies>
-            <properties>
-                <number name="Zoom" label="Initaial zoom level" default="13" min="0" max="18"/>
-                <number name="East" label="Initaial EAST Coordinate" default="12" decimals="2"/>
-                <number name="North" label="Initaial NORTH Cordinate" default="41.83" min="-179.99" max="179.9" decimals="2"/>
-            </properties>
+            <properties></properties>
             <code>
                 <insert match="html">
 <![CDATA[
