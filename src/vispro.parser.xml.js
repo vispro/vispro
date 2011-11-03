@@ -1,3 +1,8 @@
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
 vispro.parser.XML = Backbone.Model.extend({
 
     parse: function (vispro_descriptor_xml, callback, context) {

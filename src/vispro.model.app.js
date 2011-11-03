@@ -1,3 +1,8 @@
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
 vispro.model.App = Backbone.Model.extend({
 
     initialize: function (attributes, options) {

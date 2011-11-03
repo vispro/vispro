@@ -1,3 +1,8 @@
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
 vispro.model.DescriptorList = Backbone.Collection.extend({
 
     localStorage: new Store("vispro.model.DescriptorList"),
