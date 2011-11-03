@@ -119,6 +119,12 @@ vispro.parser.XML = Backbone.Model.extend({
                 property.type = j_xml_property_node[0].nodeName;
                 // property.value = attrs['default'] === 'true';
                 property.value = attrs['default'];
+                if (property.type === 'number') {
+                    property.min = attrs['min'] || Number.NEGATIVE_INFINITY;
+                    property.max = attrs['max'] || Number.POSITIVE_INFINITY;
+                    property.decimals = attrs['decimals'] || 0;
+                }
+                property.default_value = attrs['default'];
                 property.writable = true;
             });
 

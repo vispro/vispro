@@ -49,7 +49,8 @@ vispro.view.Inspector = Backbone.View.extend({
                 '<span class="inspector-property-label"><%= name %></span>' +
                 '<input type="<%= (property.type === "bool" ? "checkbox" : property.type) %>" ' + 
                     'class="inspector-input inspector-property" ' + 
-                    'data-name="<%= name %>" data-type="<%= property.type %>" />' +
+                    'data-name="<%= name %>" data-type="<%= property.type %>"' +
+                    '<%= property.decimals ? "step=" + Math.pow(10,-1*property.decimals) : "" %> />' +
                 '</div>' + 
 
         '<% }, this); %>' + 
@@ -290,11 +291,10 @@ vispro.view.Inspector = Backbone.View.extend({
             target = $(event.target),
             name = target.attr('data-name'),
             type = target.attr('data-type'),
-            value = type === 'bool' ? target.is(':checked') : target.val(),
-            obj = {};
-        
-        obj[name] = value;
-        model.set(obj);
+            is_bool = type === 'bool',
+            value =  is_bool ? target.is(':checked') : target.val();
+
+        model.setProperty(name, value);
 
         return this;
     },
@@ -324,7 +324,7 @@ vispro.view.Inspector = Backbone.View.extend({
         'change .inspector-input[data-name="top"]': 'change_position',
         'change .inspector-input[data-name="left"]': 'change_position',
         'change .inspector-input[data-name="id"]': 'change_id',
-        'change .inspector-property': 'change_property',
+        'change input.inspector-property': 'change_property',
         'change .inspector-dependency': 'change_dependency'
     }
 

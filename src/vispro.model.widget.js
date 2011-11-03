@@ -76,9 +76,39 @@ vispro.model.Widget = Backbone.Model.extend({
         return this;
     },
 
+    setOneProperty: function (name, value) {
+        var property = this.descriptor.properties[name],
+            type = property.type,
+            decimals = property.decimals,
+            obj = {};
+        
+        if (type === 'number') {
+            var min = property.min,
+                max = property.max,
+                old_value = this.get(name),
+                value = Number(value.replace(/[,\/#!$%\^&\*;:{}=_`~()]/g,'aa')) || old_value,
+                exp = Math.pow(10, decimals);
+            
+            value = value >= min && value <= max ? Math.round(value*exp)/exp : old_value;
+
+        }
+
+        obj[name] = value;
+        this.attributes[name] = value;
+        this.trigger('change', obj);
+
+        return this;
+    },
+
     setProperty: function (name, value) {
 
-        this.attributes[name] = value;
+        if (typeof(name) === 'object' && !value) {
+            _(name).each(function (value, name) {
+                this.setOneProperty(name, value);
+            }, this);
+        }  else {
+            this.setOneProperty(name, value);
+        }
 
         return this;
     },
@@ -262,10 +292,10 @@ vispro.model.Widget = Backbone.Model.extend({
         var grid = this.grid,
             snap = this.snap,
             halfGrid = Math.floor(grid / 2),
-            left = position.left,
-            top = position.top,
-            newPositionLeft = left + halfGrid, 
-            newPositionTop = top + halfGrid,
+            left = Math.round(position.left),
+            top = Math.round(position.top),
+            newPositionLeft = left + ((left>=0)*2-1) * halfGrid, 
+            newPositionTop = top + ((top>=0)*2-1) * halfGrid,
             oldPosition = this.position,
             oldPositionLeft = oldPosition.left,
             oldPositionTop = oldPosition.top,
@@ -299,8 +329,8 @@ vispro.model.Widget = Backbone.Model.extend({
             snap = this.snap,
             widget_dimensions = this.dimensions,
             widget_position = this.position,
-            width = dimensions.width || 0,
-            height = dimensions.height || 0,
+            width = Math.round(dimensions.width) || 0,
+            height = Math.round(dimensions.height) || 0,
             halfGrid = Math.floor(grid / 2),
             preSnappedWidth = width + halfGrid,
             preSnappedHeight = height + halfGrid,

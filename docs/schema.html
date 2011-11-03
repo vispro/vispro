@@ -2,19 +2,9 @@
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="generator" content="AsciiDoc 8.6.5">
+<meta name="generator" content="AsciiDoc 8.6.6">
 <title></title>
 <style type="text/css">
-/*
- * AsciiDoc 'flask' theme for xhtml11 and html5 backends. A shameless knock-off
- * of the Flask website styling (http://flask.pocoo.org/docs/).
- *
- * The implementation is straight-forward, consisting of the asciidoc.css file
- * followed by theme specific overrides.
- *
- * */
-
-
 /* Shared CSS for AsciiDoc xhtml11 and html5 backends */
 
 /* Default font. */
@@ -526,6 +516,29 @@ th.tableblock.valign-bottom, td.tableblock.valign-bottom {
 
 
 /*
+ * manpage specific
+ *
+ * */
+
+body.manpage h1 {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-top: 2px solid silver;
+  border-bottom: 2px solid silver;
+}
+body.manpage h2 {
+  border-style: none;
+}
+body.manpage div.sectionbody {
+  margin-left: 3em;
+}
+
+@media print {
+  body.manpage div#toc { display: none; }
+}
+
+
+/*
  * Theme specific overrides of the preceding (asciidoc.css) CSS.
  *
  */
@@ -551,7 +564,7 @@ h1 { font-size: 240%; }
 h2 { font-size: 180%; }
 h3 { font-size: 150%; }
 h4 { font-size: 130%; }
-h5 { font-size: 100%; }
+h5 { font-size: 115%; }
 h6 { font-size: 100%; }
 #header h1 { margin-top: 0; }
 #toc {
@@ -662,7 +675,7 @@ toc: function (toclevels) {
   var i;
   for (i = 0; i < toc.childNodes.length; i++) {
     var entry = toc.childNodes[i];
-    if (entry.nodeName == 'DIV'
+    if (entry.nodeName == 'div'
      && entry.getAttribute("class")
      && entry.getAttribute("class").match(/^toclevel/))
       tocEntriesToRemove.push(entry);
@@ -708,7 +721,7 @@ footnotes: function () {
   var entriesToRemove = [];
   for (i = 0; i < noteholder.childNodes.length; i++) {
     var entry = noteholder.childNodes[i];
-    if (entry.nodeName == 'DIV' && entry.getAttribute("class") == "footnote")
+    if (entry.nodeName == 'div' && entry.getAttribute("class") == "footnote")
       entriesToRemove.push(entry);
   }
   for (i = 0; i < entriesToRemove.length; i++) {
@@ -840,7 +853,7 @@ lo schema XML per VisProGW, descritto in dettaglio nel seguito.
 </ul></div>
 <div class="listingblock">
 <div class="title">Scheletro del file XML</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+<div class="content"><!-- Generator: GNU source-highlight 3.1.5
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -888,7 +901,7 @@ Il nodo <span class="monospaced">&lt;types&gt;</span> non contiene attributi, ma
 </ul></div>
 <div class="listingblock">
 <div class="title">Esempio di Tipi</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+<div class="content"><!-- Generator: GNU source-highlight 3.1.5
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -963,7 +976,7 @@ In questo modo, non &egrave; possibile definire widget appartenenti ad un <em>ti
 Il meccanismo <span class="monospaced">xs:ID</span>/<span class="monospaced">xs:IDREF</span> permette di rilevare questo tipo di incongruenze al tempo di validazione del documento XML. :)</p></div>
 <div class="listingblock">
 <div class="title">Scheletro di un widget</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+<div class="content"><!-- Generator: GNU source-highlight 3.1.5
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -1033,7 +1046,7 @@ http://www.gnu.org/software/src-highlite -->
 </ul></div>
 <div class="listingblock">
 <div class="title">Esempio di dimensions</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+<div class="content"><!-- Generator: GNU source-highlight 3.1.5
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -1094,7 +1107,7 @@ ovvero una anteprima della widget quando l&#8217;appilcazione generata sar&amp;a
 <div class="paragraph"><p>e un nodo <span class="monospaced">&lt;description&gt;</span> che contiene una stringa che fornisce una descrizione testuale della dipendenza.</p></div>
 <div class="listingblock">
 <div class="title">Esempio di dependency</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+<div class="content"><!-- Generator: GNU source-highlight 3.1.5
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -1132,7 +1145,7 @@ tale dipendenza opzionale, con nome <span class="monospaced">reqinfo</span>, ha 
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>Inoltre, i nodi <span class="monospaced">&lt;number&gt;</span> contentono i seguenti attributi:</p></div>
+<div class="paragraph"><p>Inoltre, i nodi <span class="monospaced">&lt;number&gt;</span> contengono i seguenti attributi:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
@@ -1141,7 +1154,12 @@ tale dipendenza opzionale, con nome <span class="monospaced">reqinfo</span>, ha 
 </li>
 <li>
 <p>
-<span class="monospaced">max</span>: attributo <em>opzionale</em>, indica un valore massimo della propriet&agrave;.
+<span class="monospaced">max</span>: attributo <em>opzionale</em>, indica un valore massimo della propriet&agrave;;
+</p>
+</li>
+<li>
+<p>
+<span class="monospaced">decimals</span>: attributo <em>opzionale</em>, indica il numero di cifre decimali con cui rappresentare la proprietà, per default vale 0.
 </p>
 </li>
 </ul></div>
@@ -1202,7 +1220,7 @@ Lo zIndex della widget (definito dal valore <span class="monospaced">zIndex</spa
 <div class="paragraph"><p>I punti di inserzione nei codici sono definiti da etichette (stringhe semplici, senza spazi intermedi) racchiuse da i simboli &lt;%= e %&gt;.</p></div>
 <div class="listingblock">
 <div class="title">Esempio di codice da generare</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+<div class="content"><!-- Generator: GNU source-highlight 3.1.5
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -1256,7 +1274,7 @@ angolate con segno d&#8217;uguaglianza.</p></div>
 un file HTML.</p></div>
 <div class="listingblock">
 <div class="title">Esempio di codice</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+<div class="content"><!-- Generator: GNU source-highlight 3.1.5
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -1282,7 +1300,7 @@ http://www.gnu.org/software/src-highlite -->
 verr&agrave; riportato nella sezione successiva.</p></div>
 <div class="listingblock">
 <div class="title">Esempio completo di XML</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+<div class="content"><!-- Generator: GNU source-highlight 3.1.5
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -1396,7 +1414,7 @@ riporta di seguito lo schema grafico.</p></div>
 diagrammi nella sezione precedente.</p></div>
 <div class="listingblock">
 <div class="title">XML schema completo</div>
-<div class="content"><!-- Generator: GNU source-highlight 3.1.4
+<div class="content"><!-- Generator: GNU source-highlight 3.1.5
 by Lorenzo Bettini
 http://www.lorenzobettini.it
 http://www.gnu.org/software/src-highlite -->
@@ -1642,7 +1660,7 @@ http://www.gnu.org/software/src-highlite -->
 <div id="footnotes"><hr></div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2011-10-02 15:51:50 CEST
+Last updated 2011-11-03 18:12:59 CET
 </div>
 </div>
 </body>
