@@ -1,9 +1,14 @@
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
 vispro.view.DescriptorList = Backbone.View.extend({
 
     el: $(
-        '<div class="collection-descriptor panel">' + 
-        '   <div class="collection-descriptor-label panel-label ui-layout-north">Widgets</div>' + 
-        '   <div class="collection-descriptor-list panel-list ui-layout-center"></div>' + 
+        '<div class="panel descriptor">' + 
+            '<div class="panel-label descriptor ui-layout-north gradient-silver">Widgets</div>' + 
+            '<div class="panel-list descriptor ui-layout-center"></div>' + 
         '</div>'
     ),
 
@@ -13,7 +18,7 @@ vispro.view.DescriptorList = Backbone.View.extend({
             workspace = options.model,
             collection = workspace.descriptorList,
             element = this.el,
-            viewList = $(element.find('.collection-descriptor-list'));
+            viewList = $(element.find('.panel-list'));
         
         element
             .appendTo(root)
@@ -26,11 +31,7 @@ vispro.view.DescriptorList = Backbone.View.extend({
         
         collection
             .bind('add', this.add, this);
-
-        workspace
-            .bind('change_state', this.setState, this)
-            .bind('remode', this.remode, this);
-        
+                
         this.collection = collection;
         this.workspace = workspace;
         this.element = element;
@@ -84,26 +85,15 @@ vispro.view.DescriptorList = Backbone.View.extend({
 
     enable: function () {
         
-        this.viewList.cover('disable');
+        this.element.cover('disable');
         
         return this;
     },
 
     disable: function () {
         
-        this.viewList.cover('enable');
+        this.element.cover('enable');
         
-        return this;
-    },
-
-    remode: function (mode) {
-        
-        if (mode === 'view') {
-            this.enable();
-        } else {
-            this.disable();
-        }
-
         return this;
     }
     

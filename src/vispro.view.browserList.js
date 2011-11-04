@@ -1,9 +1,14 @@
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
 vispro.view.BrowserList = Backbone.View.extend({
 
     el: $(
-        '<div class="collection-widget-browser panel">' + 
-            '<div class="collection-widget-browser-label panel-label ui-layout-north">Browser</div>' +
-            '<div class="collection-widget-browser-list panel-list ui-layout-center"></div>' +
+        '<div class="panel browser">' + 
+            '<div class="panel-label browser ui-layout-north gradient-silver">Browser</div>' +
+            '<div class="panel-list browser ui-layout-center"></div>' +
         '</div>'
     ),
 
@@ -63,14 +68,14 @@ vispro.view.BrowserList = Backbone.View.extend({
 
     enable: function () {
                 
-        this.viewList.cover('disable');
+        this.element.cover('disable');
 
         return this;
     },
 
     disable: function () {
         
-        this.viewList.cover('enable');
+        this.element.cover('enable');
 
         return this;
     },

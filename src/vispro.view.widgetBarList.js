@@ -1,8 +1,13 @@
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
 vispro.view.WidgetBarList = Backbone.View.extend({
 
-    tagName: 'div',
+    tagName: 'span',
 
-    className: 'widgetbar-list',
+    className: 'toolbar-list widget',
 
     initialize: function (attributes, options) {
 
@@ -38,6 +43,7 @@ vispro.view.WidgetBarList = Backbone.View.extend({
         
         var view = new vispro.view.WidgetBar({}, {
             model: widget,
+            workspace: this.workspace,
             root: this.element
         });
 

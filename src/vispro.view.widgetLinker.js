@@ -1,3 +1,8 @@
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
 vispro.view.WidgetLinker = Backbone.View.extend({
     
     tagName: 'div',
@@ -18,6 +23,7 @@ vispro.view.WidgetLinker = Backbone.View.extend({
             x = left + width / 2,
             y = top + height / 2,
             radius = 6,
+            highlighted_radius = 9,
             position = {left: x, top: y},
             helper = $('<div>');
         
@@ -29,8 +35,8 @@ vispro.view.WidgetLinker = Backbone.View.extend({
             .data('linker', this)
             .css({
                 position: 'absolute',
-                top: y - radius,
-                left: x - radius,
+                top: y - radius - 1,
+                left: x - radius - 1,
                 width: 2 * radius,
                 height: 2 * radius,
                 'z-index': '1000000'
@@ -46,23 +52,80 @@ vispro.view.WidgetLinker = Backbone.View.extend({
                 accept: '.linker',
                 tolerance: 'touch'
             });
-
+        
+        this.element = element;
         this.container = container;
         this.model = model;
         this.position = position;
         this.dimensions = 
         this.radius = radius;
+        this.highlighted_radius = highlighted_radius;
+
+        return this;
+    },
+
+    enable: function (types) {
+        
+        var element = this.element,
+            position, highlighted_radius,
+            widget_type = this.model.type,
+            test = _(types).any(function (type) {
+                return widget_type === type;
+            });
+
+        if (test) {
+            position = this.position;
+            highlighted_radius = this.highlighted_radius;
+
+            element.css({
+                left: position.left - highlighted_radius - 1,
+                top: position.top - highlighted_radius - 1,
+                width: 2 * highlighted_radius,
+                height: 2 * highlighted_radius
+            });
+
+            element.addClass('linker-enabled');
+        } else {
+            element.addClass('linker-disabled');
+        }
+
+        return this;  
+    },
+
+    disable: function () {
+
+        var element = this.element,
+            position = this.position,
+            radius = this.radius;
+
+        element
+            .css({
+                left: position.left - radius - 1,
+                top: position.top - radius - 1,
+                width: 2 * radius,
+                height: 2 * radius
+            })
+            .removeClass('linker-enabled linker-disabled');
 
         return this;
     },
 
     onDragstart: function (event, ui) {
         
+        var types = _(this.model.dependencies).keys();
+
+        this.element.addClass('linker-linking');
+
+        this.container.startLink(types);
     },
     
     onDragstop: function (event, ui) {
 
-        this.container.render();
+        this.element.removeClass('linker-linking');
+
+        this.container
+            .stopLink()
+            .render();
     },
 
     onDrag: function (event, ui) {

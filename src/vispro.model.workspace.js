@@ -1,4 +1,9 @@
-vispro.model.Workspace = Backbone.Model.extend({
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
+ vispro.model.Workspace = Backbone.Model.extend({
     
     initialize: function (attributes, options) {
         
@@ -7,11 +12,13 @@ vispro.model.Workspace = Backbone.Model.extend({
         this.ids = {};
         this.dimensions = { width: 800, height: 450 };
         this.grid = 15;
-        this.snap = false;
+        this.snap = true;
         this.zIndex = 0;
+        this.parser = new vispro.parser.XML();
         this.widgetList = new vispro.model.WidgetList();
         this.descriptorList = new vispro.model.DescriptorList();
-        
+        this.modes = ['view', 'link', 'code'];
+
         return this;
     },
 
@@ -21,9 +28,22 @@ vispro.model.Workspace = Backbone.Model.extend({
             this.ids[type] = 0;
         }
 
-        var id = this.ids[type] += 1;
+        var id_seq = this.ids[type] += 1,
+            id = type + '_' + id_seq;
 
-        return type + '_' + id;
+        while ( ! this.validateId(id)) {
+            id_seq = this.ids[type] += 1;
+            id = type + '_' + id_seq;
+        }
+
+        return id;
+    },
+
+    validateId: function (id) {
+        
+        return ! this.widgetList.any(function (widget) { 
+                return widget.id == id;
+            });
     },
     
     createWidget: function (descriptor) {
@@ -137,6 +157,11 @@ vispro.model.Workspace = Backbone.Model.extend({
         return test;
     },
 
+    overlap: function () {
+        
+        this.widgetList.overlap();
+    },
+
     getLog: function () {
         var log = '';
 
@@ -147,76 +172,79 @@ vispro.model.Workspace = Backbone.Model.extend({
         return log;
     },
 
-    load: function (descriptor, state) {
+    create: function (url) {
         
-        this.descriptorList.addAll(descriptor.descriptorList);
-        this.template = descriptor.template;
+        var parser = this.parser;
 
-        if (state) {
-            this.restore(state);
+        function onSuccess (xml) {
+            
+            var descriptor = parser.parse(xml);
+
+            this.url = url;
+
+            this
+                .load_descriptor(descriptor)
+                .remode('view');
         }
+
+        function onFailure (error) {
+
+            console.error(error);
+        }
+
+        $.ajax({
+            url: url,
+            context: this,
+            dataType: 'xml',
+            success: onSuccess,
+            failure: onFailure
+        });
 
         return this;
     },
 
     unload: function () {
 
-        var wl = this.widgetList,
-            dl = this.descriptorList;
-
-        wl.remove(_.extend([], wl.models));
-        dl.remove(_.extend([], dl.models));
+        this.widgetList.empty();
+        this.descriptorList.empty();
 
         return this;
     },
 
-    save: function () {
-
-        var that = this,
-            state = {
-                workspace: {},
-                widgetList: null
-            },
-            widgetList = state.widgetList,
-            workspace = state.workspace,
-            state_properties = ['dimensions', 'grid', 'ids', 'snap'];
-
-        _(state_properties)
-            .each(function(property) {
-                workspace[property] = that[property] ;
-            }, this);
-
-        state.widgetList = this.widgetList.save();
+    load_descriptor: function (descriptor) {
         
-        return state;
+        this.descriptorList.addAll(descriptor.descriptorList);
+        this.template = descriptor.template;
+
+        return this;
     },
 
-    restore: function (state) {
+    load_state: function (state) {
 
         var workspace = state.workspace,
-            descriptorList = this.descriptorList,
-            descriptor;
+            descriptorList = this.descriptorList;
 
         this.ids = {};
         this.snap = false;
 
         _(state.widgetList)
             .each(function (widget_state) {
-                descriptor = descriptorList.getByName(widget_state.name);
-                this.restoreWidget(widget_state, descriptor[0]);
+                var descriptor = descriptorList.getByName(widget_state.name);
+                this.load_widget(widget_state, descriptor[0]);
             }, this);
 
-        this.ids = workspace.ids
+        this.ids = workspace.ids;
         this.resize(workspace.dimensions);
         this.regrid(workspace.grid);
         this.resnap(workspace.snap);
+        this.remode('view');
 
         this.select();
 
         return this;
     },
-    
-    restoreWidget: function (widget_state, descriptor) {
+
+    load_widget: function (widget_state, descriptor) {
 
         var widget = this.createWidget(descriptor);
 
@@ -225,6 +253,88 @@ vispro.model.Workspace = Backbone.Model.extend({
         widget.restore(widget_state);
         
         return widget;  
+    },
+
+    load: function (state) {
+        
+        var parser = this.parser;
+        
+        function onSuccess (xml) {
+            
+            var descriptor = parser.parse(xml);
+
+            this.url = state.url;
+            
+            this
+                .load_descriptor(descriptor)
+                .load_state(state.app)
+                .remode('view');
+        }
+
+        function onFailure (error) {
+
+            console.error(error);
+        }
+
+        this.unload();
+
+        $.ajax({
+            url: state.url,
+            context: this,
+            dataType: 'xml',
+            success: onSuccess,
+            failure: onFailure
+        });
+
+        return this;
+    },
+
+    load_from_string: function (state_string) {
+        
+        var state;
+
+        try {
+            state = $.secureEvalJSON(state_string);
+        } catch (error) {
+            alert("Stato non valido.");
+            throw error;
+        }
+
+        this.load(state);
+
+        return this;
+    },
+
+    save: function () {
+
+        var app = {},
+            workspace = {},
+            widgetList,
+            url = this.url,
+            state_properties = ['dimensions', 'grid', 'ids', 'snap'];
+
+        _(state_properties)
+            .each(function(property) {
+                workspace[property] = this[property] ;
+            }, this);
+
+        widgetList = this.widgetList.save();
+        
+        return {
+            app: {
+                workspace: workspace,
+                widgetList: widgetList
+            },
+            url: url
+        };
+    },
+
+    save_to_string: function () {
+        
+        var state = workspace.save(),
+            state_string = $.toJSON(state);
+
+        return state_string;
     },
 
     compile: function () {
@@ -256,6 +366,10 @@ vispro.model.Workspace = Backbone.Model.extend({
     remode: function (mode) {
         
         if (this.mode === mode) {
+            return;
+        }
+
+        if (_(this.modes).indexOf(mode) < 0) {
             return;
         }
 

@@ -1,3 +1,8 @@
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
 vispro.model.Widget = Backbone.Model.extend({
     
     initialize: function (attributes, options) {
@@ -61,15 +66,49 @@ vispro.model.Widget = Backbone.Model.extend({
 
     setId: function (id) {
         
-        this.set({id: id});
-        this.trigger('change_id', id);
+        var validId = id.match(/^[a-zA-Z$_]\w+$/),
+            unusedId = this.workspace.validateId(id),
+            new_id =  validId && unusedId ? id : this.id;
+
+        this.set({id: new_id});
+        this.trigger('change_id', new_id);
+
+        return this;
+    },
+
+    setOneProperty: function (name, value) {
+        var property = this.descriptor.properties[name],
+            type = property.type,
+            decimals = property.decimals,
+            obj = {};
+        
+        if (type === 'number') {
+            var min = property.min,
+                max = property.max,
+                old_value = this.get(name),
+                value = Number(value.replace(/[,\/#!$%\^&\*;:{}=_`~()]/g,'aa')) || old_value,
+                exp = Math.pow(10, decimals);
+            
+            value = value >= min && value <= max ? Math.round(value*exp)/exp : old_value;
+
+        }
+
+        obj[name] = value;
+        this.attributes[name] = value;
+        this.trigger('change', obj);
 
         return this;
     },
 
     setProperty: function (name, value) {
 
-        this.attributes[name] = value;
+        if (typeof(name) === 'object' && !value) {
+            _(name).each(function (value, name) {
+                this.setOneProperty(name, value);
+            }, this);
+        }  else {
+            this.setOneProperty(name, value);
+        }
 
         return this;
     },
@@ -253,10 +292,10 @@ vispro.model.Widget = Backbone.Model.extend({
         var grid = this.grid,
             snap = this.snap,
             halfGrid = Math.floor(grid / 2),
-            left = position.left,
-            top = position.top,
-            newPositionLeft = left + halfGrid, 
-            newPositionTop = top + halfGrid,
+            left = Math.round(position.left),
+            top = Math.round(position.top),
+            newPositionLeft = left + ((left>=0)*2-1) * halfGrid, 
+            newPositionTop = top + ((top>=0)*2-1) * halfGrid,
             oldPosition = this.position,
             oldPositionLeft = oldPosition.left,
             oldPositionTop = oldPosition.top,
@@ -290,8 +329,8 @@ vispro.model.Widget = Backbone.Model.extend({
             snap = this.snap,
             widget_dimensions = this.dimensions,
             widget_position = this.position,
-            width = dimensions.width || 0,
-            height = dimensions.height || 0,
+            width = Math.round(dimensions.width) || 0,
+            height = Math.round(dimensions.height) || 0,
             halfGrid = Math.floor(grid / 2),
             preSnappedWidth = width + halfGrid,
             preSnappedHeight = height + halfGrid,
@@ -338,8 +377,8 @@ vispro.model.Widget = Backbone.Model.extend({
                     || collection.getByCid(dependency.value) === undefined)) {
                         
                 log +=
-                    "widget " + this.type + " " + this.id + " " + 
-                    "must have a link " + dependency.name + "!" + '\n';
+                    'Create a link from ' + this.type + ' "' + this.id + '"' + 
+                    ' to a ' + type + '!' + '\n';
 
                 test = false;
             }
@@ -518,7 +557,7 @@ vispro.model.Widget = Backbone.Model.extend({
                     value = properties[parameter];
                 }
                 else if (parameter in links) {
-                    value = links[parameter];
+                    value = links[parameter].id;
                 }
                 else if (parameter in position) {
                     value = position[parameter];
@@ -538,5 +577,5 @@ vispro.model.Widget = Backbone.Model.extend({
 
         return sources;
     }
-    
+
 });

@@ -1,77 +1,80 @@
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
 vispro.view.Inspector = Backbone.View.extend({
     
     tagName: 'div',
 
-    className: 'widget-inspector',
+    className: 'panel-item inspector',
 
-    templates: {
+    template: _.template(
+        '<div class="inspector-label"><%= label %></div>' + 
+        
+        '<div class="inspector-properties">' + 
+            '<span class="inspector-properties-label">Position</span>' + 
+            '<div class="inspector-property">' +
+                '<span class="inspector-property-label">left</span>' +
+                '<input type="number" class="inspector-input" data-name="left" />' +
+            '</div>' +
+            '<div class="inspector-property">' +
+                '<span class="inspector-property-label">top</span>' +
+                '<input type="number" class="inspector-input" data-name="top" />' +
+            '</div>' +
+        '</div>' + 
+        
+        '<div class="inspector-properties">' + 
+            '<span class="inspector-properties-label">Dimensions</span>' + 
+            '<div class="inspector-property">' +
+                '<span class="inspector-property-label">width</span>' +
+                '<input type="number" class="inspector-input" data-name="width" />' +
+            '</div>' +
+            '<div class="inspector-property">' +
+                '<span class="inspector-property-label">height</span>' +
+                '<input type="number" class="inspector-input" data-name="height" />' +
+            '</div>' +
+        '</div>' +
 
-        element: _.template(
-            '<div class="inspector-label"><%= label %></div>' + 
-            
-            '<div class="inspector-properties">' + 
-            '    <span class="inspector-properties-label">Position</span>' + 
-            '    <div class="inspector-property">' +
-            '        <span class="inspector-property-label">left</span>' +
-            '        <input type="number" class="inspector-input" data-name="left" />' +
-            '    </div>' +
-            '    <div class="inspector-property">' +
-            '        <span class="inspector-property-label">top</span>' +
-            '        <input type="number" class="inspector-input" data-name="top" />' +
-            '    </div>' +
-            '</div>' + 
-            
-            '<div class="inspector-properties">' + 
-            '    <span class="inspector-properties-label">Dimensions</span>' + 
-            '    <div class="inspector-property">' +
-            '        <span class="inspector-property-label">width</span>' +
-            '        <input type="number" class="inspector-input" data-name="width" />' +
-            '    </div>' +
-            '    <div class="inspector-property">' +
-            '        <span class="inspector-property-label">height</span>' +
-            '        <input type="number" class="inspector-input" data-name="height" />' +
-            '    </div>' +
+        '<div class="inspector-properties inspector-attributes">' + 
+            '<span class="inspector-properties-label">Properties</span>' + 
+            '<div class="inspector-property">' +
+                '<span class="inspector-property-label">id</span>' +
+                '<input type="text" class="inspector-input" data-name="id" />' +
             '</div>' +
 
-            '<div class="inspector-properties attributes">' + 
-            '    <span class="inspector-properties-label">Properties</span>' + 
-            '    <div class="inspector-property">' +
-            '        <span class="inspector-property-label">id</span>' +
-            '        <input type="text" class="inspector-input" data-name="id" />' +
-            '    </div>' +
+        '<% _(descriptor.properties).each(function (property, name) { %>' + 
+        
+            '<div class="inspector-property">' +
+                '<span class="inspector-property-label"><%= name %></span>' +
+                '<input type="<%= (property.type === "bool" ? "checkbox" : property.type) %>" ' + 
+                    'class="inspector-input inspector-property" ' + 
+                    'data-name="<%= name %>" data-type="<%= property.type %>"' +
+                    '<%= property.decimals ? "step=" + Math.pow(10,-1*property.decimals) : "" %> />' +
+                '</div>' + 
 
-            '<% _.each(descriptor.properties, function (property, name) { %>' + 
-            
-            '    <div class="inspector-property">' +
-            '        <span class="inspector-property-label"><%= name %></span>' +
-            '        <input type="<%= (property.type === "bool" ? "checkbox" : property.type) %>" ' + 
-            '            class="inspector-input property" data-name="<%= name %>" data-type="<%= property.type %>" />' +
-            '    </div>' + 
+        '<% }, this); %>' + 
 
-            '<% }, this); %>' + 
+        '</div>' + 
 
-            '</div>' + 
+        '<div class="inspector-properties inspector-dependencies">' + 
+            '<span class="inspector-properties-label">Dependencies</span>' + 
 
-            '<div class="inspector-properties dependencies">' + 
-            '    <span class="inspector-properties-label">Dependencies</span>' + 
+        '<% _(dependencies).each(function (dependency, type) { %>' + 
 
-            '<% _.each(dependencies, function (dependency, type) { %>' + 
+            '<span class="inspector-property-label"><%= type %></span>' +
+            '<select class="inspector-input inspector-dependency" data-type="<%= type %>" >' + 
+                '<option value="undefined"> - </option>' +
+            '</select>' + 
 
-            '    <span class="inspector-property-label"><%= type %></span>' +
-            '    <select class="inspector-input dependency" data-type="<%= type %>" >' + 
-            '        <option value="undefined"> - </option>' +
-            '    </select>' + 
+        '<% }); %>' + 
 
-            '<% }); %>' + 
+        '</div>'
+    ),
 
-            '</div>'
-        ),
-
-        option: _.template(
-            '<option value="<%= (id ? id : undefined) %>"><%= (id ? id : "-") %></option>'
-        )
-
-    },
+    template_option: _.template(
+        '<option value="<%= (id ? id : undefined) %>"><%= (id ? id : "-") %></option>'
+    ),
 
     initialize: function (attributes, options) {
 
@@ -81,13 +84,13 @@ vispro.view.Inspector = Backbone.View.extend({
             i_dimensions = descriptor.dimensions,
             i_dependencies = model.dependencies,
             i_properties = descriptor.properties,
-            templates = this.templates,
+            template = this.template,
             element = $(this.el),
             inputs = {},
             divs = {};
 
         element
-            .html(templates.element(model))
+            .html(template(model))
             .appendTo(root);
 
         inputs.width = $(element.find('input[data-name="width"]'));
@@ -95,11 +98,11 @@ vispro.view.Inspector = Backbone.View.extend({
         inputs.top = $(element.find('input[data-name="top"]'));
         inputs.left = $(element.find('input[data-name="left"]'));
         inputs.id = $(element.find('input[data-name="id"]'));
-        inputs.properties = $(element.find('input.property'));
-        inputs.dependencies = $(element.find('select.dependency'));
+        inputs.properties = $(element.find('.inspector-property'));
+        inputs.dependencies = $(element.find('.inspector-dependency'));
 
-        divs.properties = $(element.find('.inspector-properties.attributes'));
-        divs.dependencies = $(element.find('.inspector-properties.dependencies'));
+        divs.properties = $(element.find('.inspector-attributes'));
+        divs.dependencies = $(element.find('.inspector-dependencies'));
 
         if (i_dimensions.width.resizable === false) {
             inputs.width.attr({ readonly: true });
@@ -203,7 +206,7 @@ vispro.view.Inspector = Backbone.View.extend({
     render_dependencies: function () {
 
         var model = this.model,
-            templates = this.templates,
+            template_option = this.template_option,
             collection = model.collection,
             inputs = this.inputs;
         
@@ -215,7 +218,7 @@ vispro.view.Inspector = Backbone.View.extend({
                 value = dependency.value,
                 widget = collection.getByCid(value),
                 widgets = collection.getByType(type),
-                option = $(templates.option({ id: undefined }));
+                option = $(template_option({ id: undefined }));
 
             option.data('widget', undefined);
             
@@ -223,7 +226,7 @@ vispro.view.Inspector = Backbone.View.extend({
             input.append(option);
 
             _(widgets).each(function (widget) {
-                option = $(templates.option(widget));
+                option = $(template_option(widget));
                 option.data('widget', widget);
                 input.append(option);
             });
@@ -246,48 +249,26 @@ vispro.view.Inspector = Backbone.View.extend({
         return this;
     },
 
-    change_left: function (event, ui) {
+    change_position: function (event, ui) {
         
         var model = this.model,
             inputs = this.inputs;
         
         model.move({
-            left: +inputs.left.val()
-        });
-
-        return this;
-    },
-
-    change_top: function (event, ui) {
-        
-        var model = this.model,
-            inputs = this.inputs;
-        
-        model.move({
+            left: +inputs.left.val(),
             top: +inputs.top.val()
         });
 
         return this;
     },
 
-    change_width: function (event, ui) {
-        
-        var model = this.model,
-            inputs = this.inputs;
-
-        model.resize({
-            width:  +inputs.width.val()
-        });
-
-        return this;
-    },
-
-    change_height: function (event, ui) {
+    change_dimension: function (event, ui) {
         
        var model = this.model,
             inputs = this.inputs;
 
         model.resize({
+            width:  +inputs.width.val(),
             height:  +inputs.height.val()
         });
 
@@ -310,11 +291,10 @@ vispro.view.Inspector = Backbone.View.extend({
             target = $(event.target),
             name = target.attr('data-name'),
             type = target.attr('data-type'),
-            value = type === 'bool' ? target.is(':checked') : target.val(),
-            obj = {};
-        
-        obj[name] = value;
-        model.set(obj);
+            is_bool = type === 'bool',
+            value =  is_bool ? target.is(':checked') : target.val();
+
+        model.setProperty(name, value);
 
         return this;
     },
@@ -339,13 +319,13 @@ vispro.view.Inspector = Backbone.View.extend({
     },
 
     events: {
-        'change input[data-name="width"]': 'change_width',
-        'change input[data-name="height"]': 'change_height',
-        'change input[data-name="top"]': 'change_top',
-        'change input[data-name="left"]': 'change_left',
-        'change input[data-name="id"]': 'change_id',
-        'change input.property': 'change_property',
-        'change select.dependency': 'change_dependency'
+        'change .inspector-input[data-name="width"]': 'change_dimension',
+        'change .inspector-input[data-name="height"]': 'change_dimension',
+        'change .inspector-input[data-name="top"]': 'change_position',
+        'change .inspector-input[data-name="left"]': 'change_position',
+        'change .inspector-input[data-name="id"]': 'change_id',
+        'change input.inspector-property': 'change_property',
+        'change .inspector-dependency': 'change_dependency'
     }
 
 });

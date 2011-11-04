@@ -1,3 +1,8 @@
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
 vispro.parser.XML = Backbone.Model.extend({
 
     parse: function (vispro_descriptor_xml, callback, context) {
@@ -114,6 +119,12 @@ vispro.parser.XML = Backbone.Model.extend({
                 property.type = j_xml_property_node[0].nodeName;
                 // property.value = attrs['default'] === 'true';
                 property.value = attrs['default'];
+                if (property.type === 'number') {
+                    property.min = attrs['min'] || Number.NEGATIVE_INFINITY;
+                    property.max = attrs['max'] || Number.POSITIVE_INFINITY;
+                    property.decimals = attrs['decimals'] || 0;
+                }
+                property.default_value = attrs['default'];
                 property.writable = true;
             });
 
@@ -141,12 +152,12 @@ vispro.parser.XML = Backbone.Model.extend({
             widgets_json.push(widget_json);
         });
 
-        callback.call(context, {
+        return {
             template: {
                 code: output_template,
                 parameters: output_parameters
             },
             descriptorList: widgets_json
-        });
+        };
     }
 });

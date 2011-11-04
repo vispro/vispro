@@ -1,28 +1,44 @@
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
 vispro.view.AppBar = Backbone.View.extend({
 
-    el: $(
-        '<div class="appbar">' +
-        '    <ul class="appbar-list">' +
-        '        <li class="appbar-item" data-action="new">' + 
-        '            <a class="appbar-item-label" href="#new">New</a>' +
-        '        </li>' +
-        '        <li class="appbar-item" data-action="save">' + 
-        '            <a class="appbar-item-label" href="#save">Save</a>' +
-        '        </li>' +
-        '        <li class="appbar-item" data-action="load">' + 
-        '            <a class="appbar-item-label" href="#load" data-action="load">Load</a>' + 
-        '        </li>' +
-        '    </ul>' +
-        '</div>'
+    tagName: 'ul',
+
+    className: 'toolbar app',
+
+    template: _.template(
+        '<li class="toolbar-item app">' + 
+            '<div class="toolbar-item-button app" data-action="new">New</div>' +
+        '</li>' +
+        '<li class="toolbar-item app">' + 
+            '<div class="toolbar-item-button app" data-action="save">Save</div>' +
+        '</li>' +
+        '<li class="toolbar-item app">' + 
+            '<div class="toolbar-item-button app" data-action="load">Load</div>' + 
+        '</li>' + 
+        '<li class="toolbar-item app">' + 
+            '<div class="toolbar-item-button app" data-action="help">Help</div>' + 
+        '</li>'
     ),
 
     initialize: function (attributes, options) {
 
-        var element = this.el,
+        var element = $(this.el),
+            template = this.template,
             root = $(options.root),
             workspace = options.workspace;
 
-        element.appendTo(root);
+        element
+            .html(template())
+            .appendTo(root);
+
+        $('body')[0]
+            .onbeforeunload = function () {
+                return 'Unsaved changes will be lost.'    
+            };
 
         this.element = element;
         this.root = root;
@@ -43,26 +59,79 @@ vispro.view.AppBar = Backbone.View.extend({
         return this;
     },
 
-    onClickNew: function (event) {
+    onClick: function (event) {
         
-        console.log('click');
-    },
+        var workspace = this.workspace,
+            target = $(event.target),
+            action = target.attr('data-action');
+        
+        function reset () {
+        
+            if (window.confirm(
+                'Unsaved changes will be lost.\n' +
+                'Continue anyway?'
+            )) {
+                
+                $('body').cover('enable');
+                window.location.reload();
+                return;
+            }
 
-    onClickSave: function (event) {
-        
-        console.log('click');
-    },
+            workspace.remode('code');
+        }
 
-    onClickLoad: function (event) {
-        
-        var state = window.prompt('Paste your saved state here');
-        app.restore_from_string(state);
+        function save () {
+            
+            workspace.remode('code');;
+        }
+
+        function load () {
+
+            var state_string,
+                state;
+
+            state_string = window.prompt('Paste your saved state here');
+            
+            if (state_string === null) {
+                return;
+            }
+
+            try {
+                state = $.secureEvalJSON(state_string);
+            } catch (error) {
+                alert('Unvalid state');
+                return;
+            }
+
+            $('body').cover('enable');            
+            workspace.load(state);
+            $('body').cover('disable');
+        }
+
+        if (action === 'new') {
+
+            return reset();
+        }
+
+        if (action === 'save') {
+            
+            return save();
+        }
+
+        if (action === 'load') {
+            
+            return load();
+        }
+
+        if (action === 'help') {
+            
+            window.open('./docs/docs.html');
+            return false
+        }
     },
 
     events: {
-        'click .appbar-item[data-action="new"]': 'onClickNew',
-        'click .appbar-item[data-action="save"]': 'onClickSave',
-        'click a.appbar-item-label[data-action="load"]': 'onClickLoad'
+        'click .toolbar-item-button': 'onClick'
     }
     
 });

@@ -1,17 +1,27 @@
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
 vispro.view.Browser = Backbone.View.extend({
 
     tagName: 'div',
 
-    className: 'widget-browser',
+    className: 'panel-item browser',
+
+    template: _.template(
+        '<%= id %>'
+    ),
 
     initialize: function (attributes, options) {
                 
         var model = options.model,
             root = options.root,
+            template = this.template,
             element = $(this.el);
 
         element
-            .text(model.id)
+            .html(template(model))
             .appendTo(root);
 
         model
@@ -35,7 +45,7 @@ vispro.view.Browser = Backbone.View.extend({
 
     render: function () {
         
-        this.element.text(this.model.id);
+        this.element.html(this.template(this.model));
 
         return this;
     },
@@ -44,6 +54,7 @@ vispro.view.Browser = Backbone.View.extend({
         
         this.element.remove();
 
+        return this;
     },
 
     select: function (selected) {

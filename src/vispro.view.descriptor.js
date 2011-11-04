@@ -1,20 +1,23 @@
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
 vispro.view.Descriptor = Backbone.View.extend({
 
     tagName: 'div',
 
-    className: 'descriptor',
+    className: 'panel-item descriptor',
 
     template: _.template(
-        '<span class="descriptor-label"><%= name %></span>' +
-        '<div class="descriptor-image-box">' + 
-        '    <img class="descriptor-image" src="<%= src %>" alt="<%= alt %>"' +
-        '        style="width:<%= width %>px; height:<%= height %>px" />' +
-        '</div>'
+        '<div class="descriptor-label"><%= name %></div>' +
+        '<img class="descriptor-image" src="<%= src %>" alt="<%= alt %>"' +
+            'style="width:<%= width %>px; height:<%= height %>px" />'
     ),
     
     template_helper: _.template(
         '<img class="descriptor-helper" src="<%= src %>" alt="<%= alt %>"' +
-        '    style="width:<%= width %>px; height:<%= height %>px; z-index:10000" />'
+            'style="width:<%= width %>px; height:<%= height %>px; z-index:10000" />'
     ),
 
     initialize: function (attributes, options) {
@@ -82,13 +85,6 @@ vispro.view.Descriptor = Backbone.View.extend({
         model
             .bind('remove', this.remove, this);
         
-        element.find('.descriptor-image-box')
-            .css({
-                width: m_width,
-                height: m_height,
-                overflow: 'hidden'
-            });
-
         this.element = element;
         this.model = model;
 

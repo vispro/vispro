@@ -1,8 +1,13 @@
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
 vispro.view.Workspace = Backbone.View.extend({
 
     tagName: 'div',
 
-    className: 'workspace',
+    className: 'workspace shadow',
 
     initialize: function (attributes, options) {
         
@@ -61,8 +66,7 @@ vispro.view.Workspace = Backbone.View.extend({
         model
             .bind('selected', this.select, this)
             .bind('resize', this.resize, this)
-            .bind('change_grid', this.change_grid, this)
-            .bind('remode', this.remode, this);
+            .bind('change_grid', this.change_grid, this);
 
         widgetList
             .bind('add', this.addWidget, this)
@@ -163,21 +167,6 @@ vispro.view.Workspace = Backbone.View.extend({
         
         element.removeClass(classToRemove);
         element.addClass(classToAdd);
-    },
-
-    remode: function (mode) {        
-
-        if (mode === 'view') {
-            this.show();
-            this.enable();
-        } else if (mode === 'link') {
-            this.show();
-            this.disable();
-        } else {
-            this.hide();
-        }
-
-        return this;
     },
 
     onClick: function (event, ui) {

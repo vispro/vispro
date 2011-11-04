@@ -2,10 +2,11 @@
 <html>
 <head>
     <meta charset="UTF-8" />
-    <title>VisPro</title>
+    <title>VisProGW</title>
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/layout.css" />
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/cover.css" />
 </head>
 
 <body>
@@ -26,6 +27,8 @@
     <script src="lib/backbone.localstorage.js"></script>
     
     <script src="src/vispro.js"></script>
+
+    <script src="src/vispro.messages.js"></script>    
 
     <script src="src/vispro.model.descriptor.js"></script>
     <script src="src/vispro.model.descriptorList.js"></script>
@@ -61,9 +64,7 @@
     var app = new vispro.model.App(),
         appview = new vispro.view.App({}, { model: app });
 
-    app
-        .create('descriptors/descriptor.xml')
-        .remode('view');
+    app.create('descriptors/descriptor.xml');
 
     </script>
 </body>

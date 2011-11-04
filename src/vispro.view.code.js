@@ -1,110 +1,94 @@
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
 vispro.view.Code = Backbone.View.extend({
 
     el: $(
-        '<div class="workspace-code">' +
-        '    <div class="ui-layout-north panel-workspace-code">' + 
-        '        <div class="output-code"></div>' +
-        '    </div>' +
-        '    <div class="ui-layout-center panel-workspace-state">' +
-        '        <div class="output-state"></div>' +
-        '    </div>' +
+        '<div class="panel code">' +
+            '<div class="ui-layout-north panel-list code">' + 
+                '<div id="paper-code-output" class="paper code shadow"></div>' + 
+            '</div>' +
+            '<div class="ui-layout-center panel-list code">' + 
+                '<div id="paper-code-state" class="paper code shadow"></div>' +
+            '</div>' +
         '</div>'
     ),
-
-    code: $(
-        '<code class="JScript"></code>'
-    ),
-    
+        
     initialize: function (attributes, options) {
                 
         var element = this.el,
             root = $(options.root),
             workspace = options.model,
-            output_code,
-            output_state;
-        
+            papers = {};
+
         element
             .appendTo(root)
-            .css({
-                position: 'absolute',
-                width: '100%',
-                height: '100%'
-            })
             .layout({
                 north__size: .7,
                 north__closable: false,
                 north__resizable: false,
-                north__spacing_open: 1
+                north__spacing_open: 5,
+                north__spacing_close: 0,
+                north__togglerLength_open: 0,
+                north__togglerLength_close: 0,
+                fxSpeed: 1
             });
 
+        papers.output = $(element.find('#paper-code-output'));
+        papers.state = $(element.find('#paper-code-state'));
 
-        output_code = $(element.find('.output-code'));
-        output_state = $(element.find('.output-state'));
-
-        workspace
-            .bind('remode', this.remode, this);
+        $(element.find('.panel-list'))
+            .css({
+                width: '100%'
+            });
 
         this.workspace = workspace;
         this.element = element;
         this.root = root;
-        this.output_code = output_code;
-        this.output_state = output_state;
+        this.papers = papers;
 
         return this;
     },
     
     render: function () {
         
-        var el = $(this.el),
-            output_code = $(this.output_code),
-            output_state = $(this.output_state),
+        var element = this.element,
             workspace = this.workspace,
-            code = $('<code>'),
-            state = $('<code>'),
-            source = '';
+            papers = this.papers,
+            paper_output = papers.output,
+            paper_state = papers.state,
+            code_output = $('<code>'),
+            code_state = $('<code>'),
+            output = '',
+            state = '';
         
         if (workspace.isValid()) {
-            source = workspace.compile();
+            output = workspace.compile();
         }
         else {
-            source = workspace.getLog();
+            output = workspace.getLog();
         }
+        state = $.toJSON(workspace.save());
 
-        output_code.empty();
+        paper_output
+            .empty()
+            .append(code_output);
 
-        code
+        paper_state
+            .empty()
+            .append(code_state);
+
+        code_output
             .addClass('JScript')
-            .text(source)
-            .appendTo(output_code)
+            .text(output)
             .beautifyCode('javascript');
         
-        output_state.empty();
-
-        state
+        code_state
             .addClass('boc-no-gutter')
-            .text(app.save_to_string())
-            .appendTo(output_state)
+            .text(state)
             .beautifyCode('plain');
-        
-        return this;
-    },
-
-    render_code: function () {
-        
-    },
-
-    render_state: function () {
-        
-    },
-
-    remode: function (mode) {
-        
-        if (mode === 'code') {
-            this.show();
-        }
-        else {
-            this.hide();
-        }
         
         return this;
     },

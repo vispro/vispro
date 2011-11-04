@@ -1,44 +1,56 @@
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
 vispro.view.WidgetBar = Backbone.View.extend({
 
-    tagName: 'div',
+    tagName: 'ul',
 
-    className: 'widgetbar',
+    className: 'toolbar widget',
 
     template: _.template(
-        '<div class="widgetbar-button" data-action="send-back">' +
-        '    <span class="toolbar-button-label">--</span>' + 
-        '</div>' +
-        '<div class="widgetbar-button" data-action="send-backward">' + 
-        '    <span class="toolbar-button-label">-</span>' + 
-        '</div>' +
-        '<div class="widgetbar-button" data-action="bring-forward">' + 
-        '    <span class="toolbar-button-label">+</span>' + 
-        '</div>' +
-        '<div class="widgetbar-button" data-action="bring-front">' + 
-        '    <span class="toolbar-button-label">++</span>' + 
-        '</div>' +
-        '<div class="widgetbar-button" data-action="delete">' + 
-        '    <span class="toolbar-button-label">x</span>' + 
-        '</div>'
+        '<li class="toolbar-item widget">' +
+            '<div class="toolbar-item-button widget" data-action="send-back" ' +
+                'style="background-image: url(css/images/widget_move_back.png);"></div>' + 
+        '</li>' +
+        '<li class="toolbar-item widget">' + 
+            '<div class="toolbar-item-button widget" data-action="send-backward" ' +
+                'style="background-image: url(css/images/widget_move_backward.png);"></div>' +
+        '</li>' +
+        '<li class="toolbar-item widget">' + 
+            '<div class="toolbar-item-button widget" data-action="bring-forward" ' +
+                'style="background-image: url(css/images/widget_move_forward.png);"></div>' +
+        '</li>' +
+        '<li class="toolbar-item widget">' + 
+            '<div class="toolbar-item-button widget" data-action="bring-front" ' +
+                'style="background-image: url(css/images/widget_move_front.png);"></div>' +
+        '</li>' +
+        '<li class="toolbar-item widget">' + 
+            '<div class="toolbar-item-button widget" data-action="delete" ' +
+                'style="background-image: url(css/images/widget_delete.png);"></div>' +
+        '</li>'
     ),
 
     initialize: function (attributes, options) {
 
         var model = options.model,
             root = options.root,
+            workspace = options.workspace,
             element = $(this.el),
             template = this.template;
         
         element
             .html(template())
             .appendTo(root);
-        
+
         model
             .bind('selected', this.select, this)
             .bind('remove', this.remove, this);
 
         this.element = element;
         this.model = model;
+        this.workspace = workspace;
 
         return this;
     },
@@ -106,18 +118,36 @@ vispro.view.WidgetBar = Backbone.View.extend({
 
     onClickDelete: function (event) {
         
-        var model = this.model;
+        var model = this.model,
+            workspace = this.workspace;
 
-        if (window.confirm('Eliminare ' + model.label + ' ' + model.id + '?')) {
+        if (window.confirm('Do you really want to remove?' + model.label + ' ' + model.id + '?')) {
             model.destroy({});
+            workspace.overlap();
         }
+    },
+
+    onMouseenter: function (event) {
+        
+        var target = $(event.target);
+        
+        target.addClass('over');
+    },
+
+    onMouseout: function (event) {
+        
+        var target = $(event.target);
+
+        target.removeClass('over');
     },
     
     events: {
-        'click .widgetbar-button[data-action="send-back"]': 'onClickSendBack',
-        'click .widgetbar-button[data-action="send-backward"]': 'onClickSendBackward',
-        'click .widgetbar-button[data-action="bring-forward"]': 'onClickBringForward',
-        'click .widgetbar-button[data-action="bring-front"]': 'onClickBringFront',
-        'click .widgetbar-button[data-action="delete"]': 'onClickDelete'
+        'click .toolbar-item-button[data-action="send-back"]': 'onClickSendBack',
+        'click .toolbar-item-button[data-action="send-backward"]': 'onClickSendBackward',
+        'click .toolbar-item-button[data-action="bring-forward"]': 'onClickBringForward',
+        'click .toolbar-item-button[data-action="bring-front"]': 'onClickBringFront',
+        'click .toolbar-item-button[data-action="delete"]': 'onClickDelete',
+        'mouseenter .toolbar-item-button': 'onMouseenter',
+        'mouseout .toolbar-item-button': 'onMouseout'
     }
 });

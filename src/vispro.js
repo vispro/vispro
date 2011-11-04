@@ -1,3 +1,8 @@
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
 var vispro = (function (context, undefined) {
 
     var list,

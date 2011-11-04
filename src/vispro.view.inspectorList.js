@@ -1,9 +1,14 @@
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
 vispro.view.InspectorList = Backbone.View.extend({
 
     el: $(
-        '<div class="collection-widget-inspector panel">' +
-        '   <div class="collection-widget-inspector-label panel-label ui-layout-north">Inspector</div>' +
-        '   <div class="collection-widget-inspector-list panel-list ui-layout-center"></div>' +
+        '<div class="panel inspector">' +
+            '<div class="panel-label inspector ui-layout-north gradient-silver">Inspector</div>' +
+            '<div class="panel-list inspector ui-layout-center"></div>' +
         '</div>'
     ),
 
@@ -30,9 +35,6 @@ vispro.view.InspectorList = Backbone.View.extend({
                 
         widgetList
             .bind('add', this.add, this);
-        
-        model
-            .bind('remode', this.remode, this);
 
         this.model = model;
         this.element = element;
@@ -69,26 +71,15 @@ vispro.view.InspectorList = Backbone.View.extend({
 
     enable: function () {
                 
-        this.viewList.cover('disable');
+        this.element.cover('disable');
         
         return this;
     },
 
     disable: function () {
         
-        this.viewList.cover('enable');
+        this.element.cover('enable');
         
-        return this;
-    },
-
-    remode: function (mode) {
-        
-        if (mode === 'view') {
-            this.enable();
-        } else {
-            this.disable();
-        }
-
         return this;
     }
 

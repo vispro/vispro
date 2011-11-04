@@ -1,8 +1,20 @@
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
 vispro.model.WidgetList = Backbone.Collection.extend({
     
     localStorage: new Store("vispro.model.WidgetList"),
     
     model: vispro.model.Widget,
+
+    empty: function () {
+        
+        this.remove(_.extend([], this.models));
+
+        return this;
+    },
 
     getByCid: function (cid) {
         

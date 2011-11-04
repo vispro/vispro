@@ -1,8 +1,13 @@
+/**
+ * @author enrico marino / http://onirame.no.de/
+ * @author federico spini / http://spini.no.de/
+ */
+
 vispro.view.Widget = Backbone.View.extend({
 
     tagName: 'div',
 
-    className: 'widget',
+    className: 'paper widget',
     
     initialize: function (attributes, options) {
         
@@ -206,6 +211,32 @@ vispro.view.Widget = Backbone.View.extend({
         this.model.move(ui.position);
     },
 
+    onDragstart: function (event, ui) {
+
+        var target = $(event.target);
+             
+        if (target.hasClass('resizing-anchor')) {
+            return;
+        }
+            
+        event.stopPropagation();
+
+        this.element.addClass('dragging');
+    },
+
+    onDragstop: function (event, ui) {
+
+        var target = $(event.target);
+             
+        if (target.hasClass('resizing-anchor')) {
+            return;
+        }
+            
+        event.stopPropagation();
+
+        this.element.removeClass('dragging');
+    },
+
     onMouseenter: function (event) {
 
         // event.stopPropagation();
@@ -231,7 +262,9 @@ vispro.view.Widget = Backbone.View.extend({
         mouseenter: 'onMouseenter',
         mouseleave: 'onMouseleave',
         resize: 'onResize',
-        'drag': 'onDrag',
+        drag: 'onDrag',
+        dragstart: 'onDragstart',
+        dragstop: 'onDragstop',
         'drag div.resizing-anchor': 'onResize'
     }
     
