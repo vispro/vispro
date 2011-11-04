@@ -45,7 +45,7 @@ vispro.view.Descriptor = Backbone.View.extend({
             return helper.appendTo('body');
         }
 
-        if (aspect > 1) {
+        if (true || aspect > 1) {
             width = min(i_width, m_width);
             height = width / aspect;
         }
