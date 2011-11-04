@@ -39,7 +39,7 @@
               <bool name="contextMenu" label="Show context menu" default="false"/>
               <number name="Zoom" label="Initaial zoom level" default="13" min="0" max="18"/>
               <number name="East" label="Initaial EAST Coordinate" default="12.51" decimals="2" min="-180" max="180"/>
-              <number name="North" label="Initaial NORTH Cordinate" default="41.83" decimals="2"/ min="-90" max="90">
+              <number name="North" label="Initaial NORTH Cordinate" default="41.83" decimals="2" min="-90" max="90" />
             </properties>
             <code>
                 <insert match="html">
