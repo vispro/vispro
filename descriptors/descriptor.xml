@@ -31,11 +31,16 @@
                 <image url="images/map.jpg" />
             </images>
             <dimensions>
-                <width value="400" min="10" max="800" resizable="true"/>
-                <height value="300" min="10" max="600" resizable="true"/>
+                <width value="400" min="10" max="1200" resizable="true"/>
+                <height value="400" min="10" max="1000" resizable="true"/>
             </dimensions>
             <dependencies></dependencies>
-            <properties></properties>
+            <properties>
+              <bool name="contextMenu" label="Show context menu" default="false"/>
+              <number name="Zoom" label="Initaial zoom level" default="13" min="0" max="18"/>
+              <number name="East" label="Initaial EAST Coordinate" default="12.51" decimals="2" min="-180" max="180"/>
+              <number name="North" label="Initaial NORTH Cordinate" default="41.83" decimals="2" min="-90" max="90" />
+            </properties>
             <code>
                 <insert match="html">
 <![CDATA[
@@ -44,7 +49,12 @@
                 </insert>
                 <insert match="js">
 <![CDATA[
-var <%= id %> = new geopoi.maps.Map("<%= id %>");
+var <%= id %>Options = {
+               contextMenu : <%= contextMenu %>,
+               zoom : <%= Zoom %>,
+               center:  new geopoi.maps.gcoord(<%= East %>,<%= North %>,geopoi.maps.WGS84)
+                  };
+var <%= id %> = new geopoi.maps.Map("<%= id %>",<%= id %>Options);
 ]]>
                 </insert>
             </code>
@@ -123,7 +133,7 @@ var <%= id %> = geopoi.sdk.zoom("<%= id %>", {
         tooltip: <%= tooltip %>,
         vertical: true,
         slider: false,
-        size: <%= width %>
+        size: <%= height %>
     });
 ]]>
                 </insert>
@@ -203,7 +213,7 @@ var <%= id %> = geopoi.sdk.zoom("<%= id %>", {
         tooltip: <%= tooltip %>,
         vertical: true,
         slider: true,
-        size: <%= width %>
+        size: <%= height %>
     });
 ]]>
                 </insert>
@@ -355,7 +365,7 @@ var <%= id %> = geopoi.sdk.search("<%= id %>", {
             </properties>
             <code>
                 <insert match="html">
-<![CDATA[
+<![CDATA[ 
 <div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
@@ -394,7 +404,7 @@ var <%= id %> = geopoi.sdk.pan("<%= id %>", {
             </properties>
             <code>
                 <insert match="html">
-<![CDATA[
+<![CDATA[ 
 <div id="<%= id %>" style="position:absolute; left:<%= left %>px; top:<%= top %>px; width:<%= width %>px; height:<%= height %>px; z-index: <%= zIndex %>"></div>
 ]]>
                 </insert>
@@ -862,9 +872,9 @@ var <%= id %> = geopoi.sdk.layer("<%= id %>", {
 
 <head>
 <title>VisProGW</title>
-<script src="../php/geopoiAPI.php?&key=506a222c-54ab-0b71-a398-b935cbc92943&sdk=true"></script>
-<link rel="stylesheet" href="../MobilityManager/css/redmond/jquery-ui-1.8.12.custom.css" />
-<link rel="stylesheet" href="../MobilityManager/css/geopoi.sdk.navigation.css" />
+  <script type="text/javascript" src="http://26.2.213.150/geopoiAPI/branches/demo/php/geopoiAPI.php?&key=fb95a1d4-43ae-de7f-c8d1-754278e0bcd7&sdk=true"></script>
+  <link href="http://26.2.213.150/geopoiAPI/branches/demo/sdk/css/redmond/jquery-ui-1.8.9.custom.css" type="text/css" rel="stylesheet" />
+  <link href="http://26.2.213.150/geopoiAPI/branches/demo/sdk/css/geopoi.sdk.navigation.css" type="text/css" rel="Stylesheet" />
 </head>
 
 <body>
