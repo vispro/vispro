@@ -121,7 +121,7 @@ vispro.view.WidgetBar = Backbone.View.extend({
         var model = this.model,
             workspace = this.workspace;
 
-        if (window.confirm('Do you really want to remove?' + model.label + ' ' + model.id + '?')) {
+        if (window.confirm('Do you really want to remove ' + model.label + ' ' + model.id + '?')) {
             model.destroy({});
             workspace.overlap();
         }
